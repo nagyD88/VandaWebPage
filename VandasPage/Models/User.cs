@@ -3,16 +3,26 @@
 
     public class User
     {
-        public int Id { get; set; }
-        public string password { get; set; }
+
+        public Guid Id { get; set; }
+        public string Password { get; set; }
         public string Emial { get; set; }
-        private string _reasonForApplication;
-        private bool _directInquiry;
-        private string _communication;
-        private List<Questionnaire> _questionnaires;
-        private string MBTI;
-        private decimal price;
-        private int numberOfDetails;
-        private string meetingLog;
+
+
+        private string? _reasonForApplication;
+        private bool? _directInquiry;
+        private string? _communication;
+        private List<Questionnaire>? _questionnaires;
+        private string? MBTI;
+        private decimal? price;
+        private int? numberOfDetails;
+        private string? meetingLog;
+
+        public User(string password, string emial)
+        {
+            Password = password;
+            Emial = emial;
+            Id= Guid.NewGuid();
+        }
     }
 }
