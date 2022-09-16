@@ -10,17 +10,24 @@ namespace VandasPage.Controllers
         {
             return View();
         }
-        public IActionResult ProcessLogin(User user)
+
+        [Route("Login/ProcessLogin/{password}/{email}")]
+        public string ProcessLogin(string email, string password)
         {
+            User user = new User{Email = email, Password = password};
             SecurityService security=new SecurityService();
 
             if (security.IsValid(user))
             {
-                return View("LoginSuccess", user);
+                string serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+                Console.WriteLine(serializeObject);
+                
+                return serializeObject;
+                
             }
             else
             {
-                return View("LoginFailer", user);
+                return null;
             }
             
         }
