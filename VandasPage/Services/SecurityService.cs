@@ -10,7 +10,7 @@ namespace VandasPage.Services
         }
         public bool IsValid(User user) 
         {
-            return usersDAO.FindUserByEmailAndPassword(user);
+            return usersDAO.IsUserByEmailAndPassword(user);
         }
     }
 }

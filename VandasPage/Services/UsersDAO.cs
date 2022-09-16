@@ -8,50 +8,23 @@ namespace VandasPage.Services
         string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=VandasWebDataBase;
                                        Integrated Security=True;Connect Timeout=30;Encrypt=False;
                                         TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        public bool FindUserByEmailAndPassword(User user)
+
+        public bool IsUserByEmailAndPassword(User user)
         {
-            bool success=false;
+            bool success = false;
             string SQLstatment = "SELECT * FROM dbo.Users WHERE EMAIL= @email AND PASSWORD= @password";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(SQLstatment, connection);
-                command.Parameters.Add("@email", System.Data.SqlDbType.VarChar, 100).Value=user.Email;
-                command.Parameters.Add("@password", System.Data.SqlDbType.VarChar,40).Value = user.Password;
-
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        success = true;
-                    }
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            } 
-            return success;
-        }
-
-
-        public bool FindUserByEmail(User user)
-        {
-            bool success = false;
-            string SQLstatment = "SELECT * FROM dbo.Users WHERE EMAIL= @email";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(SQLstatment, connection);
                 command.Parameters.Add("@email", System.Data.SqlDbType.VarChar, 100).Value = user.Email;
-                
+                command.Parameters.Add("@password", System.Data.SqlDbType.VarChar, 40).Value = user.Password;
 
 
                 try
                 {
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
+                    Console.WriteLine(reader);
                     if (reader.HasRows)
                     {
                         success = true;
@@ -62,37 +35,96 @@ namespace VandasPage.Services
                     Console.WriteLine(ex.Message);
                 }
             }
+
             return success;
         }
-        public bool RegisterNewUser(User user)
+
+        public User FindUserByEmail(string email)
         {
-            bool success = false;
-            if (!FindUserByEmail(user))
+            string SQLstatment = "SELECT * FROM dbo.Users WHERE EMAIL= @email";
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string SQLstatment = "Insert Into dbo.Users (EMAIL, PASSWORD, ADMIN) values (@email, @password, @admin);";
+                SqlCommand command = new SqlCommand(SQLstatment, connection);
+                command.Parameters.Add("@email", System.Data.SqlDbType.VarChar, 100).Value = email;
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    Console.WriteLine(reader);
+                    if (reader.HasRows)
+                    {
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            User user = new User();
+            return user;
+        }
+
+
+        public bool IsUserByEmail(User user)
+            {
+                bool success = false;
+                string SQLstatment = "SELECT * FROM dbo.Users WHERE EMAIL= @email";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand command = new SqlCommand(SQLstatment, connection);
                     command.Parameters.Add("@email", System.Data.SqlDbType.VarChar, 100).Value = user.Email;
-                    command.Parameters.Add("@password", System.Data.SqlDbType.VarChar, 40).Value = user.Password;
-                    command.Parameters.Add("@admin", System.Data.SqlDbType.Bit).Value = user.Admin;
-
 
 
                     try
                     {
                         connection.Open();
-                        int recordsAffected = command.ExecuteNonQuery();
-                        success = true;
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            success = true;
+                        }
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
                 }
-                
+
+                return success;
             }
-            return success;
+
+            public bool RegisterNewUser(User user)
+            {
+                bool success = false;
+                if (!IsUserByEmail(user))
+                {
+                    string SQLstatment =
+                        "Insert Into dbo.Users (EMAIL, PASSWORD, ADMIN) values (@email, @password, @admin);";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        SqlCommand command = new SqlCommand(SQLstatment, connection);
+                        command.Parameters.Add("@email", System.Data.SqlDbType.VarChar, 100).Value = user.Email;
+                        command.Parameters.Add("@password", System.Data.SqlDbType.VarChar, 40).Value = user.Password;
+                        command.Parameters.Add("@admin", System.Data.SqlDbType.Bit).Value = user.Admin;
+
+
+                        try
+                        {
+                            connection.Open();
+                            int recordsAffected = command.ExecuteNonQuery();
+                            success = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                }
+
+                return success;
+            }
         }
     }
-}

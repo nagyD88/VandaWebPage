@@ -29,6 +29,7 @@ namespace VandasPage.Controllers
         {
             User user = new User{Email = email, Password = password};
             SecurityService security=new SecurityService();
+            
 
             if (security.IsValid(user))
             {
