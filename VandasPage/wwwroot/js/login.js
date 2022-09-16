@@ -1,13 +1,15 @@
-﻿const login={
+﻿import {dataHandler} from "./DataHandler.js";
+const login={
     getLoginData:function(){
-        let email = document.querySelector("#emailInput").value;
-        let password = document.querySelector("#passwordInput").value;
+        let email=document.querySelector("#Email").value;
+        let password = document.querySelector("#Password").value;
+        dataHandler.getLoginData(password, email).then((data)=>console.log(data))
         
-        // make something like this!
-        
-        /*dataHandler.logUserIn(userName, password).then((data) => {
-            if (data["result"] === "successful") {
-                domManager.switchToLoggedIn(logOutHandler, userName);
-                domManager.refreshPage();*/
+    },
+    getButton:function (){
+        let button= document.querySelector("#loginButton");
+        button.addEventListener('click',()=> this.getLoginData())
     }
 }
+
+login.getButton();
