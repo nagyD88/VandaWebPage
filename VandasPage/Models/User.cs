@@ -4,9 +4,9 @@
     public class User
     {
 
-        public Guid Id { get; set; }
+        public Guid Id  { get; set; }
         public string Password { get; set; }
-        public string Emial { get; set; }
+        public string Email { get; set; }
 
 
         private string? _reasonForApplication;
@@ -18,11 +18,6 @@
         private int? numberOfDetails;
         private string? meetingLog;
 
-        public User(string password, string emial)
-        {
-            Password = password;
-            Emial = emial;
-            Id= Guid.NewGuid();
-        }
+      
     }
 }
