@@ -1,14 +1,15 @@
 ﻿
 export let dataHandler={
-    logUserIn: async function (userName, password) {
-        return await apiPost('api/users/login', {
-            'user_name': userName,
-            'password': password
-        });
+    getLoginData: async function (password, email) {
+        return await getApi(`login/ProcessLogin/${password}/${email}`);
     },
     logUserOut: async function() {
         await apiGet('api/users/logout')
     }
+}
+async function getApi(url) {
+    let response = await fetch(url)
+    return await response.json()
 }
 
 async function apiGet(url) {
