@@ -11,11 +11,11 @@ namespace VandasPage.Services
         public bool FindUserByEmailAndPassword(User user)
         {
             bool success=false;
-            string SQLstatment="SELECT * FROM dbo.Users WHERE EMAIL= @email AND PASSWORD= @password"
+            string SQLstatment = "SELECT * FROM dbo.Users WHERE EMAIL= @email AND PASSWORD= @password";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(SQLstatment, connection);
-                command.Parameters.Add("@email", System.Data.SqlDbType.Text).Value=user.Email;
+                command.Parameters.Add("@email", System.Data.SqlDbType.VarChar, 100).Value=user.Email;
                 command.Parameters.Add("@password", System.Data.SqlDbType.VarChar,40).Value = user.Password;
 
 
