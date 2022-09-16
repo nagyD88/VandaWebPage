@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VandasPage.Models;
+using VandasPage.Services;
 
 namespace VandasPage.Controllers
 {
@@ -11,7 +12,9 @@ namespace VandasPage.Controllers
         }
         public IActionResult ProcessLogin(User user)
         {
-            if (user.Emial=="alma@alma.hu"&& user.password == "1234")
+            SecurityService security=new SecurityService();
+
+            if (security.IsValid(user))
             {
                 return View("LoginSuccess", user);
             }
