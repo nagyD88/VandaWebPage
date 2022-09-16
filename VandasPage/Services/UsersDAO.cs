@@ -8,7 +8,7 @@ namespace VandasPage.Services
         string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=VandasWebDataBase;
                                        Integrated Security=True;Connect Timeout=30;Encrypt=False;
                                         TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        public bool FindUserByNameAndPassword(User user)
+        public bool FindUserByEmailAndPassword(User user)
         {
             bool success=false;
             string SQLstatment="SELECT * FROM dbo.Users WHERE EMAIL= @email AND PASSWORD= @password"
