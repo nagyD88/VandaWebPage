@@ -10,7 +10,20 @@ namespace VandasPage.Controllers
         {
             return View();
         }
+        /*public IActionResult ProcessLogin(User user)
+        {
+            SecurityService security=new SecurityService();
 
+            if (security.IsValid(user))
+            {
+                return View("LoginSuccess", user);
+            }
+            else
+            {
+                return View("LoginFailer", user);
+            }
+        }*/
+        
         [Route("Login/ProcessLogin/{password}/{email}")]
         public string ProcessLogin(string email, string password)
         {
