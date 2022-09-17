@@ -42,7 +42,7 @@ namespace VandasPage.Controllers
                 return serializeObject;
                 
             }
-            else
+            else //viszajelzés még szükséges a hibás probálkozásról!!!
             {
                 return null;
             }
