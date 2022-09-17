@@ -1,10 +1,10 @@
 ﻿
 export let dataHandler={
     getLoginData: async function (password, email) {
-        return await getApi(`login/ProcessLogin/${password}/${email}`);
+        return await apiGet(`login/ProcessLogin/${password}/${email}`);
     },
-    logUserOut: async function() {
-        await apiGet('api/users/logout')
+    registration: async function(email, password, admin){
+        return await apiGet(`register/ProcessRegister/${email}/${password}/${admin}`)
     }
 }
 async function getApi(url) {
