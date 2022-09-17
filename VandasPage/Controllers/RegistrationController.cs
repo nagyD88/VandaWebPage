@@ -8,10 +8,6 @@ namespace VandasPage.Controllers
 {
     public class RegistrationController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
         [Route("register/ProcessRegister/{email}/{password}/{admin}")]
         public string RegistrationProcess(string email, string password, string admin)
         {

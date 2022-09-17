@@ -33,20 +33,20 @@
                                             <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                                             <span class="h1 fw-bold mb-0">Logo</span>
                                         </div>
-                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Jelentkezz be!</h5>
                                         <div class="form-group">
-                                            <label asp-for="Email" class="control-label"></label>
-                                            <input asp-for="Email" class="form-control" type=em/>
+                                            <label asp-for="Email" class="control-label">E-mail</label>
+                                            <input asp-for="Email" class="form-control" type="email"/>
                                             <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="Password" class="control-label"></label>
+                                            <label asp-for="Password" class="control-label">Jelszó</label>
                                             <input asp-for="Password" class="form-control" type="password" />
                                             <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
                                        <br />
                                         <div class="form-group">
-                                            <input  id="loginButton" value="Login" class="btn btn-primary" />
+                                            <input  id="loginButton" value="Bejelentkezés" class="btn btn-primary" />
                                         </div>
                                     </form>
 
