@@ -1,27 +1,9 @@
-let RegForm = ` <div class="row">
-                    <div class="col-md-4">
-                        <form action="/action_page.php">
-                            <div class="form-group">
-                                <label class="control-label" for="email">e-mail:</label><br>
-                                <input class="form-control" type="text" id="emailInput" name="email">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="lname">password:</label>
-                                <input class="form-control" type="password" id="passwordInput" name="password"><br>
-                            </div>
-                            <div class="form-group form-check">
-                                <label for="admin">
-                                    <input class="form-check-input" type="checkbox" id="adminInput" name="admin" value="admin">
-                                Admin</label><br><br>
-                            </div>
-                            <div class="form-group">
-                                <input id="registerButton" class="btn btn-primary" value=Registration>
-                             </div>
-                        </form>
-                    </div> 
-                </div>`;
+import { registration} from "./Registration.js";
+import {HtmlContainer} from "./htmlContainer.js";
 
-export const registration = {
+
+
+export const CreateRegistration = {
     createRegistrationButton: function () {
         let container = document.querySelector("#UpperButtonContainer");
         let li = document.createElement("li");
@@ -35,11 +17,12 @@ export const registration = {
         regButton.addEventListener("click", (event) => {
             event.preventDefault()
             this.createRegistrationForm();
-            console.log("ker");
         });
     },
     createRegistrationForm: function () {
         let container = document.querySelector("#mainContainer");
-        container.innerHTML = RegForm;
+        container.innerHTML = HtmlContainer.RegForm;
+        let button=document.querySelector("#registerButton");
+        button.addEventListener("click", ()=>registration.isRegistration() )
     }
 }
