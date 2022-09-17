@@ -1,4 +1,4 @@
-﻿import {registration} from "./HtmlFactory.js";
+﻿import {CreateRegistration} from "./HtmlFactory.js";
 
 export let admin = {
     isAdmin: function () {
@@ -8,7 +8,7 @@ export let admin = {
     registration: function () {
         if (this.isAdmin()) {
             
-            registration.createRegistrationButton();
+            CreateRegistration.createRegistrationButton();
         }
     }
 }
