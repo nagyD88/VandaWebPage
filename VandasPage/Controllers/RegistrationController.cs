@@ -10,8 +10,11 @@ namespace VandasPage.Controllers
         {
             return View();
         }
-        public void RegistrationProcess(User user)//viszajelzés még kell
+        [Route("register/Processregister/{password}/{email}/{admin}")]
+        public void RegistrationProcess(string email,string password, string admin)//viszajelzés még kell
         {
+            bool Admin=admin == "true";
+            User user = new User { Email = email, Admin = Admin, Password = password };
             UsersDAO usersDAO = new UsersDAO();
             usersDAO.RegisterNewUser(user);
         }
