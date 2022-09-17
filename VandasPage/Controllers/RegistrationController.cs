@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using VandasPage.Models;
 using VandasPage.Services;
 
@@ -10,13 +12,15 @@ namespace VandasPage.Controllers
         {
             return View();
         }
-        [Route("register/Processregister/{password}/{email}/{admin}")]
-        public void RegistrationProcess(string email,string password, string admin)//viszajelzés még kell
+        [Route("register/ProcessRegister/{email}/{password}/{admin}")]
+        public string RegistrationProcess(string email, string password, string admin)
         {
-            bool Admin=admin == "true";
-            User user = new User { Email = email, Admin = Admin, Password = password };
+            bool Admin = admin == "true"; 
+            User user = new User{Email = email, Password = password, Admin = Admin};
             UsersDAO usersDAO = new UsersDAO();
-            usersDAO.RegisterNewUser(user);
+            bool success =usersDAO.RegisterNewUser(user);
+            string serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(success);
+            return serializeObject;
         }
     }
 }
