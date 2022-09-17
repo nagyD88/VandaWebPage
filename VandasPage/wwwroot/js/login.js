@@ -4,9 +4,10 @@ const login={
         let email=document.querySelector("#Email").value;
         let password = document.querySelector("#Password").value;
         dataHandler.getLoginData(password, email).then((data) => {
-            console.log(data)
             window.sessionStorage.setItem("email", data["Email"]);
-            //window.location.replace("/")
+            window.sessionStorage.setItem("admin", data["Admin"]);
+            window.sessionStorage.setItem("Id", data["ID"]);
+            window.location.replace("/")
         })
         
     },
