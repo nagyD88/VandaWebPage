@@ -29,11 +29,14 @@ namespace VandasPage.Controllers
         {
             User user = new User{Email = email, Password = password};
             SecurityService security=new SecurityService();
+            UsersDAO usersDAO = new UsersDAO();
             
 
             if (security.IsValid(user))
             {
-                string serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+
+                User user2=usersDAO.FindUserByEmail(email);
+                string serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(user2);
                 Console.WriteLine(serializeObject);
                 
                 return serializeObject;

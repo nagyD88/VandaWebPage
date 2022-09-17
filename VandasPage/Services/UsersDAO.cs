@@ -5,10 +5,10 @@ namespace VandasPage.Services
 {
     public class UsersDAO
     {
-        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=VandasWebDataBase;
-                                       Integrated Security=True;Connect Timeout=30;Encrypt=False;
-                                        TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
+        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;
+Initial Catalog=VandasWebDataBase;Integrated Security=True;
+Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;
+ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public bool IsUserByEmailAndPassword(User user)
         {
             bool success = false;
@@ -41,29 +41,29 @@ namespace VandasPage.Services
 
         public User FindUserByEmail(string email)
         {
+            User user = new User();
             string SQLstatment = "SELECT * FROM dbo.Users WHERE EMAIL= @email";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(SQLstatment, connection);
                 command.Parameters.Add("@email", System.Data.SqlDbType.VarChar, 100).Value = email;
 
-                try
-                {
                     connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    Console.WriteLine(reader);
-                    if (reader.HasRows)
-                    {
-
-                    }
-                }
-                catch (Exception ex)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    Console.WriteLine(ex.Message);
+                    while (reader.Read())
+                    {
+                        user.Admin = (bool)reader["Admin"];
+                        user.Email = reader["EMAIL"].ToString();
+                        user.Id = (int)reader["ID"];
+                    }
+                    connection.Close();
                 }
+
+            
             }
 
-            User user = new User();
+            
             return user;
         }
 
