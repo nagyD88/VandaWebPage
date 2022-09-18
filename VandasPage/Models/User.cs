@@ -12,14 +12,25 @@
         public string Name { get; set; }
         public string? ReasonForApplication { get; set; }
         public bool? DirectInquiry { get; set; }
-        public string Communication { get; set; }
+        public string? Communication { get; set; }
         private List<Questionnaire>? _questionnaires;
         public string? MBTI { get; set; }
-        public decimal? price { get; set; }
-        public int? NumberOfDetailsStart { get; set; }
+        public decimal price { get; set; }
+        public int NumberOfDetailsStart { get; set; }
         public string? MeetingLog { get; set; }
-        public int? NumberOfDetailsLeft { get; private set; }
-        public decimal? priceLeft { get; private set; }
+        public int NumberOfDetailsLeft { get; private set; }
+        public decimal priceLeft { get; private set; }
+
+        public void PayADetail(decimal amount)
+        {
+            NumberOfDetailsLeft--;
+            priceLeft -= amount;
+        }
+
+        public decimal GetEvenAmounts()
+        {
+            return priceLeft / NumberOfDetailsLeft;
+        }
 
 
     }
