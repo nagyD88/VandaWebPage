@@ -13,7 +13,7 @@ export const CreateRegistration = {
         li.appendChild(regButton);
         regButton.setAttribute("class", "nav-link text-dark");
         regButton.setAttribute("href", "");
-        regButton.innerText = "registration";
+        regButton.innerText = "Regisztráció";
         regButton.addEventListener("click", (event) => {
             event.preventDefault()
             this.createRegistrationForm();
