@@ -13,11 +13,7 @@ namespace VandasPage.Controllers
             _logger = logger;
         }
 
-        [Route("/login") ]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        
         public IActionResult Index()
         {
             return View();

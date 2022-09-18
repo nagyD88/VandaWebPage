@@ -16,3 +16,42 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 16px;
+}
+
+.col-25 {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+}
+
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+}
+
+.col-75 {
+  -ms-flex: 75%; /* IE10 */
+  flex: 75%;
+}
+
+.col-70 {
+  -ms-flex: 70%; /* IE10 */
+  flex: 70%;
+}
+.col-15 {
+  -ms-flex: 15%; /* IE10 */
+  flex: 15%;
+}
+
+.buttonContainer{
+  
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  
+}

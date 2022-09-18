@@ -1,4 +1,24 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿import {CreateSideBar} from "./HtmlFactory.js";
 
-// Write your JavaScript code.
+export let admin = {
+    isAdmin: function () {
+        return window.sessionStorage["admin"] === "true";
+    },
+
+    registration: function () {
+        if (this.isAdmin()) {
+            CreateSideBar.createSidebarButton("Regisztráció", CreateSideBar.createRegistrationForm);
+            CreateSideBar.createSidebarButton("Felhasználók", CreateSideBar.createRegistrationForm);
+            CreateSideBar.createSidebarButton("kérdőív", CreateSideBar.createRegistrationForm);
+            CreateSideBar.createSidebarButton("Oktatófelület", CreateSideBar.createRegistrationForm);
+        }
+    }
+}
+
+let ToLogin = function () {
+    if (window.sessionStorage.length === 0) {
+        window.location.replace("/Login");
+    }
+}
+ToLogin();
+admin.registration();
