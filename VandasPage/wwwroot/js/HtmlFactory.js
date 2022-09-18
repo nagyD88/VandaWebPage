@@ -1,4 +1,4 @@
-import { registration} from "./Registration.js";
+import {registration} from "./Registration.js";
 import {HtmlContainer} from "./htmlContainer.js";
 import {dataHandler} from "./DataHandler.js";
 import {formMaker} from "./Utils.js";
@@ -35,7 +35,7 @@ export const CreateMiddlePart = {
 }
 
 export const CreateSideBar = {
-    createSidebarButton: function (buttonName, clickFunction ) {
+    createSidebarButton: function (buttonName, clickFunction) {
         let container = document.querySelector("#leftSideBar");
         let divElement = document.createElement("div");
         divElement.setAttribute("class", "nav-item");
@@ -53,7 +53,7 @@ export const CreateSideBar = {
     createRegistrationForm: function () {
         let container = document.querySelector("#mainContainer");
         container.innerHTML = HtmlContainer.RegForm;
-        let button=document.querySelector("#registerButton");
-        button.addEventListener("click", ()=>registration.isRegistration() )
+        let button = document.querySelector("#registerButton");
+        button.addEventListener("click", () => registration.isRegistration())
     }
 }
