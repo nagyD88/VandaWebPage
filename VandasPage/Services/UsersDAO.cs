@@ -150,8 +150,44 @@ ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
                 }
             }
 
-
             return data;
+        }
+
+        public User FindUserByID(int ID)
+        {
+            User user = new User();
+            string SQLstatment = "SELECT * FROM dbo.Users WHERE ID= @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(SQLstatment, connection);
+                command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = ID;
+
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        user.price = reader["PRICE"] == DBNull.Value ? null : (decimal)reader["PRICE"];
+                        user.Email = reader["EMAIL"].ToString();
+                        user.Id = (int)reader["Id"];
+                        user.Communication = reader["COMMUNICATION"].ToString();
+                        user.Name = reader["Name"].ToString();
+                        user.DirectInquiry = reader["DirectInquiry"] == DBNull.Value
+                            ? null
+                            : (bool)reader["DirectInquiry"];
+                        user.priceLeft = reader["PriceLeft"] == DBNull.Value ? null : (decimal)reader["PRICE"];
+                        user.MeetingLog = reader["MeetLog"].ToString();
+                        user.ReasonForApplication = reader["ReasonOfApplication"].ToString();
+                        user.MBTI = reader["MBTI"].ToString();
+                        user.NumberOfDetailsStart = reader["NumberOfDetails"] == DBNull.Value ? null :(int)reader["NumberOfDetails"];
+                        user.NumberOfDetailsLeft = reader["NumberOfDetailsLeft"] == DBNull.Value ? null :(int)reader["NumberOfDetailsLeft"];
+                    }
+
+                    connection.Close();
+                }
+            }
+
+            return user;
         }
     }
 }
