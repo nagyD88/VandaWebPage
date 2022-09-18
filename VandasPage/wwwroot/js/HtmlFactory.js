@@ -3,9 +3,9 @@ import {HtmlContainer} from "./htmlContainer.js";
 
 
 
-export const CreateRegistration = {
-    createRegistrationButton: function () {
-        let container = document.querySelector("#UpperButtonContainer");
+export const CreateSideBar = {
+    createSidebarButton: function (buttonName, clickFunction ) {
+        let container = document.querySelector("#leftSideBar");
         let li = document.createElement("li");
         li.setAttribute("class", "nav-item");
         container.appendChild(li);
@@ -13,10 +13,10 @@ export const CreateRegistration = {
         li.appendChild(regButton);
         regButton.setAttribute("class", "nav-link text-dark");
         regButton.setAttribute("href", "");
-        regButton.innerText = "Regisztráció";
+        regButton.innerText = buttonName;
         regButton.addEventListener("click", (event) => {
             event.preventDefault()
-            this.createRegistrationForm();
+            clickFunction();
         });
     },
     createRegistrationForm: function () {
