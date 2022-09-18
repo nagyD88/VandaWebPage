@@ -14,11 +14,11 @@
         public string? Communication { get; set; }
         private List<Questionnaire>? _questionnaires;
         public string? MBTI { get; set; }
-        public decimal price { get; set; }
-        public int NumberOfDetailsStart { get; set; }
+        public decimal? price { get; set; }
+        public int? NumberOfDetailsStart { get; set; }
         public string? MeetingLog { get; set; }
-        public int NumberOfDetailsLeft { get; private set; }
-        public decimal priceLeft { get; private set; }
+        public int? NumberOfDetailsLeft { get; set; }
+        public decimal? priceLeft { get; set; }
 
         public void PayADetail(decimal amount)
         {
@@ -26,7 +26,7 @@
             priceLeft -= amount;
         }
 
-        public decimal GetEvenAmounts()
+        public decimal? GetEvenAmounts()
         {
             return priceLeft / NumberOfDetailsLeft;
         }
