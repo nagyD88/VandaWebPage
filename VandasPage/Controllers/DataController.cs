@@ -6,10 +6,11 @@ namespace VandasPage.Controllers;
 
 public class DataController : Controller
 {
+    UsersDAO usersDao = new UsersDAO();
     [Route("/Data/GetAllEmailNameAndId")]
     public string GetAllEmailNameAndId()
     {
-        UsersDAO usersDao = new UsersDAO();
+        
         List<User> users = usersDao.GetAllEmailNameAndId();
         string serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(users);
         return serializeObject;
