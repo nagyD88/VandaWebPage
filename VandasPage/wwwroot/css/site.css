@@ -48,3 +48,10 @@ body {
   -ms-flex: 15%; /* IE10 */
   flex: 15%;
 }
+
+.buttonContainer{
+  
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  
+}

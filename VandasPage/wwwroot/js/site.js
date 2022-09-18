@@ -7,8 +7,10 @@ export let admin = {
 
     registration: function () {
         if (this.isAdmin()) {
-            
-            CreateSideBar.createSidebarButton("Regisztráció",CreateSideBar.createRegistrationForm);
+            CreateSideBar.createSidebarButton("Regisztráció", CreateSideBar.createRegistrationForm);
+            CreateSideBar.createSidebarButton("Felhasználók", CreateSideBar.createRegistrationForm);
+            CreateSideBar.createSidebarButton("kérdőív", CreateSideBar.createRegistrationForm);
+            CreateSideBar.createSidebarButton("Oktatófelület", CreateSideBar.createRegistrationForm);
         }
     }
 }
