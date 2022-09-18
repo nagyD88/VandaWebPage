@@ -1,4 +1,4 @@
-﻿import {CreateRegistration} from "./HtmlFactory.js";
+﻿import {CreateSideBar} from "./HtmlFactory.js";
 
 export let admin = {
     isAdmin: function () {
@@ -8,7 +8,7 @@ export let admin = {
     registration: function () {
         if (this.isAdmin()) {
             
-            CreateRegistration.createRegistrationButton();
+            CreateSideBar.createSidebarButton("Regisztráció",CreateSideBar.createRegistrationForm);
         }
     }
 }
