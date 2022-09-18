@@ -126,5 +126,10 @@ ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
                 return success;
             }
+
+            public List<(string, int)> GetAllNameAndId()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
