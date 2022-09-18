@@ -4,7 +4,13 @@ export let dataHandler={
         return await apiGet(`login/ProcessLogin/${password}/${email}`);
     },
     registration: async function(email, password, admin){
-        return await apiGet(`register/ProcessRegister/${email}/${password}/${admin}`)
+        return await apiGet(`register/ProcessRegister/${email}/${password}/${admin}`);
+    },
+    getAllEmailNameAndId: async function(){
+        return await apiGet('/Data/GetAllEmailNameAndId');
+    },
+    getAllSettableInfoById: async function(ID){
+        return await apiGet(`/Data/GetAllSettableDataByID/${ID}`);
     }
 }
 async function getApi(url) {
