@@ -1,4 +1,5 @@
-﻿import {CreateSideBar} from "./HtmlFactory.js";
+﻿import {CreateMiddlePart, CreateSideBar} from "./HtmlFactory.js";
+import {dataHandler} from "./DataHandler.js";
 
 export let admin = {
     isAdmin: function () {
@@ -8,9 +9,12 @@ export let admin = {
     registration: function () {
         if (this.isAdmin()) {
             CreateSideBar.createSidebarButton("Regisztráció", CreateSideBar.createRegistrationForm);
-            CreateSideBar.createSidebarButton("Felhasználók", CreateSideBar.createRegistrationForm);
+            CreateSideBar.createSidebarButton("Felhasználók",CreateMiddlePart.createUserList);
             CreateSideBar.createSidebarButton("kérdőív", CreateSideBar.createRegistrationForm);
             CreateSideBar.createSidebarButton("Oktatófelület", CreateSideBar.createRegistrationForm);
+            console.log(dataHandler.getAllSettableInfoById(2));
+            
+            
         }
     }
 }
