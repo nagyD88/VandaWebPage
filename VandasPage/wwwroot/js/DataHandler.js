@@ -1,11 +1,20 @@
 ﻿
 export let dataHandler={
+    
     getLoginData: async function (password, email) {
         return await apiGet(`login/ProcessLogin/${password}/${email}`);
     },
-    registration: async function(email, password, admin){
-        return await apiGet(`register/ProcessRegister/${email}/${password}/${admin}`);
-    },
+    registration: async function (payload) {
+        const response = await fetch(`register/ProcessRegister`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+        return await response.json();
+    }
+    ,
     getAllEmailNameAndId: async function(){
         return await apiGet('/Data/GetAllEmailNameAndId');
     },
