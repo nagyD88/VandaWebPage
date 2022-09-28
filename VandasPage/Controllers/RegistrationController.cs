@@ -8,11 +8,10 @@ namespace VandasPage.Controllers
 {
     public class RegistrationController : Controller
     {
-        [Route("register/ProcessRegister/{email}/{password}/{admin}")]
-        public string RegistrationProcess(string email, string password, string admin)
+        [HttpPost]
+        [Route("register/ProcessRegister")]
+        public string RegistrationProcess([FromBody] User user)
         {
-            bool Admin = admin == "true"; 
-            User user = new User{Email = email, Password = password, Admin = Admin};
             UsersDAO usersDAO = new UsersDAO();
             bool success =usersDAO.RegisterNewUser(user);
             string serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(success);
