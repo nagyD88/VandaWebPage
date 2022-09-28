@@ -15,20 +15,20 @@ export const CreateMiddlePart = {
             list.appendChild(li);
             li.innerText = `${user["Email"].toString()}  ${user["Name"]}`
             li.appendChild(div);
-            li.addEventListener("click",()=>this.CreateDetailedView(div, user["Id"]))
+            li.addEventListener("click", () => this.CreateDetailedView(document.querySelector("#mainContainer"), 2))
         }))
     },
-    CreateDetailedView: function (element, ID){
-        if (element.innerHTML!==""){
-           element.replaceChildren();
-        }else{
+    CreateDetailedView: function (element, ID) {
+        if (element.hasChildNodes()) {
+            element.replaceChildren();
+        } else {
             let form = document.createElement("form");
             element.appendChild(form);
-            dataHandler.getAllSettableInfoById(ID).then(user=>{
-                formMaker.TextInput(form,"NameInput",user["Name"],"Név")
-                let div=document.createElement("div");
+            dataHandler.getAllSettableInfoById(ID).then(user => {
+                formMaker.TextInput(form, "NameInput", user["Name"], "Név")
+                let div = document.createElement("div");
                 element.appendChild(div);
-                
+
             })
         }
     }
