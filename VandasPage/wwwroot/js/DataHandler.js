@@ -1,8 +1,15 @@
 ﻿
 export let dataHandler={
     
-    getLoginData: async function (password, email) {
-        return await apiGet(`login/ProcessLogin/${password}/${email}`);
+    getLoginData: async function (payload) {
+        const response = await fetch(`login/ProcessLogin`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+        return await response.json();
     },
     registration: async function (payload) {
         const response = await fetch(`register/ProcessRegister`, {

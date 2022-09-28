@@ -11,28 +11,26 @@ namespace VandasPage.Controllers
             return View();
         }
        
-        
-        [Route("Login/ProcessLogin/{password}/{email}")]
-        public string ProcessLogin(string email, string password)
+        [HttpPost]
+        [Route("Login/ProcessLogin")]
+        public string ProcessLogin([FromBody] User user)
         {
-            User user = new User{Email = email, Password = password};
             SecurityService security=new SecurityService();
             UsersDAO usersDAO = new UsersDAO();
             
-
             if (security.IsValid(user))
             {
 
-                User user2=usersDAO.FindUserByEmail(email);
+                User user2=usersDAO.FindUserByEmail(user.Email);
                 string serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(user2);
                 Console.WriteLine(serializeObject);
                 
                 return serializeObject;
                 
             }
-            else //viszajelzés még szükséges a hibás probálkozásról!!!
+            else 
             {
-                return null;
+                return Newtonsoft.Json.JsonConvert.SerializeObject(false);
             }
             
         }
