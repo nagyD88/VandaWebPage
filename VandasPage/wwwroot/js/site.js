@@ -12,8 +12,6 @@ export let admin = {
             CreateSideBar.createSidebarButton("Felhasználók",CreateMiddlePart.createUserList);
             CreateSideBar.createSidebarButton("kérdőív", CreateSideBar.createRegistrationForm);
             CreateSideBar.createSidebarButton("Oktatófelület", CreateSideBar.createRegistrationForm);
-            console.log(dataHandler.getAllSettableInfoById(2));
-            CreateMiddlePart.CreateDetailedView(document.querySelector("#mainContainer"),2)
         }
     }
 }

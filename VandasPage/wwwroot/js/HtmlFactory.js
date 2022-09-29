@@ -15,25 +15,27 @@ export const CreateMiddlePart = {
             list.appendChild(li);
             li.innerText = `${user["Email"].toString()}  ${user["Name"]}`
             li.appendChild(div);
-            li.addEventListener("click", () => this.CreateDetailedView(document.querySelector("#mainContainer"), 2))
+            console.log()
+            li.addEventListener("click", () => CreateDetailedView(div, user["Id"]))
         }))
-    },
-    CreateDetailedView: function (element, ID) {
-        if (element.hasChildNodes()) {
-            element.replaceChildren();
-        } else {
-            let form = document.createElement("form");
-            element.appendChild(form);
-            dataHandler.getAllSettableInfoById(ID).then(user => {
-                formMaker.TextInput(form, "NameInput", user["Name"], "Név")
-                let div = document.createElement("div");
-                element.appendChild(div);
-
-            })
-        }
     }
 }
 
+function CreateDetailedView (element, ID) {
+    if (element.childNodes.length) {
+        console.log(element.childNodes.length)
+        element.replaceChildren();
+    } else {
+        let form = document.createElement("form");
+        element.appendChild(form);
+        dataHandler.getAllSettableInfoById(ID).then(user => {
+            formMaker.TextInput(form, "NameInput", user["Name"], "Név")
+            let div = document.createElement("div");
+            element.appendChild(div);
+
+        })
+    }
+}
 export const CreateSideBar = {
     createSidebarButton: function (buttonName, clickFunction) {
         let container = document.querySelector("#leftSideBar");
