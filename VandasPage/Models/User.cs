@@ -14,7 +14,7 @@
         public string? Communication { get; set; }
         private List<Questionnaire>? _questionnaires;
         public string? MBTI { get; set; }
-        public decimal? price { get; set; }
+        public decimal? Price { get; set; }
         public int? NumberOfDetailsStart { get; set; }
         public string? MeetingLog { get; set; }
         public int? NumberOfDetailsLeft { get; set; }
