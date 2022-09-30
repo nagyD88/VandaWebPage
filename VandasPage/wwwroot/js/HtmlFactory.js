@@ -2,6 +2,7 @@ import {registration} from "./Registration.js";
 import {HtmlContainer} from "./htmlContainer.js";
 import {dataHandler} from "./DataHandler.js";
 import {formMaker} from "./Utils.js";
+import {basicUpdate} from "./UpdateUser.js";
 
 export const CreateMiddlePart = {
     createUserList: function () {
