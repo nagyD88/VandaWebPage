@@ -14,5 +14,12 @@
         input.setAttribute("type", "text");
         input.setAttribute("value", value);
         div.appendChild(input);
+    },
+    ButtonMaker: function(element, innerText, Id){
+        let Button = document.createElement("div");// needs refactor to use button
+        element.appendChild(Button);
+        Button.setAttribute("id", Id);
+        Button.innerText=innerText;
+        return Button;
     }
 }
