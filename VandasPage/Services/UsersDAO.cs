@@ -127,6 +127,44 @@ ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             return success;
         }
 
+
+        public bool UpdateUser(User user)
+        {
+            bool success = false;
+
+            string SQLstatment =
+                    "UPDATE dbo.Users " +
+                    "Set NAME = @name," +
+                    "   MBTI = @mbti," +
+                    "   Price = @Price," +
+                    "   NumberOfDetails = @numberOfDetails " +
+                    "WHERE ID = @Id"
+                ;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(SQLstatment, connection);
+                command.Parameters.Add("@name", System.Data.SqlDbType.VarChar, 100).Value = user.Name;
+                command.Parameters.Add("@Id", System.Data.SqlDbType.Int).Value = user.Id;
+                command.Parameters.Add("@mbti", System.Data.SqlDbType.VarChar, 10).Value = user.MBTI;
+                command.Parameters.Add("@Price", System.Data.SqlDbType.Int).Value = user.Price;
+                command.Parameters.Add("@numberOfDetails", System.Data.SqlDbType.Int).Value = user.NumberOfDetailsStart;
+
+
+                try
+                {
+                    connection.Open();
+                    int recordsAffected = command.ExecuteNonQuery();
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return success;
+        }
+
         public List<User> GetAllEmailNameAndId()
         {
             List<User> data = new List<User>();
@@ -167,7 +205,7 @@ ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
                 {
                     while (reader.Read())
                     {
-                        user.price = reader["PRICE"] == DBNull.Value ? null : (decimal)reader["PRICE"];
+                        user.Price = reader["PRICE"] == DBNull.Value ? null : (decimal)reader["PRICE"];
                         user.Email = reader["EMAIL"].ToString();
                         user.Id = (int)reader["Id"];
                         user.Communication = reader["COMMUNICATION"].ToString();
@@ -179,8 +217,12 @@ ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
                         user.MeetingLog = reader["MeetLog"].ToString();
                         user.ReasonForApplication = reader["ReasonOfApplication"].ToString();
                         user.MBTI = reader["MBTI"].ToString();
-                        user.NumberOfDetailsStart = reader["NumberOfDetails"] == DBNull.Value ? null :(int)reader["NumberOfDetails"];
-                        user.NumberOfDetailsLeft = reader["NumberOfDetailsLeft"] == DBNull.Value ? null :(int)reader["NumberOfDetailsLeft"];
+                        user.NumberOfDetailsStart = reader["NumberOfDetails"] == DBNull.Value
+                            ? null
+                            : (int)reader["NumberOfDetails"];
+                        user.NumberOfDetailsLeft = reader["NumberOfDetailsLeft"] == DBNull.Value
+                            ? null
+                            : (int)reader["NumberOfDetailsLeft"];
                     }
 
                     connection.Close();
