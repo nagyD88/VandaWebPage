@@ -13,10 +13,18 @@ export const CreateMiddlePart = {
             let li = document.createElement("li");
             let div = document.createElement("div");
             list.appendChild(li);
-            li.innerText = `${user["Email"].toString()}  ${user["Name"]}`
+            li.innerText = `${user["Email"].toString()}  ${user["Name"]}`;
             li.appendChild(div);
-            console.log()
-            li.addEventListener("click", () => CreateDetailedView(div, user["Id"]))
+            formMaker.ButtonMaker(li, "Áttekintés", `detailedView${user['Id']}`);
+            let button=document.querySelector(`#detailedView${user['Id']}`);
+            button.addEventListener("click", () => {
+                if (button.innerText==="Áttekintés"){
+                    button.innerText="Kevesebb";
+                }else{
+                    button.innerText="Áttekintés";
+                }
+                CreateDetailedView(div, user["Id"]);
+            })
         }))
     }
 }
@@ -29,10 +37,13 @@ function CreateDetailedView (element, ID) {
         let form = document.createElement("form");
         element.appendChild(form);
         dataHandler.getAllSettableInfoById(ID).then(user => {
-            formMaker.TextInput(form, "NameInput", user["Name"], "Név")
-            let div = document.createElement("div");
-            element.appendChild(div);
-
+            formMaker.TextInput(form, `NameInput${user["Id"]}`, user["Name"], "Név");
+            formMaker.TextInput(form, `PriceInput${user["Id"]}`, user["Price"], "Ár");
+            formMaker.TextInput(form, `NumberOfDetailsInput${user["Id"]}`, user["NumberOfDetailsStart"], "Részletek száma")
+            formMaker.TextInput(form, `MBTIInput${user["Id"]}`,user["MBTI"],"MBTI");
+            let saveButton = formMaker.ButtonMaker(form, "Mentés", `save${user["Id"]}`);
+            saveButton.addEventListener('click', ()=>basicUpdate(user["Id"]));
+            let detailsButton = formMaker.ButtonMaker(form, "Részletek", `details${user["Id"]}`);
         })
     }
 }
