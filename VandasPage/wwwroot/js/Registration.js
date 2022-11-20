@@ -6,7 +6,11 @@ export const registration={
         let email=document.getElementById("emailInput").value;
         let password=document.getElementById("passwordInput").value;
         let admin=document.getElementById("adminInput").checked;
-        dataHandler.registration(email,password,admin).then(data=>console.log(data));
+        dataHandler.registration({
+            Email: email,
+            Password: password,
+            Admin: admin
+        }).then(data=>console.log(data));
     }
     
 }
