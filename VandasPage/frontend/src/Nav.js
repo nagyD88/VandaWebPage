@@ -7,7 +7,7 @@ return (
         <Link to="/">Home</Link>
       </div>
       <div className="navElement">
-        <Link to="Registration">Regisztráció</Link>
+        <Link to="register">Regisztráció</Link>
       </div>
       <div className="navElement">
         <Link to="Users">Felhasználók</Link>
