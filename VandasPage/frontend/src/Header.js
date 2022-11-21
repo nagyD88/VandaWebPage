@@ -26,7 +26,7 @@ const Header = () => {
         <div className="name">
         
         </div>
-        <div className="name Space">Codecool Advanced</div>
+        <div className="name Space">Vanda</div>
       </div>
 
       <div className={`log ${colorTheme}`}>
