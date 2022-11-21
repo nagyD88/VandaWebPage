@@ -1,36 +1,41 @@
 import './App.css';
+import Home from './Home';
 import Layout from './Layout';
+import Users from './Users';
+import User from './User';
+import Questionary from './Questionary';
+import Questionarys from './Questionarys';
+import Education from './Education'; 
+import Registration from './Registration';
+import Login from './Login';
+import Missing from './Missing';
 import { Route, Routes } from 'react-router-dom';
-import Proba from './Proba';
 import { DataProvider } from './dataContext/dataContext';
+
 
 function App() {
   return (      
     <DataProvider>
       <Routes>
         <Route path="/" element={<Layout/>}>
-          <Route index element={<Proba/>} />
-          <Route path="teams">
-            <Route index element={<Proba />} />
-            <Route path=":id" element={<Proba />} />
+          <Route index element={<Home/>} />
+          <Route path="user">
+            <Route index element={<Users/>} />
+            <Route path=":id" element={<User/>} />
           </Route>
-          <Route path="demos">
-            <Route index element={<Proba />} />
+          <Route path="questionary">
+            <Route index element={<Questionarys/>} />
+            <Route path=":id" element={<Questionary/>}/>
           </Route>
-          <Route path="jobhunters">
-            <Route index element={<Proba />} />
+          <Route path="Education">
+            <Route index element={<Education/>} />
           </Route>
-          <Route path="interviewprep" element={<Proba />} />
-          <Route path="about" element={<Proba />} />
-          <Route path="Register" element={<Proba />} />
-          <Route path="Login" element={<Proba />} />
-          <Route path="*" element={<Proba />} />
+          <Route path="Register" element={<Registration />} />
+          <Route path="Login" element={<Login />} />
+          <Route path="*" element={<Missing />} />
         </Route>
       </Routes>
       </DataProvider>
-      
-   
-    
   );
 }
 
