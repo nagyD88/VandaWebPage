@@ -1,15 +1,14 @@
-import Header from './Header';
 import Nav from './Nav';
 import { Outlet } from 'react-router-dom';
-import { useContext } from 'react';
-import DataContext from './dataContext/dataContext';
+import Header from './Header';
+
 
 const Layout = () => {
 
-    const {colorTheme} = useContext(DataContext);
+   
     return (
-        <div className={`App ${colorTheme}`}>
-            <Header title="nasaApi"/>
+        <div className={`App`}>
+            <Header/>
             <Nav/>
             <div className='mainPart'><Outlet /></div>
         </div>
