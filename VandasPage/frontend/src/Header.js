@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './App.css';
 import { useContext } from 'react';
 import DataContext from './dataContext/dataContext';
