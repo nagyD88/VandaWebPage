@@ -15,7 +15,7 @@ import {
   const PWD_REGEX =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   
-  const Registration = () => {
+  const register = () => {
     const UserRef = UseRef();
     const errRef = UseRef();
   
@@ -225,4 +225,4 @@ import {
     );
   };
   
-  export default Registration;
+  export default register;
