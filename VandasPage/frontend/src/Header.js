@@ -30,12 +30,6 @@ const Header = () => {
       </div>
 
       <div className={`log ${colorTheme}`}>
-        <Link className={`log ${colorTheme}`} to="Login">
-          Login
-        </Link>
-        <Link className={`log ${colorTheme}`} to="Register">
-          Register
-        </Link>
         <div className="darkMode" onClick={() => clickHandler()}>
           {' '}
           <DarkModeSwitch
