@@ -1,29 +1,36 @@
 import './App.css';
-import 
+import Layout from './Layout';
+import { Route, Routes } from 'react-router-dom';
+import Proba from './Proba';
+import { DataProvider } from './dataContext/dataContext';
+
 function App() {
-  return (
+  return (      
     <DataProvider>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+        <Route path="/" element={<Layout/>}>
+          <Route index element={<Proba/>} />
           <Route path="teams">
-            <Route index element={<Teams />} />
-            <Route path=":id" element={<Team />} />
+            <Route index element={<Proba />} />
+            <Route path=":id" element={<Proba />} />
           </Route>
           <Route path="demos">
-            <Route index element={<Demos />} />
+            <Route index element={<Proba />} />
           </Route>
           <Route path="jobhunters">
-            <Route index element={<JobHunters />} />
+            <Route index element={<Proba />} />
           </Route>
-          <Route path="interviewprep" element={<InterviewPrep />} />
-          <Route path="about" element={<About />} />
-          <Route path="Register" element={<Register />} />
-          <Route path="Login" element={<Login />} />
-          <Route path="*" element={<Missing />} />
+          <Route path="interviewprep" element={<Proba />} />
+          <Route path="about" element={<Proba />} />
+          <Route path="Register" element={<Proba />} />
+          <Route path="Login" element={<Proba />} />
+          <Route path="*" element={<Proba />} />
         </Route>
       </Routes>
-    </DataProvider>
+      </DataProvider>
+      
+   
+    
   );
 }
 
