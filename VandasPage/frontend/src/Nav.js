@@ -7,19 +7,16 @@ return (
         <Link to="/">Home</Link>
       </div>
       <div className="navElement">
-        <Link to="teams">Teams</Link>
+        <Link to="Registration">Regisztráció</Link>
       </div>
       <div className="navElement">
-        <Link to="demos">Demos</Link>
+        <Link to="Users">Felhasználók</Link>
       </div>
       <div className="navElement">
-        <Link to="jobhunters">Job Hunters</Link>
+        <Link to="questionnaire">Kérdőív</Link>
       </div>
       <div className="navElement">
-        <Link to="interviewprep">InterviewPrep</Link>
-      </div>
-      <div className="navElement">
-        <Link to="about">About</Link>
+        <Link to="tutorialInterface">Oktató felület</Link>
       </div>
     </nav>
   );
