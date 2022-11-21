@@ -16,7 +16,7 @@ return (
         <Link to="questionnaire">Kérdőív</Link>
       </div>
       <div className="navElement">
-        <Link to="tutorialInterface">Oktató felület</Link>
+        <Link to="Education">Oktató felület</Link>
       </div>
     </nav>
   );
