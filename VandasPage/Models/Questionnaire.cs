@@ -1,9 +1,16 @@
-﻿namespace VandasPage.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace VandasPage.Models;
 
 public class Questionnaire
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long Id { get; set; }
+    [Required]
+    public string Title { get; set; }
 
-    private List<Question> _questions;
+    public List<Question> Questions { get; set; }
     
     public int GetAllPoint()
     {
