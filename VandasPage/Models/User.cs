@@ -1,10 +1,12 @@
-﻿namespace VandasPage.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace VandasPage.Models
 {
 
     public class User
     {
-
-        public int Id  { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id  { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
         public bool Admin { get; set; }
