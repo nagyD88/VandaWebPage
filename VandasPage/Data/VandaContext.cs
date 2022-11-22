@@ -17,6 +17,11 @@ namespace VandasPage.Data
             modelBuilder.Entity<Question>().ToTable("questions");
             modelBuilder.Entity<Questionnaire>().ToTable("questionnaires");
         }
+
+        public Task<List<User>> GetUsers()
+        {
+            return Users.ToListAsync();
+        }
     }
 }
 

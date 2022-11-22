@@ -1,12 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VandasPage.Data;
+using VandasPage.Models;
 
 namespace VandasPage.Controllers
 {
+    [ApiController]
+    [Route("api/user")]
     public class UserController : Controller
     {
-        public IActionResult Index()
+        
+        private readonly VandaContext _context;
+        
+        public UserController(VandaContext context)
         {
-            return View();
+            _context = context;
+        }
+        [HttpGet]
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await _context.GetUsers();
         }
     }
 }
