@@ -9,7 +9,7 @@ namespace VandasPage.Models
         public long Id { get; set; }
         [Required]
         public string QuestionAsk { get; set; }
-        [Required]
+        [NotMapped]
         public int[] AnswerOptions { get; set; }
         public int Answer { get ; set; }
         public int Index { get ; set; }
