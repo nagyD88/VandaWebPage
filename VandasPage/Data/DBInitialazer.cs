@@ -37,13 +37,30 @@ namespace VandasPage.Data
                     }
                  );
                 context.SaveChanges();
+
+                context.Questionnaires.AddRange(
+                    new Questionnaire
+                    {
+                        Title = "Test"
+                    }
+                    );
+                context.SaveChanges();
+
                 context.Questions.AddRange(
                     new Question
                     {
-
+                        QuestionAsk = "Nah mizu?",
+                        AnswerOptions = new int[]{ 1,2,3,4,5 },
+                        Questionnaire = context.Questionnaires.Where(x => x.Title == "Test").First(),
+                    },
+                    new Question
+                    {
+                        QuestionAsk = "A nyuszik szeretnek furulyázni?",
+                        AnswerOptions = new int[] { 1, 2, 3, 4, 5 },
+                        Questionnaire = context.Questionnaires.Where(x => x.Title == "Test").First(),
                     }
                     );
-
+                context.SaveChanges();
             }
         }
     }
