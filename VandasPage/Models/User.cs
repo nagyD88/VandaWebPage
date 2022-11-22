@@ -15,7 +15,9 @@ namespace VandasPage.Models
         [Required]
         public bool Admin { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
         public string? ReasonForApplication { get; set; }
         public bool? DirectInquiry { get; set; }
         public string? Communication { get; set; }
