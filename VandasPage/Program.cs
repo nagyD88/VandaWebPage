@@ -1,8 +1,10 @@
 using VandasPage.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
@@ -17,6 +19,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add services to the container.
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<VandaContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
@@ -34,7 +37,7 @@ using (var scope = app.Services.CreateScope())
 
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
