@@ -4,7 +4,7 @@ using VandasPage.Models;
 
 namespace VandasPage.Data
 {
-    public class DBInitialazer
+    public class DBInitializer
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
@@ -50,13 +50,13 @@ namespace VandasPage.Data
                     new Question
                     {
                         QuestionAsk = "Nah mizu?",
-                        AnswerOptions = new int[]{ 1,2,3,4,5 },
+                        
                         Questionnaire = context.Questionnaires.Where(x => x.Title == "Test").First(),
                     },
                     new Question
                     {
                         QuestionAsk = "A nyuszik szeretnek furulyázni?",
-                        AnswerOptions = new int[] { 1, 2, 3, 4, 5 },
+                        
                         Questionnaire = context.Questionnaires.Where(x => x.Title == "Test").First(),
                     }
                     );
