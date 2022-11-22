@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VandasPage.Models
 {
@@ -7,9 +8,13 @@ namespace VandasPage.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id  { get; set; }
+        [Required]
         public string Password { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public bool Admin { get; set; }
+        [Required]
         public string Name { get; set; }
         public string? ReasonForApplication { get; set; }
         public bool? DirectInquiry { get; set; }
