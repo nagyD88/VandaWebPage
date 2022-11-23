@@ -8,8 +8,8 @@ namespace VandasPage.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id  { get; set; }
-        [Required]
-        public string Password { get; set; }
+        
+        
         [Required]
         public string Email { get; set; }
         [Required]
@@ -28,6 +28,7 @@ namespace VandasPage.Models
         public string? MeetingLog { get; set; }
         public int? NumberOfDetailsLeft { get; set; }
         public decimal? priceLeft { get; set; }
+        public string? Password { get; set; }
 
         public void PayADetail(decimal amount)
         {
