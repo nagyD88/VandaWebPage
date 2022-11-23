@@ -10,7 +10,7 @@ return (
         <Link to="register">Regisztráció</Link>
       </div>
       <div className="navElement">
-        <Link to="Users">Felhasználók</Link>
+        <Link to="User">Felhasználók</Link>
       </div>
       <div className="navElement">
         <Link to="questionnaire">Kérdőív</Link>
