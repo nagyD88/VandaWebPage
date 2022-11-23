@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using VandasPage.Models;
 
 namespace VandasPage.Data
@@ -26,6 +27,22 @@ namespace VandasPage.Data
         {
                 return Users.FirstOrDefaultAsync(x => x.Id == id);   
         }
+
+        public async Task<User> CreateNewUser(User user)
+        {
+            var newUser = await Users.AddAsync(user);
+
+            await SaveChangesAsync();
+
+            return newUser.Entity;
+        }
+        public async Task<User> UpdateUser(User user)
+        {
+            var updatedUser= Users.Update(user);
+            await SaveChangesAsync();
+            return updatedUser.Entity;
+        }
+            
     }
 }
 

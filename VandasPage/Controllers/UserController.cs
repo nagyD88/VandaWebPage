@@ -32,6 +32,15 @@ namespace VandasPage.Controllers
             }
             return user;
         }
-        
+        [HttpPost]
+        public async Task<ActionResult<User>> CreateNewUser(User user)
+        {
+            return await _context.CreateNewUser(user);
+        }
+        [HttpPut]
+        public async Task<ActionResult<User>> UpdateUser(User user)
+        {
+            return await _context.UpdateUser(user);
+        }
     }
 }
