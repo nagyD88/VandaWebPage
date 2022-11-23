@@ -26,8 +26,8 @@ const Users = () => {
         <div className={`teamContainer ${colorTheme}`}>
           <h2>Felhasználók:</h2>
           {data?.map((user) => (
-            <Link to={`/user/${user.id}`}>
-              <div key={user.id} className='user' >
+            <Link key={user.id} to={`/user/${user.id}`}>
+              <div  className='user' >
                 <p>{user.firstName} {user.lastName}</p>
               </div>
             </Link>
