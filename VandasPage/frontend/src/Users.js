@@ -5,9 +5,11 @@ import DataContext from './dataContext/dataContext';
 import { Link } from 'react-router-dom';
 const Users = () => {
 
-  let url = 'https://localhost:7086/api/teams';
+  let url = 'https://localhost:7168/api/user';
   const { data, fetchError, isLoading } = useAxiosFetch(url);
   const {colorTheme } = useContext(DataContext);
+
+  console.log(data);
 
   return (
     <>
@@ -26,7 +28,7 @@ const Users = () => {
           {data?.map((user) => (
             <Link to={`/user/${user.id}`}>
               <div key={user.id} className='user' >
-                <p>{user.name}</p>
+                <p>{user.firstName} {user.lastName}</p>
               </div>
             </Link>
           ))}
