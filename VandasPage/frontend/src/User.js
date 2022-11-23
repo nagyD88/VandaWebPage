@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { useParams } from 'react-router';
 import DataContext from './dataContext/dataContext';
 import useAxiosFetch from './hooks/useAxiosFetch';
+import api from './hooks/api';
 
 
 const User = () => {
@@ -16,9 +17,15 @@ const User = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e)=>{ 
+  const handleSubmit =async(e)=>{ 
     e.preventDefault();
-    
+    const response = await api.put('/user', {
+      id: `${id}`,
+      firstName: `${firstName}`,
+      lastName: `${lastName}`,
+      email: `${email}`
+    })
+    console.log(response);
   }
 
   useEffect(()=>{
