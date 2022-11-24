@@ -65,9 +65,23 @@
   padding: 5px;
   cursor: pointer;
 }
-.navElement.Dark{
+a {
+color: black;
+}
+.navElement.Dark :first-child{
   color: white;
 }
+.navElement:hover {
+  background-color: #eae8e8;
+}
+.navElement:active {
+  background-color: darkgray;
+}
+.navElement.Dark.active, .navElement.Dark:hover {
+  background-color:darkgray;
+}
+
+
 
 .header {
   overflow: hidden;
