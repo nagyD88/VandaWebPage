@@ -16,6 +16,7 @@ const User = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [communication, setCommunication] = useState("")
 
   const handleSubmit =async(e)=>{ 
     e.preventDefault();
@@ -23,7 +24,8 @@ const User = () => {
       id: `${id}`,
       firstName: `${firstName}`,
       lastName: `${lastName}`,
-      email: `${email}`
+      email: `${email}`,
+      communication: `${communication}`
     })
     console.log(response);
   }
@@ -32,6 +34,7 @@ const User = () => {
     setFirstName(data.firstName);
     setLastName(data.lastName);
     setEmail(data.email);
+    setCommunication(data.communication)
   },[data])
   return (
     <>
@@ -77,6 +80,15 @@ const User = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label>
+          Communication:
+          <textarea 
+          value={communication} 
+          onChange={(e)=> setCommunication(e.target.value)} 
+          rows="4" 
+          cols="50"
           />
         </label>
         <input type="submit" value="Submit" className='sub' />
