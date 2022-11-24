@@ -100,7 +100,7 @@ const User = () => {
           <input 
             id="MBTI"
             type="text"
-            required
+            
             value={MBTI}
             onChange={(e) => setMBTI(e.target.value)}
           />
