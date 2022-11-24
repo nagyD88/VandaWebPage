@@ -25,7 +25,7 @@ namespace VandasPage.Models
         public string? MBTI { get; set; }
         public decimal? Price { get; set; }
         public int? NumberOfDetailsStart { get; set; }
-        public string? MeetingLog { get; set; }
+        public HashSet<MeetingLog> MeetingLogs { get; set; }
         public int? NumberOfDetailsLeft { get; set; }
         public decimal? priceLeft { get; set; }
         public string? Password { get; set; }
