@@ -10,6 +10,7 @@ namespace VandasPage.Data
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<MeetingLog> MeetingLogs { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,6 +18,7 @@ namespace VandasPage.Data
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<Question>().ToTable("questions");
             modelBuilder.Entity<Questionnaire>().ToTable("questionnaires");
+            modelBuilder.Entity<MeetingLog>().ToTable("meetinglogs");
         }
 
         public Task<List<User>> GetUsers()

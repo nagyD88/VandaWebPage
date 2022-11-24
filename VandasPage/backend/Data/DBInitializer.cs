@@ -6,7 +6,7 @@ namespace VandasPage.Data
 {
     public class DBInitializer
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public async static void Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new VandaContext(
                 serviceProvider.GetRequiredService<
@@ -58,6 +58,16 @@ namespace VandasPage.Data
                         QuestionAsk = "A nyuszik szeretnek furulyázni?",
                         
                         Questionnaire = context.Questionnaires.Where(x => x.Title == "Test").First(),
+                    }
+                    );
+                context.SaveChanges();
+
+                context.MeetingLogs.AddRange(
+                    new MeetingLog
+                    {
+                        MeetCount = 1,
+                        Log = "király volt",
+                        User = context.Users.Where(x => x.Id == 1).First()
                     }
                     );
                 context.SaveChanges();

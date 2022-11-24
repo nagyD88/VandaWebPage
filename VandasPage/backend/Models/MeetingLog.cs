@@ -8,5 +8,6 @@ namespace VandasPage.Models
         public long Id { get; set; }
         public int MeetCount { get; set; }
         public string? Log { get; set; }
+        public User User { get; set; }
     }
 }
