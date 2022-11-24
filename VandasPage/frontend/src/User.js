@@ -17,6 +17,7 @@ const User = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [communication, setCommunication] = useState("")
+  const [MBTI, setMBTI]=useState("")
 
   const handleSubmit =async(e)=>{ 
     e.preventDefault();
@@ -25,7 +26,8 @@ const User = () => {
       firstName: `${firstName}`,
       lastName: `${lastName}`,
       email: `${email}`,
-      communication: `${communication}`
+      communication: `${communication}`,
+      mbti:`${MBTI}`
     })
     console.log(response);
   }
@@ -34,7 +36,8 @@ const User = () => {
     setFirstName(data.firstName);
     setLastName(data.lastName);
     setEmail(data.email);
-    setCommunication(data.communication)
+    setCommunication(data.communication);
+    setMBTI(data.mbti);
   },[data])
   return (
     <>
@@ -89,6 +92,17 @@ const User = () => {
           onChange={(e)=> setCommunication(e.target.value)} 
           rows="4" 
           cols="50"
+          />
+        </label>
+
+        <label>
+          MBTI:
+          <input 
+            id="MBTI"
+            type="text"
+            required
+            value={MBTI}
+            onChange={(e) => setMBTI(e.target.value)}
           />
         </label>
         <input type="submit" value="Submit" className='sub' />
