@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using VandasPage.Models;
+using VandasPage.Models.DTOs;
 
 namespace VandasPage.Data
 {
@@ -38,9 +39,20 @@ namespace VandasPage.Data
 
             return newUser.Entity;
         }
-        public async Task<User> UpdateUser(User user)
+        public async Task<User> UpdateUser(UserUpdateDTO user)
         {
-            var updatedUser= Users.Update(user);
+            var UserToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
+            if (UserToUpdate == null)
+            {
+                return null;
+            }
+            UserToUpdate.FirstName= user.FirstName;
+            UserToUpdate.LastName= user.LastName;
+            UserToUpdate.Email= user.Email;
+            UserToUpdate.MBTI= user.MBTI;
+            UserToUpdate.Communication=user.Communication;
+
+            var updatedUser = Users.Update(UserToUpdate);
             await SaveChangesAsync();
             return updatedUser.Entity;
         }

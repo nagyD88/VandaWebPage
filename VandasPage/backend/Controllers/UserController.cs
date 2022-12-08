@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VandasPage.Data;
 using VandasPage.Models;
+using VandasPage.Models.DTOs;
 
 namespace VandasPage.Controllers
 {
@@ -38,7 +39,7 @@ namespace VandasPage.Controllers
             return await _context.CreateNewUser(user);
         }
         [HttpPut]
-        public async Task<ActionResult<User>> UpdateUser(User user)
+        public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)
         {
             return await _context.UpdateUser(user);
         }

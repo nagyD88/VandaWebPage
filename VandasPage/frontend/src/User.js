@@ -27,7 +27,8 @@ const User = () => {
       lastName: `${lastName}`,
       email: `${email}`,
       communication: `${communication}`,
-      mbti:`${MBTI}`
+      mbti:`${MBTI}`,
+      
     })
     console.log(response);
   }
