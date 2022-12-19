@@ -28,11 +28,79 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sideNav {
+
+  height: 100%;
+  width: 130px;
+  width: -moz-fit-content;
+  position: absolute;
+  z-index: 1 !important;
+  background-color: white;
+  padding: 0px;
+  cursor: pointer;
+}
+.header {
+  overflow: hidden;
+  background-color: white;
+  padding: 20px 10px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+  position: relative;
+}
+.header.Dark{
+  background-color: black;
+  color: white;
+}
+
+.sideNav.Dark{
+  background-color: #3c394f;
+  color: white;
+}
+
+.navElement{
+  padding: 5px;
+  cursor: pointer;
+}
+a {
+color: black;
+}
+.navElement.Dark :first-child{
+  color: white;
+}
+.navElement:hover {
+  background-color: #eae8e8;
+}
+.navElement:active {
+  background-color: darkgray;
+}
+.navElement.Dark.active, .navElement.Dark:hover {
+  background-color:darkgray;
+}
+
+
+
+.header {
+  overflow: hidden;
+  background-color: white;
+  padding: 20px 10px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+  position: relative;
+}
+.header.Dark{
+  background-color: black;
+  color: white;
+}
+
+.mainPart{
+  margin-left: 170px;
+  height: 100vh;
 }

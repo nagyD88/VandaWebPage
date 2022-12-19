@@ -1,29 +1,41 @@
 import './App.css';
-import 
+import Home from './Home';
+import Layout from './Layout';
+import Users from './Users';
+import User from './User';
+import Questionary from './Questionary';
+import Questionarys from './Questionarys';
+import Education from './Education'; 
+import Registration from './Registration';
+import Login from './Login';
+import Missing from './Missing';
+import { Route, Routes } from 'react-router-dom';
+import { DataProvider } from './dataContext/dataContext';
+
+
 function App() {
-  return (
+  return (      
     <DataProvider>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="teams">
-            <Route index element={<Teams />} />
-            <Route path=":id" element={<Team />} />
+        <Route path="/" element={<Layout/>}>
+          <Route index element={<Home/>} />
+          <Route path="User">
+            <Route index element={<Users/>} />
+            <Route path=":id" element={<User/>} />
           </Route>
-          <Route path="demos">
-            <Route index element={<Demos />} />
+          <Route path="questionnaire">
+            <Route index element={<Questionarys/>} />
+            <Route path=":id" element={<Questionary/>}/>
           </Route>
-          <Route path="jobhunters">
-            <Route index element={<JobHunters />} />
+          <Route path="Education">
+            <Route index element={<Education/>} />
           </Route>
-          <Route path="interviewprep" element={<InterviewPrep />} />
-          <Route path="about" element={<About />} />
-          <Route path="Register" element={<Register />} />
+          <Route path="register" element={<Registration />} />
           <Route path="Login" element={<Login />} />
           <Route path="*" element={<Missing />} />
         </Route>
       </Routes>
-    </DataProvider>
+      </DataProvider>
   );
 }
 
