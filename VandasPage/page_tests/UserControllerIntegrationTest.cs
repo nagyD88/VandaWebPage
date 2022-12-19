@@ -69,24 +69,49 @@ namespace TestProject
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
             Assert.Equal("Sanyi", user.FirstName);
         }
-        /*
+        
         [Fact]
         public async Task Put_Api_MaterialReturnSuccessAndCorrectContentType()
         {
-            HttpContent content = new StringContent("");
+            // Arrange
+            var payload = new UserRegistrationDTO
+            {
+                Email = "test@test.hu",
+                FirstName = "Sanyi",
+                LastName = "Small",
+                Admin = false
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/material?name=alma", content);
-            string json = await response.Content.ReadAsStringAsync();
-            EducationalMaterial eduMat = JsonSerializer.Deserialize<EducationalMaterial>(json, options)!;
-            var response2 = await client.PutAsync($"api/material/{eduMat.ID}/add?material=Tanc", content);
-            response2.EnsureSuccessStatusCode();
-            var response3 = await client.GetAsync($"api/material/{eduMat.ID}");
-            string json2 = await response2.Content.ReadAsStringAsync();
-            EducationalMaterial eduMat2 = JsonSerializer.Deserialize<EducationalMaterial>(json2, options)!;
-            Assert.Equal("Tanc", eduMat2.Materials.FirstOrDefault().Name);
-            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
-        }
+            
+            var postResponse = await client.PostAsync("api/user", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            User user = JsonSerializer.Deserialize<User>(json, options)!;
 
+            // Act
+            var putPayload = new UserUpdateDTO
+            {
+                Id = user.Id,
+                Email = "alma@alma.hu",
+                FirstName = "Sándor",
+                LastName = "Kiss",
+                MBTI = "alka",
+                Communication = "almát enni jó"
+            };
+            var putStringPayload = JsonConvert.SerializeObject(putPayload);
+            var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
+            var putResponse = await client.PutAsync($"api/user", putContent);
+            
+            var getResponse = await client.GetAsync($"api/user/{user.Id}");
+            string updatedJson = await getResponse.Content.ReadAsStringAsync();
+            User updatedUser = JsonSerializer.Deserialize<User>(updatedJson, options)!;
+            // Assert
+            putResponse.EnsureSuccessStatusCode();
+            Assert.Equal("alma@alma.hu", updatedUser.Email);
+            Assert.Equal("application/json; charset=utf-8", putResponse.Content.Headers.ContentType?.ToString());
+        }
+        /*
         [Fact]
         public async Task Delete_Api_MaterialReturnSuccessAndCorrectContentType()
         {
