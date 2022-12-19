@@ -31,13 +31,20 @@ namespace VandasPage.Data
                 return Users.FirstOrDefaultAsync(x => x.Id == id);   
         }
 
-        public async Task<User> CreateNewUser(User user)
+        public async Task<User> CreateNewUser(UserRegistrationDTO user)
         {
-            var newUser = await Users.AddAsync(user);
+            var newUser = new User
+            {
+                FirstName =  user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Admin = user.Admin
+            };
+            var regUser = await Users.AddAsync(newUser);
 
             await SaveChangesAsync();
 
-            return newUser.Entity;
+            return regUser.Entity;
         }
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
