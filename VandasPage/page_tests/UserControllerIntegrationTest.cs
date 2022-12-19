@@ -7,6 +7,10 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
+using System.Text;
+using VandasPage.Models.DTOs;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace TestProject
 {
@@ -42,18 +46,30 @@ namespace TestProject
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
 
-       /* [Fact]
+        [Fact]
         public async Task Post_Api_MaterialReturnSuccessAndCorrectContentType()
         {
-            HttpContent content = new StringContent("");
+            // Arrange
+            var payload = new UserRegistrationDTO
+            {
+                Email = "test@test.hu",
+                FirstName = "Sanyi",
+                LastName = "Small",
+                Admin = false
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/material?name=alma", content);
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            // Act
+            var response = await client.PostAsync("api/user", content);
             string json = await response.Content.ReadAsStringAsync();
-            EducationalMaterial eduMat = JsonSerializer.Deserialize<EducationalMaterial>(json, options)!;
+            User user = JsonSerializer.Deserialize<User>(json, options)!;
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
-            Assert.Equal("alma", eduMat.Name);
+            Assert.Equal("Sanyi", user.FirstName);
         }
+        /*
         [Fact]
         public async Task Put_Api_MaterialReturnSuccessAndCorrectContentType()
         {
