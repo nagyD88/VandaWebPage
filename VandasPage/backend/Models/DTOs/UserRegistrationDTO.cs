@@ -5,10 +5,9 @@ namespace VandasPage.Models.DTOs
 {
     public class UserRegistrationDTO
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
         [Required]
         public string Email { get; set; }
+        [Required]
         public bool Admin { get; set; }
         [Required]
         public string FirstName { get; set; }
