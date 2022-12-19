@@ -19,18 +19,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout/>}>
           <Route index element={<Home/>} />
-          <Route path="user">
+          <Route path="User">
             <Route index element={<Users/>} />
             <Route path=":id" element={<User/>} />
           </Route>
-          <Route path="questionary">
+          <Route path="questionnaire">
             <Route index element={<Questionarys/>} />
             <Route path=":id" element={<Questionary/>}/>
           </Route>
           <Route path="Education">
             <Route index element={<Education/>} />
           </Route>
-          <Route path="Register" element={<Registration />} />
+          <Route path="register" element={<Registration />} />
           <Route path="Login" element={<Login />} />
           <Route path="*" element={<Missing />} />
         </Route>
