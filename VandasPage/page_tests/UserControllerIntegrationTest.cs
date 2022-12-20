@@ -184,6 +184,23 @@ namespace TestProject
             Assert.Equal("application/json; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
         }
 
+        [Fact]
+        public async Task _Api_UserReturnNotfoundIfBadId()
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+
+
+
+
+            // Act
+            var deleteResponse = await client.DeleteAsync($"api/user/-7");
+
+            // Assert
+            Assert.Equal(404, (int)deleteResponse.StatusCode);
+            Assert.Equal("application/problem+json; charset=utf-8", deleteResponse.Content.Headers.ContentType.ToString());
+        }
+
         /*
         [Fact]
         public async Task Delete_Api_EducationMaterialReturnSuccessAndCorrectContentType()
