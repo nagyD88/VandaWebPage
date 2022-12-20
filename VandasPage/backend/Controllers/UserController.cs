@@ -43,5 +43,17 @@ namespace VandasPage.Controllers
         {
             return await _context.UpdateUser(user);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult<User>> DeleteUser(int id)
+        {
+            var userDeleted= await _context.DeleteUser(id);
+            if (userDeleted == null)
+            {
+                return NotFound();
+            }
+            return Ok(userDeleted);
+        }
     }
 }
