@@ -101,7 +101,7 @@ namespace TestProject
             string json = await postResponse.Content.ReadAsStringAsync();
             User user = JsonSerializer.Deserialize<User>(json, options)!;
 
-            // Act
+            
             var putPayload = new UserUpdateDTO
             {
                 Id = user.Id,
@@ -113,6 +113,7 @@ namespace TestProject
             };
 
             var putStringPayload = JsonConvert.SerializeObject(putPayload);
+            // Act
             var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
             var putResponse = await client.PutAsync($"api/user", putContent);
             
@@ -126,7 +127,33 @@ namespace TestProject
             Assert.Equal("alma@alma.hu", updatedUser.Email);
             Assert.Equal("application/json; charset=utf-8", putResponse.Content.Headers.ContentType?.ToString());
         }
-        
+
+        [Fact]
+        public async Task Put_Api_UserReturnNotfoundIfBadId()
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+            var putPayload = new UserUpdateDTO
+            {
+                Id = -7,
+                Email = "alma@alma.hu",
+                FirstName = "Sándor",
+                LastName = "Kiss",
+                MBTI = "alka",
+                Communication = "almát enni jó"
+            };
+
+
+            var putStringPayload = JsonConvert.SerializeObject(putPayload);
+            var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
+            // Act
+            var putResponse = await client.PutAsync($"api/user", putContent);
+
+            // Assert
+            Assert.Equal(404, (int)putResponse.StatusCode);
+            Assert.Equal("application/problem+json; charset=utf-8", putResponse.Content.Headers.ContentType.ToString());
+        }
+
         [Fact]
         public async Task Delete_Api_MaterialReturnSuccessAndCorrectContentType()
         {
