@@ -33,6 +33,7 @@ namespace VandasPage.Controllers
             }
             return user;
         }
+
         [HttpPost]
         public async Task<ActionResult<User>> CreateNewUser(UserRegistrationDTO user)
         {
@@ -41,6 +42,10 @@ namespace VandasPage.Controllers
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)
         {
+            if (await _context.GetUserById(user.Id) == null)
+            {
+                return NotFound();
+            }
             return await _context.UpdateUser(user);
         }
 
