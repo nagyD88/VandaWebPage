@@ -26,7 +26,7 @@ namespace VandasPage.Data
         {
             return Users.ToListAsync();
         }
-        public Task<User>? GetUserById(int id)
+        public Task<User>? GetUserById(long id)
         {
                 return Users.FirstOrDefaultAsync(x => x.Id == id);   
         }

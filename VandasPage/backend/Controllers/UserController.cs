@@ -23,7 +23,7 @@ namespace VandasPage.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<User>> GetUserById(long id)
         {
             User user =  await _context.GetUserById(id);
 
