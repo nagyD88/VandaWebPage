@@ -81,7 +81,32 @@ namespace TestProject
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
             Assert.Equal("Sanyi", user.FirstName);
         }
-        
+
+        [Fact]
+        public async Task Post_Api_User_Twice_ReturnBadRequestAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new UserRegistrationDTO
+            {
+                Email = "test@test.hu",
+                FirstName = "Sanyi",
+                LastName = "Small",
+                Admin = false
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+            var client = _factory.CreateClient();
+            
+            var responseFirst = await client.PostAsync("api/user", content);
+            // Act
+            var response = await client.PostAsync("api/user", content);
+            string json = await response.Content.ReadAsStringAsync();
+            User user = JsonSerializer.Deserialize<User>(json, options)!;
+            // Assert
+            Assert.Equal(400, (int)response.StatusCode); 
+            Assert.Equal("application/problem+json; charset=utf-8", response.Content.Headers.ContentType.ToString());
+        }
+
         [Fact]
         public async Task Put_Api_UserReturnSuccessAndCorrectContentType()
         {
@@ -160,7 +185,7 @@ namespace TestProject
             // Arrange
             var payload = new UserRegistrationDTO
             {
-                Email = "test@test.hu",
+                Email = "alma@test.hu",
                 FirstName = "Sanyi",
                 LastName = "Small",
                 Admin = false
@@ -180,7 +205,7 @@ namespace TestProject
             User deletedUser = JsonSerializer.Deserialize<User>(deleteJson, options)!;
             // Assert
             deleteResponse.EnsureSuccessStatusCode();
-            Assert.Equal("test@test.hu", deletedUser.Email);
+            Assert.Equal("alma@test.hu", deletedUser.Email);
             Assert.Equal("application/json; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
         }
 
