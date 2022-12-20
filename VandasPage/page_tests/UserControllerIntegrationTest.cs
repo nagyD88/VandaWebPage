@@ -27,6 +27,22 @@ namespace TestProject
 
 
         [Theory]
+        [InlineData("api/user/-1")]
+
+        public async Task Get_EndpointsReturnBadrequestAndCorrectContentType(string url)
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+
+            // Act
+            var response = await client.GetAsync(url);
+
+            // Assert
+            Assert.Equal(404, (int)response.StatusCode); // Status Code 200-299
+            Assert.Equal("application/problem+json; charset=utf-8", response.Content.Headers.ContentType.ToString());
+        }
+
+        [Theory]
         [InlineData("api/user")]
         [InlineData("api/user/1")]
 
@@ -42,7 +58,6 @@ namespace TestProject
             response.EnsureSuccessStatusCode(); // Status Code 200-299
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
-
         [Fact]
         public async Task Post_Api_MaterialReturnSuccessAndCorrectContentType()
         {
@@ -96,6 +111,7 @@ namespace TestProject
                 MBTI = "alka",
                 Communication = "almát enni jó"
             };
+
             var putStringPayload = JsonConvert.SerializeObject(putPayload);
             var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
             var putResponse = await client.PutAsync($"api/user", putContent);
