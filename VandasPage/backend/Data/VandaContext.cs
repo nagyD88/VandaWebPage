@@ -33,6 +33,10 @@ namespace VandasPage.Data
 
         public async Task<User> CreateNewUser(UserRegistrationDTO user)
         {
+            if (Users.Any(x => x.Email == user.Email))
+            {
+                return null;
+            }
             var newUser = new User
             {
                 FirstName =  user.FirstName,
