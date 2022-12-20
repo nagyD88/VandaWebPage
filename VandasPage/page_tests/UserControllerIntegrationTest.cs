@@ -1,8 +1,5 @@
 using VandasPage.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -106,33 +103,45 @@ namespace TestProject
             var getResponse = await client.GetAsync($"api/user/{user.Id}");
             string updatedJson = await getResponse.Content.ReadAsStringAsync();
             User updatedUser = JsonSerializer.Deserialize<User>(updatedJson, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/user/{updatedUser.Id}");
             // Assert
+
             putResponse.EnsureSuccessStatusCode();
             Assert.Equal("alma@alma.hu", updatedUser.Email);
             Assert.Equal("application/json; charset=utf-8", putResponse.Content.Headers.ContentType?.ToString());
         }
-        /*
+        
         [Fact]
         public async Task Delete_Api_MaterialReturnSuccessAndCorrectContentType()
         {
             // Arrange
-            HttpContent content = new StringContent("");
+            var payload = new UserRegistrationDTO
+            {
+                Email = "test@test.hu",
+                FirstName = "Sanyi",
+                LastName = "Small",
+                Admin = false
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/material?name=alma", content);
-            string json = await response.Content.ReadAsStringAsync();
-            EducationalMaterial eduMaterial = JsonSerializer.Deserialize<EducationalMaterial>(json, options)!;
-            var putResponse = await client.PutAsync($"api/material/{eduMaterial.ID}/add?material=Tanc", content);
-            var response2 = await client.GetAsync($"api/material/{eduMaterial.ID}");
-            string jsonString = await response2.Content.ReadAsStringAsync();
-            EducationalMaterial eduMat2 = JsonSerializer.Deserialize<EducationalMaterial>(jsonString, options)!;
+
+            var postResponse = await client.PostAsync("api/user", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            User user = JsonSerializer.Deserialize<User>(json, options)!;
+
             // Act
-            var id = eduMat2.Materials.FirstOrDefault().ID;
-            var response3 = await client.DeleteAsync($"api/material/{id}/remove");
-            Console.WriteLine(eduMat2.Materials.FirstOrDefault().ID);
+            
+            var deleteResponse = await client.DeleteAsync($"api/user/{user.Id}");
+            string deleteJson = await postResponse.Content.ReadAsStringAsync();
+            User deletedUser = JsonSerializer.Deserialize<User>(deleteJson, options)!;
             // Assert
-            response3.EnsureSuccessStatusCode();
-            Assert.Equal(null, response3.Content.Headers.ContentType?.ToString());
+            deleteResponse.EnsureSuccessStatusCode();
+            Assert.Equal("test@test.hu", deletedUser.Email);
+            Assert.Equal("application/json; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
         }
+
+        /*
         [Fact]
         public async Task Delete_Api_EducationMaterialReturnSuccessAndCorrectContentType()
         {
