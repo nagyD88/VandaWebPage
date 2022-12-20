@@ -23,7 +23,7 @@ namespace VandasPage.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<User>> GetUserById(long id)
         {
             User user =  await _context.GetUserById(id);
 
@@ -33,15 +33,38 @@ namespace VandasPage.Controllers
             }
             return user;
         }
+
         [HttpPost]
-        public async Task<ActionResult<User>> CreateNewUser(User user)
+        public async Task<ActionResult<User>> CreateNewUser(UserRegistrationDTO user)
         {
-            return await _context.CreateNewUser(user);
+            User newUser=await _context.CreateNewUser(user);
+            if (newUser == null)
+            {
+                return BadRequest();
+            }
+            return newUser;
         }
+
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)
         {
+            if (await _context.GetUserById(user.Id) == null)
+            {
+                return NotFound();
+            }
             return await _context.UpdateUser(user);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult<User>> DeleteUser(int id)
+        {
+            var userDeleted= await _context.DeleteUser(id);
+            if (userDeleted == null)
+            {
+                return NotFound();
+            }
+            return Ok(userDeleted);
         }
     }
 }
