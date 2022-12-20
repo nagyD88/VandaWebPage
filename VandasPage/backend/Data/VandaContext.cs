@@ -48,20 +48,29 @@ namespace VandasPage.Data
         }
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
-            var UserToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
-            if (UserToUpdate == null)
+            var userToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
+            if (userToUpdate == null)
             {
                 return null;
             }
-            UserToUpdate.FirstName= user.FirstName;
-            UserToUpdate.LastName= user.LastName;
-            UserToUpdate.Email= user.Email;
-            UserToUpdate.MBTI= user.MBTI;
-            UserToUpdate.Communication=user.Communication;
+            userToUpdate.FirstName= user.FirstName;
+            userToUpdate.LastName= user.LastName;
+            userToUpdate.Email= user.Email;
+            userToUpdate.MBTI= user.MBTI;
+            userToUpdate.Communication=user.Communication;
 
-            var updatedUser = Users.Update(UserToUpdate);
+            var updatedUser = Users.Update(userToUpdate);
             await SaveChangesAsync();
             return updatedUser.Entity;
+        }
+
+        public async Task<User> DeleteUser(int id)
+        {
+            var userToDelete = Users.FirstOrDefault(x=>x.Id == id);
+            if (userToDelete == null) { return null; }
+            var userDeleted =Users.Remove(userToDelete);
+            await SaveChangesAsync();
+            return userDeleted.Entity;
         }
             
     }
