@@ -59,7 +59,7 @@ namespace TestProject
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
         [Fact]
-        public async Task Post_Api_MaterialReturnSuccessAndCorrectContentType()
+        public async Task Post_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
             var payload = new UserRegistrationDTO
@@ -83,7 +83,7 @@ namespace TestProject
         }
         
         [Fact]
-        public async Task Put_Api_MaterialReturnSuccessAndCorrectContentType()
+        public async Task Put_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
             var payload = new UserRegistrationDTO
@@ -155,7 +155,7 @@ namespace TestProject
         }
 
         [Fact]
-        public async Task Delete_Api_MaterialReturnSuccessAndCorrectContentType()
+        public async Task Delete_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
             var payload = new UserRegistrationDTO
