@@ -4,9 +4,9 @@ import api from './hooks/api';
 import { useContext } from 'react';
 import DataContext from './dataContext/dataContext';
 
-const email_Regex = new RegExp(
-  "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
-);
+
+  var email_Regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 const PreRegistration = () => {
   const { colorTheme } = useContext(DataContext);
   const [email, setEmail] = useState('');
@@ -17,20 +17,15 @@ const PreRegistration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setEmailValidation(email_Regex.test(email));
-    if (!emailValidation) {
-      console.log('Invalid Entry');
-      return;
-    }
     console.log('email', email);
     console.log('admin', admin);
     console.log('firstName', firstName);
     console.log('lastName', lastName);
     const response = await api.post('/user', {
-      email: `${email}`,
+      email: email,
       admin: admin,
-      firstName: `${firstName}`,
-      lastName: `${lastName}`,
+      firstName: firstName,
+      lastName: lastName
     });
     console.log(response);
     
