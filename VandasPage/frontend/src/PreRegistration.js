@@ -72,8 +72,8 @@ const PreRegistration = () => {
             <input
               id="admin"
               type="checkbox"
-              value={admin}
-              onChange={(e) => setAdmin(e.target.value)}
+              checked={admin}
+              onChange={(e) => setAdmin(e.target.checked)}
             />
           </label>
           <input type="submit" value="Submit" className="sub" />
