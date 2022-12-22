@@ -2,6 +2,7 @@ using VandasPage.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
+using VandasPage.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,7 @@ builder.Services.AddCors(options =>
             ;
         });
 });
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 // Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<VandaContext>(options =>
