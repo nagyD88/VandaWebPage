@@ -4,6 +4,8 @@ using MailKit.Security;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
 using MimeKit.Text;
+using VandasPage.Services.EmailService;
+using VandasPage.Models.DTOs;
 
 namespace VandasPage.Controllers
 {
@@ -20,7 +22,7 @@ namespace VandasPage.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendEmail(EmailDto request)
+        public IActionResult SendEmail(EmailDTO request)
         {
             _emailService.SendEmail(request);
             return Ok();
