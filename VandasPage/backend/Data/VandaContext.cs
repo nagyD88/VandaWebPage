@@ -26,35 +26,55 @@ namespace VandasPage.Data
         {
             return Users.ToListAsync();
         }
-        public Task<User>? GetUserById(int id)
+        public Task<User>? GetUserById(long id)
         {
                 return Users.FirstOrDefaultAsync(x => x.Id == id);   
         }
 
-        public async Task<User> CreateNewUser(User user)
+        public async Task<User> CreateNewUser(UserRegistrationDTO user)
         {
-            var newUser = await Users.AddAsync(user);
-
-            await SaveChangesAsync();
-
-            return newUser.Entity;
-        }
-        public async Task<User> UpdateUser(UserUpdateDTO user)
-        {
-            var UserToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
-            if (UserToUpdate == null)
+            if (Users.Any(x => x.Email == user.Email))
             {
                 return null;
             }
-            UserToUpdate.FirstName= user.FirstName;
-            UserToUpdate.LastName= user.LastName;
-            UserToUpdate.Email= user.Email;
-            UserToUpdate.MBTI= user.MBTI;
-            UserToUpdate.Communication=user.Communication;
+            var newUser = new User
+            {
+                FirstName =  user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Admin = user.Admin
+            };
+            var regUser = await Users.AddAsync(newUser);
 
-            var updatedUser = Users.Update(UserToUpdate);
+            await SaveChangesAsync();
+
+            return regUser.Entity;
+        }
+        public async Task<User> UpdateUser(UserUpdateDTO user)
+        {
+            var userToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
+            if (userToUpdate == null)
+            {
+                return null;
+            }
+            userToUpdate.FirstName= user.FirstName;
+            userToUpdate.LastName= user.LastName;
+            userToUpdate.Email= user.Email;
+            userToUpdate.MBTI= user.MBTI;
+            userToUpdate.Communication=user.Communication;
+
+            var updatedUser = Users.Update(userToUpdate);
             await SaveChangesAsync();
             return updatedUser.Entity;
+        }
+
+        public async Task<User> DeleteUser(int id)
+        {
+            var userToDelete = Users.FirstOrDefault(x=>x.Id == id);
+            if (userToDelete == null) { return null; }
+            var userDeleted =Users.Remove(userToDelete);
+            await SaveChangesAsync();
+            return userDeleted.Entity;
         }
             
     }
