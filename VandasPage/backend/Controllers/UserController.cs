@@ -37,6 +37,7 @@ namespace VandasPage.Controllers
 
         //first try version
         [HttpPost]
+        [Route("login")]
         public async Task<ActionResult<User>> LoginUser(string password, string email)
         {
             User user= await _context.GetUserLogedIn(password, email);
