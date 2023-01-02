@@ -38,8 +38,10 @@ namespace VandasPage.Controllers
         //first try version
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<User>> LoginUser(string password, string email)
+        public async Task<ActionResult<User>> LoginUser(loginDTO login)
         {
+            string password = login.Password;
+            string email = login.Email;
             User user= await _context.GetUserLogedIn(password, email);
             if (User == null)
             {
