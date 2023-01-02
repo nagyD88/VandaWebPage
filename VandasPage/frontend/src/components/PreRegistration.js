@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import api from '../hooks/api';
 import { useContext } from 'react';
-import DataContext from '../dataContext/dataContext';
+import DataContext from '../context/dataContext';
 
 
   var email_Regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;

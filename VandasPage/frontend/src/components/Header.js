@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { useContext } from 'react';
-import DataContext from '../dataContext/dataContext';
+import DataContext from '../context/dataContext';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 
 const Header = () => {

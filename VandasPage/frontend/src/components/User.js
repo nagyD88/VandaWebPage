@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useContext } from 'react';
 import { useParams } from 'react-router';
-import DataContext from '../dataContext/dataContext';
+import DataContext from '../context/dataContext';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import api from '../hooks/api';
 

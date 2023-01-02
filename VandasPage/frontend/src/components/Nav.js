@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import DataContext from '../dataContext/dataContext';
+import DataContext from '../context/dataContext';
 
 const Nav = () => {
   const { colorTheme } = useContext(DataContext);
