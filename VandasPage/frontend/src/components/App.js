@@ -11,10 +11,12 @@ import PreRegistration from './PreRegistration';
 import Login from './Login';
 import Missing from './Missing';
 import { Route, Routes } from 'react-router-dom';
-import { DataProvider } from '../dataContext/dataContext';
+import { DataProvider } from '../context/dataContext';
+import { AuthProvider } from '../context/AuthProvider';
 
 function App() {
   return (
+    <AuthProvider>
     <DataProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -36,6 +38,7 @@ function App() {
         </Route>
       </Routes>
     </DataProvider>
+    </AuthProvider>
   );
 }
 
