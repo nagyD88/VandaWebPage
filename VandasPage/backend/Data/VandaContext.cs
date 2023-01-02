@@ -77,6 +77,10 @@ namespace VandasPage.Data
             return userDeleted.Entity;
         }
             
+        public Task<User> GetUserLogedIn(string password, string email)
+        {
+            return Users.FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
+        }
     }
 }
 
