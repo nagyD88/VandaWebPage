@@ -34,6 +34,19 @@ namespace VandasPage.Controllers
             return user;
         }
 
+
+        //first try version
+        [HttpPost]
+        public async Task<ActionResult<User>> LoginUser(string password, string email)
+        {
+            User user= await _context.GetUserLogedIn(password, email);
+            if (User == null)
+            {
+                return NotFound();
+            }
+            return user;
+        }
+
         [HttpPost]
         public async Task<ActionResult<User>> CreateNewUser(UserRegistrationDTO user)
         {
