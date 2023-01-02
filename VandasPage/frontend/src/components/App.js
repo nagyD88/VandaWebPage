@@ -15,7 +15,11 @@ import { Route, Routes } from 'react-router-dom';
 import { DataProvider } from '../context/dataContext';
 import { AuthProvider } from '../context/AuthProvider';
 import RequireAuth from './RequireAuth';
-
+const ROLES = {
+  'User': 2001,
+  'Editor': 1984,
+  'Admin': 5150
+}
 function App() {
   return (
     <AuthProvider>
