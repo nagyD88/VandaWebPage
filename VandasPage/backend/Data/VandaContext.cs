@@ -31,7 +31,7 @@ namespace VandasPage.Data
                 return Users.FirstOrDefaultAsync(x => x.Id == id);   
         }
 
-        public async Task<User> CreateNewUser(UserRegistrationDTO user)
+        public async Task<User> CreateNewUser(UserPreRegistrationDTO user)
         {
             if (Users.Any(x => x.Email == user.Email))
             {

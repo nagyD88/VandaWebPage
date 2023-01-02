@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VandasPage.Models.DTOs
 {
-    public class UserRegistrationDTO
+    public class UserPreRegistrationDTO
     {
         [Required]
         public string Email { get; set; }
