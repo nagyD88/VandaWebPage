@@ -42,6 +42,7 @@ namespace VandasPage.Controllers
             {
                 return BadRequest();
             }
+            //küldeni emailt az uj regisztrálonak!
             return newUser;
         }
 
