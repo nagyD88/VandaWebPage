@@ -62,7 +62,7 @@ namespace TestProject
         public async Task Post_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
-            var payload = new UserRegistrationDTO
+            var payload = new UserPreRegistrationDTO
             {
                 Email = "test@test.hu",
                 FirstName = "Sanyi",
@@ -86,7 +86,7 @@ namespace TestProject
         public async Task Post_Api_User_Twice_ReturnBadRequestAndCorrectContentType()
         {
             // Arrange
-            var payload = new UserRegistrationDTO
+            var payload = new UserPreRegistrationDTO
             {
                 Email = "test@test.hu",
                 FirstName = "Sanyi",
@@ -111,7 +111,7 @@ namespace TestProject
         public async Task Put_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
-            var payload = new UserRegistrationDTO
+            var payload = new UserPreRegistrationDTO
             {
                 Email = "test@test.hu",
                 FirstName = "Sanyi",
@@ -183,7 +183,7 @@ namespace TestProject
         public async Task Delete_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
-            var payload = new UserRegistrationDTO
+            var payload = new UserPreRegistrationDTO
             {
                 Email = "alma@test.hu",
                 FirstName = "Sanyi",
@@ -224,6 +224,69 @@ namespace TestProject
             // Assert
             Assert.Equal(404, (int)deleteResponse.StatusCode);
             Assert.Equal("application/problem+json; charset=utf-8", deleteResponse.Content.Headers.ContentType.ToString());
+        }
+        [Fact]
+        public async Task login_Api_UserReturnSuccessAndCorrectContentType()
+        { 
+            // Arrange
+            var payload = new UserPreRegistrationDTO
+            {
+                Email = "test@test.hu",
+                FirstName = "Sanyi",
+                LastName = "Small",
+                Admin = false
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+            var client = _factory.CreateClient();
+
+            var postResponse = await client.PostAsync("api/user", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            User user = JsonSerializer.Deserialize<User>(json, options)!;
+
+
+            var putPayload = new UserRegDTO
+            {
+                Id = user.Id,
+                Password = "alma"
+            };
+
+            var putStringPayload = JsonConvert.SerializeObject(putPayload);
+            // Act
+            var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
+            var putResponse = await client.PutAsync($"api/user/registration", putContent);
+
+            var getResponse = await client.GetAsync($"api/user/{user.Id}");
+            string updatedJson = await getResponse.Content.ReadAsStringAsync();
+            User updatedUser = JsonSerializer.Deserialize<User>(updatedJson, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/user/{updatedUser.Id}");
+            // Assert
+
+            putResponse.EnsureSuccessStatusCode();
+            Assert.Equal("alma", updatedUser.Password);
+            Assert.Equal("application/json; charset=utf-8", putResponse.Content.Headers.ContentType?.ToString());
+        }
+
+        [Fact]
+        public async Task Put_registration_Password_Api_UserReturnNotfoundIfBadId()
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+            var putPayload = new UserRegDTO
+            {
+                Id = -7,
+                Password = "alma"
+            };
+
+
+            var putStringPayload = JsonConvert.SerializeObject(putPayload);
+            var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
+            // Act
+            var putResponse = await client.PutAsync($"api/user/registration", putContent);
+
+            // Assert
+            Assert.Equal(404, (int)putResponse.StatusCode);
+            Assert.Equal("application/problem+json; charset=utf-8", putResponse.Content.Headers.ContentType.ToString());
         }
     }
 }
