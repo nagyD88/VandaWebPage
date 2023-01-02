@@ -11,7 +11,7 @@ import PreRegistration from './PreRegistration';
 import Login from './Login';
 import Missing from './Missing';
 import { Route, Routes } from 'react-router-dom';
-import { DataProvider } from './dataContext/dataContext';
+import { DataProvider } from '../dataContext/dataContext';
 
 
 function App() {

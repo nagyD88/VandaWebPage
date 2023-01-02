@@ -1,7 +1,7 @@
 import React from 'react'
-import useAxiosFetch from './hooks/useAxiosFetch'
+import useAxiosFetch from '../hooks/useAxiosFetch'
 import { useContext } from 'react';
-import DataContext from './dataContext/dataContext';
+import DataContext from '../dataContext/dataContext';
 import { Link } from 'react-router-dom';
 const Users = () => {
 
