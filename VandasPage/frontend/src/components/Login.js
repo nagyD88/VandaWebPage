@@ -1,6 +1,16 @@
 import { useRef, useState, useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
+import useAxiosFetch from '../hooks/useAxiosFetch';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import api from '../hooks/api';
 
 const Login = () => {
+  const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+
   const userRef = useRef();
   const errRef = useRef();
 
