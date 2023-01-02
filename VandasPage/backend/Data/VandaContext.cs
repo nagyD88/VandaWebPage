@@ -50,6 +50,20 @@ namespace VandasPage.Data
 
             return regUser.Entity;
         }
+        public async Task<User> constructPassword(UserRegDTO userRegDTO)
+        {
+            var userToGetPassword = Users.FirstOrDefault(x => x.Id == userRegDTO.Id);
+            if (userToGetPassword == null)
+            {
+                return null;
+            }
+            userToGetPassword.Password = userRegDTO.Password;
+
+            var updatedUser = Users.Update(userToGetPassword);
+            await SaveChangesAsync();
+            return updatedUser.Entity;
+        }
+       
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
             var userToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);

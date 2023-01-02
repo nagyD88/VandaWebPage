@@ -61,6 +61,16 @@ namespace VandasPage.Controllers
             //küldeni emailt az uj regisztrálonak!
             return newUser;
         }
+        [HttpPut]
+        [Route("registration")]
+        public async Task<ActionResult<User>> registrationUser(UserRegDTO user)
+        {
+            if (await _context.GetUserById(user.Id) == null)
+            {
+                return NotFound();
+            }
+            return await _context.constructPassword(user);
+        }
 
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)
