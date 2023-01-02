@@ -76,6 +76,7 @@ namespace TestProject
             var response = await client.PostAsync("api/user", content);
             string json = await response.Content.ReadAsStringAsync();
             User user = JsonSerializer.Deserialize<User>(json, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/user/{user.Id}");
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
@@ -102,6 +103,7 @@ namespace TestProject
             var response = await client.PostAsync("api/user", content);
             string json = await response.Content.ReadAsStringAsync();
             User user = JsonSerializer.Deserialize<User>(json, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/user/{user.Id}");
             // Assert
             Assert.Equal(400, (int)response.StatusCode); 
             Assert.Equal("application/problem+json; charset=utf-8", response.Content.Headers.ContentType.ToString());
@@ -210,7 +212,7 @@ namespace TestProject
         }
 
         [Fact]
-        public async Task _Api_UserReturnNotfoundIfBadId()
+        public async Task delete_Api_UserReturnNotfoundIfBadId()
         {
             // Arrange
             var client = _factory.CreateClient();
@@ -225,6 +227,7 @@ namespace TestProject
             Assert.Equal(404, (int)deleteResponse.StatusCode);
             Assert.Equal("application/problem+json; charset=utf-8", deleteResponse.Content.Headers.ContentType.ToString());
         }
+
         [Fact]
         public async Task put_register_Api_UserReturnSuccessAndCorrectContentType()
         { 
@@ -342,5 +345,25 @@ namespace TestProject
             Assert.Equal("application/json; charset=utf-8", loginResponse.Content.Headers.ContentType?.ToString());
         }
 
+        [Fact]
+        public async Task login_Api_UserReturnNotFoundAndCorrectContentType()
+        {
+            // Arrang
+            var client = _factory.CreateClient();
+            var loginPayload = new loginDTO
+            {
+                Password = "putPayload.Password",
+                Email = "payload.Email"
+            };
+
+            string stringLoginPayload = JsonConvert.SerializeObject(loginPayload);
+            var loginContent = new StringContent(stringLoginPayload, Encoding.UTF8, "application/json");
+            // Act
+            var loginResponse = await client.PostAsync($"api/user/login", loginContent);
+            
+            // Assert
+            Assert.Equal(204, (int)loginResponse.StatusCode);
+            
+        }
     }
 }
