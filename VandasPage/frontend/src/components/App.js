@@ -16,21 +16,21 @@ import { DataProvider } from '../context/dataContext';
 import { AuthProvider } from '../context/AuthProvider';
 import RequireAuth from './RequireAuth';
 const ROLES = {
-  'User': 2001,
-  'Editor': 1984,
-  'Admin': 5150
-}
+  User: 2001,
+  Editor: 1984,
+  Admin: 5150,
+};
 function App() {
   return (
     <AuthProvider>
       <DataProvider>
         <Routes>
+          {/* public routes */}
+          <Route path="Login" element={<Login />} />
+          <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path="*" element={<Missing />} />
+          {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
-            {/* public routes */}
-            <Route path="Login" element={<Login />} />
-            <Route path="unauthorized" element={<Unauthorized />} />
-            <Route path="*" element={<Missing />} />
-            {/* we want to protect these routes */}
             <Route
               element={<RequireAuth allowedRoles={[ROLES.User]} />}
             >
