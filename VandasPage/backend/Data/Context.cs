@@ -5,15 +5,17 @@ using VandasPage.Models.DTOs;
 
 namespace VandasPage.Data
 {
-    public class VandaContext : DbContext
+    public class Context : DbContext
     {
-        public VandaContext(DbContextOptions<VandaContext> options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
         }
         public DbSet<User> Users { get; set; }
         public DbSet<MeetingLog> MeetingLogs { get; set; }
+        
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("users");
@@ -31,7 +33,7 @@ namespace VandasPage.Data
                 return Users.FirstOrDefaultAsync(x => x.Id == id);   
         }
 
-        public async Task<User> CreateNewUser(UserRegistrationDTO user)
+        public async Task<User> CreateNewUser(UserPreRegistrationDTO user)
         {
             if (Users.Any(x => x.Email == user.Email))
             {
@@ -50,6 +52,20 @@ namespace VandasPage.Data
 
             return regUser.Entity;
         }
+        public async Task<User> constructPassword(UserRegDTO userRegDTO)
+        {
+            var userToGetPassword = Users.FirstOrDefault(x => x.Id == userRegDTO.Id);
+            if (userToGetPassword == null)
+            {
+                return null;
+            }
+            userToGetPassword.Password = userRegDTO.Password;
+
+            var updatedUser = Users.Update(userToGetPassword);
+            await SaveChangesAsync();
+            return updatedUser.Entity;
+        }
+       
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
             var userToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
@@ -77,6 +93,10 @@ namespace VandasPage.Data
             return userDeleted.Entity;
         }
             
+        public Task<User> GetUserLogedIn(string password, string email)
+        {
+            return Users.FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
+        }
     }
 }
 

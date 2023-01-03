@@ -62,7 +62,7 @@ namespace TestProject
         public async Task Post_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
-            var payload = new UserRegistrationDTO
+            var payload = new UserPreRegistrationDTO
             {
                 Email = "test@test.hu",
                 FirstName = "Sanyi",
@@ -76,6 +76,7 @@ namespace TestProject
             var response = await client.PostAsync("api/user", content);
             string json = await response.Content.ReadAsStringAsync();
             User user = JsonSerializer.Deserialize<User>(json, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/user/{user.Id}");
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
@@ -86,7 +87,7 @@ namespace TestProject
         public async Task Post_Api_User_Twice_ReturnBadRequestAndCorrectContentType()
         {
             // Arrange
-            var payload = new UserRegistrationDTO
+            var payload = new UserPreRegistrationDTO
             {
                 Email = "test@test.hu",
                 FirstName = "Sanyi",
@@ -102,6 +103,7 @@ namespace TestProject
             var response = await client.PostAsync("api/user", content);
             string json = await response.Content.ReadAsStringAsync();
             User user = JsonSerializer.Deserialize<User>(json, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/user/{user.Id}");
             // Assert
             Assert.Equal(400, (int)response.StatusCode); 
             Assert.Equal("application/problem+json; charset=utf-8", response.Content.Headers.ContentType.ToString());
@@ -111,7 +113,7 @@ namespace TestProject
         public async Task Put_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
-            var payload = new UserRegistrationDTO
+            var payload = new UserPreRegistrationDTO
             {
                 Email = "test@test.hu",
                 FirstName = "Sanyi",
@@ -183,7 +185,7 @@ namespace TestProject
         public async Task Delete_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
-            var payload = new UserRegistrationDTO
+            var payload = new UserPreRegistrationDTO
             {
                 Email = "alma@test.hu",
                 FirstName = "Sanyi",
@@ -210,7 +212,7 @@ namespace TestProject
         }
 
         [Fact]
-        public async Task _Api_UserReturnNotfoundIfBadId()
+        public async Task delete_Api_UserReturnNotfoundIfBadId()
         {
             // Arrange
             var client = _factory.CreateClient();
@@ -226,267 +228,142 @@ namespace TestProject
             Assert.Equal("application/problem+json; charset=utf-8", deleteResponse.Content.Headers.ContentType.ToString());
         }
 
-        /*
         [Fact]
-        public async Task Delete_Api_EducationMaterialReturnSuccessAndCorrectContentType()
-        {
-            HttpContent content = new StringContent("");
+        public async Task put_register_Api_UserReturnSuccessAndCorrectContentType()
+        { 
+            // Arrange
+            var payload = new UserPreRegistrationDTO
+            {
+                Email = "test@test.hu",
+                FirstName = "Sanyi",
+                LastName = "Small",
+                Admin = false
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/material?name=alma", content);
-            string json = await response.Content.ReadAsStringAsync();
-            EducationalMaterial eduMat = JsonSerializer.Deserialize<EducationalMaterial>(json, options)!;
-            var response2 = await client.DeleteAsync($"api/material/{eduMat.ID}");
-            response2.EnsureSuccessStatusCode();
-            Assert.Equal(null, response2.Content.Headers.ContentType?.ToString());
+
+            var postResponse = await client.PostAsync("api/user", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            User user = JsonSerializer.Deserialize<User>(json, options)!;
+
+
+            var putPayload = new UserRegDTO
+            {
+                Id = user.Id,
+                Password = "alma"
+            };
+
+            var putStringPayload = JsonConvert.SerializeObject(putPayload);
+            // Act
+            var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
+            var putResponse = await client.PutAsync($"api/user/registration", putContent);
+
+            var getResponse = await client.GetAsync($"api/user/{user.Id}");
+            string updatedJson = await getResponse.Content.ReadAsStringAsync();
+            User updatedUser = JsonSerializer.Deserialize<User>(updatedJson, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/user/{updatedUser.Id}");
+            // Assert
+
+            putResponse.EnsureSuccessStatusCode();
+            Assert.Equal("alma", updatedUser.Password);
+            Assert.Equal("application/json; charset=utf-8", putResponse.Content.Headers.ContentType?.ToString());
         }
 
         [Fact]
-        public async Task Post_Api_TeamReturnSuccessAndCorrectContentType()
-        {
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/teams?studentId=1&name=haki&repo=github.com", content);
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            string json = await response.Content.ReadAsStringAsync();
-            Team team = JsonSerializer.Deserialize<Team>(json, options)!;
-            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
-            Assert.Equal("haki", team.Name);
-        }
-
-
-        [Fact]
-        public async Task Put_Api_Teams_Name_Change_ReturnSuccessAndCorrectContentType()
-        {
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/teams?studentId=1&name=haki&repo=github.com", content);
-            string json = await response.Content.ReadAsStringAsync();
-            Team team = JsonSerializer.Deserialize<Team>(json, options)!;
-            var response2 = await client.PutAsync($"api/teams/{team.Id}?newName=Tancosok", content);
-            response2.EnsureSuccessStatusCode();
-            var response3 = await client.GetAsync($"api/teams/{team.Id}");
-            string json2 = await response3.Content.ReadAsStringAsync();
-            Team team2 = JsonSerializer.Deserialize<Team>(json2, options)!;
-            Assert.Equal("Tancosok", team2.Name);
-            Assert.Equal(null, response2.Content.Headers.ContentType?.ToString());
-        }
-
-        [Fact]
-        public async Task Delete_Api_TeamReturnSuccessAndCorrectContentType()
-        {
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/teams?studentId=1&name=haki&repo=github.com", content);
-            string json = await response.Content.ReadAsStringAsync();
-            Team team = JsonSerializer.Deserialize<Team>(json, options)!;
-            var response2 = await client.DeleteAsync($"api/teams/{team.Id}");
-            response2.EnsureSuccessStatusCode();
-            Assert.Equal(null, response2.Content.Headers.ContentType?.ToString());
-        }
-
-        [Fact]
-        public async Task Put_Api_Teams_reviewTime_change_ReturnSuccessAndCorrectContentType()
-        {
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/teams?studentId=1&name=haki&repo=github.com", content);
-            string json = await response.Content.ReadAsStringAsync();
-            Team team = JsonSerializer.Deserialize<Team>(json, options)!;
-            var response2 = await client.PutAsync($"api/teams/{team.Id}/review?reviewTime=2022-12-14T10%3A54%3A39.6374337&type=siStart", content);
-            response2.EnsureSuccessStatusCode();
-            var response3 = await client.GetAsync($"api/teams/{team.Id}");
-            string json2 = await response3.Content.ReadAsStringAsync();
-            Team team2 = JsonSerializer.Deserialize<Team>(json2, options)!;
-            Assert.Equal("2022-12-14T10:54:39.6374337", team2.SiReviewStart);
-            Assert.Equal(null, response2.Content.Headers.ContentType?.ToString());
-        }
-
-        [Fact]
-        public async Task Put_Api_Teams_add_member_ReturnSuccessAndCorrectContentType()
+        public async Task Put_registration_Password_Api_UserReturnNotfoundIfBadId()
         {
             // Arrange
-            HttpContent content = new StringContent("");
             var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/teams?studentId=1&name=haki&repo=github.com", content);
-            string json = await response.Content.ReadAsStringAsync();
-            Team team = JsonSerializer.Deserialize<Team>(json, options)!;
+            var putPayload = new UserRegDTO
+            {
+                Id = -7,
+                Password = "alma"
+            };
 
-            var responseStudent = await client.PostAsync("api/users/student?name=Sanya&email=email@amail.hu&password=jijiji", content);
-            string json2 = await responseStudent.Content.ReadAsStringAsync();
-            Student student = JsonSerializer.Deserialize<Student>(json2, options)!;
+
+            var putStringPayload = JsonConvert.SerializeObject(putPayload);
+            var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
             // Act
-            var response2 = await client.PutAsync($"api/teams/{team.Id}/add/{student.ID}", content);
+            var putResponse = await client.PutAsync($"api/user/registration", putContent);
 
-            var response3 = await client.GetAsync($"api/teams/{team.Id}");
-            string json3 = await response3.Content.ReadAsStringAsync();
-            Team team2 = JsonSerializer.Deserialize<Team>(json3, options)!;
             // Assert
-            response2.EnsureSuccessStatusCode();
-            Assert.Equal("Sanya", team2.Students.FirstOrDefault(x => x.ID == student.ID).Name);
-            Assert.Equal(null, response2.Content.Headers.ContentType?.ToString());
+            Assert.Equal(404, (int)putResponse.StatusCode);
+            Assert.Equal("application/problem+json; charset=utf-8", putResponse.Content.Headers.ContentType.ToString());
         }
 
         [Fact]
-        public async Task Put_Api_Teams_delete_member_ReturnSuccessAndCorrectContentType()
+        public async Task login_Api_UserReturnSuccessAndCorrectContentType()
         {
             // Arrange
-            HttpContent content = new StringContent("");
+            var payload = new UserPreRegistrationDTO
+            {
+                Email = "test@test.hu",
+                FirstName = "Sanyi",
+                LastName = "Small",
+                Admin = false
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/teams?studentId=1&name=haki&repo=github.com", content);
-            string json = await response.Content.ReadAsStringAsync();
-            Team team = JsonSerializer.Deserialize<Team>(json, options)!;
 
-            var responseStudent = await client.PostAsync("api/users/student?name=Sanya&email=email@amail.hu&password=jijiji", content);
-            string json2 = await responseStudent.Content.ReadAsStringAsync();
-            Student student = JsonSerializer.Deserialize<Student>(json2, options)!;
+            var postResponse = await client.PostAsync("api/user", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            User user = JsonSerializer.Deserialize<User>(json, options)!;
 
-            var response2 = await client.PutAsync($"api/teams/{team.Id}/add/{student.ID}", content);
+
+            var putPayload = new UserRegDTO
+            {
+                Id = user.Id,
+                Password = "alma"
+            };
+
+            var putStringPayload = JsonConvert.SerializeObject(putPayload);
+            
+            var putContent = new StringContent(putStringPayload, Encoding.UTF8, "application/json");
+            var putResponse = await client.PutAsync($"api/user/registration", putContent);
+
+
+            var loginPayload = new loginDTO
+            {
+                Password = putPayload.Password,
+                Email = payload.Email
+            };
+           
+            string stringLoginPayload = JsonConvert.SerializeObject(loginPayload);
+            var loginContent = new StringContent(stringLoginPayload, Encoding.UTF8, "application/json");
             // Act
-            var responseDelete = await client.PutAsync($"api/teams/{team.Id}/remove/{student.ID}", content);
-            var response3 = await client.GetAsync($"api/teams/{team.Id}");
-            string json3 = await response3.Content.ReadAsStringAsync();
-            Team team2 = JsonSerializer.Deserialize<Team>(json3, options)!;
+            var loginResponse = await client.PostAsync($"api/user/login", loginContent);
+          
+            string updatedJson = await loginResponse.Content.ReadAsStringAsync();
+            User updatedUser = JsonSerializer.Deserialize<User>(updatedJson, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/user/{updatedUser.Id}");
             // Assert
-            responseDelete.EnsureSuccessStatusCode();
-            Assert.Equal(null, team2.Students.FirstOrDefault(x => x.ID == student.ID));
-            Assert.Equal(null, response2.Content.Headers.ContentType?.ToString());
+
+            loginResponse.EnsureSuccessStatusCode();
+            Assert.Equal("alma", updatedUser.Password);
+            Assert.Equal("application/json; charset=utf-8", loginResponse.Content.Headers.ContentType?.ToString());
         }
 
         [Fact]
-        public async Task Post_Api_Student_ReturnSuccessAndCorrectContentType()
+        public async Task login_Api_UserReturnNotFoundAndCorrectContentType()
         {
-            // Arrange
-            HttpContent content = new StringContent("");
+            // Arrang
             var client = _factory.CreateClient();
+            var loginPayload = new loginDTO
+            {
+                Password = "putPayload.Password",
+                Email = "payload.Email"
+            };
+
+            string stringLoginPayload = JsonConvert.SerializeObject(loginPayload);
+            var loginContent = new StringContent(stringLoginPayload, Encoding.UTF8, "application/json");
             // Act
-            var response = await client.PostAsync("api/users/student?name=Sanya&email=email@amail.hu&password=jijiji", content);
-            string json2 = await response.Content.ReadAsStringAsync();
-            Student student = JsonSerializer.Deserialize<Student>(json2, options)!;
-
-
-
-
+            var loginResponse = await client.PostAsync($"api/user/login", loginContent);
+            
             // Assert
-            response.EnsureSuccessStatusCode();
-            Assert.Equal("Sanya", student.Name);
-            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
+            Assert.Equal(204, (int)loginResponse.StatusCode);
+            
         }
-
-        [Fact]
-        public async Task Delete_Api_Student_ReturnSuccessAndCorrectContentType()
-        {
-            // Arrange
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/users/student?name=Sanya&email=email@amail.hu&password=jijiji", content);
-            string json2 = await response.Content.ReadAsStringAsync();
-            Student student = JsonSerializer.Deserialize<Student>(json2, options)!;
-            // Act
-            var response2 = await client.DeleteAsync($"api/users/student/{student.ID}");
-            var response3 = await client.GetAsync("api/users/students");
-            string json3 = await response3.Content.ReadAsStringAsync();
-            List<Student> students = JsonSerializer.Deserialize<List<Student>>(json3, options)!;
-
-            // Assert
-            response2.EnsureSuccessStatusCode();
-            Assert.Equal(null, students.FirstOrDefault(x => x.ID == student.ID));
-            Assert.Equal(null, response2.Content.Headers.ContentType?.ToString());
-        }
-
-        [Fact]
-        public async Task Put_Api_Student_New_Name_ReturnSuccessAndCorrectContentType()
-        {
-            // Arrange
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/users/student?name=Sanya&email=email@amail.hu&password=jijiji", content);
-            string json2 = await response.Content.ReadAsStringAsync();
-            Student student = JsonSerializer.Deserialize<Student>(json2, options)!;
-            // Act
-            var response2 = await client.PutAsync($"api/users/student/{student.ID}?newName=Tomi", content);
-            var response3 = await client.GetAsync($"api/users/student/{student.ID}");
-            string json3 = await response3.Content.ReadAsStringAsync();
-            Student student2 = JsonSerializer.Deserialize<Student>(json3, options)!;
-
-            // Assert
-            response2.EnsureSuccessStatusCode();
-            Assert.Equal("Tomi", student2.Name);
-            Assert.Equal(null, response2.Content.Headers.ContentType?.ToString());
-        }
-
-        [Fact]
-        public async Task Post_Api_Mentor_New_ReturnSuccessAndCorrectContentType()
-        {
-            // Arrange
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/users/student?name=Sanya&email=email@amail.hu&password=jijiji", content);
-            string json2 = await response.Content.ReadAsStringAsync();
-            Student student = JsonSerializer.Deserialize<Student>(json2, options)!;
-            // Act
-            var response2 = await client.PostAsync($"api/users/mentor?id={student.ID}", content);
-
-            string json3 = await response2.Content.ReadAsStringAsync();
-            Mentor mentor = JsonSerializer.Deserialize<Mentor>(json3, options)!;
-
-            // Assert
-            response2.EnsureSuccessStatusCode();
-            Assert.Equal("Sanya", mentor.Name);
-            Assert.Equal("application/json; charset=utf-8", response2.Content.Headers.ContentType?.ToString());
-        }
-
-        [Fact]
-        public async Task Delete_Api_Mentor_New_ReturnSuccessAndCorrectContentType()
-        {
-            // Arrange
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/users/student?name=Sanya&email=email@amail.hu&password=jijiji", content);
-            string json2 = await response.Content.ReadAsStringAsync();
-            Student student = JsonSerializer.Deserialize<Student>(json2, options)!;
-
-            var response2 = await client.PostAsync($"api/users/mentor?id={student.ID}", content);
-
-            string json3 = await response2.Content.ReadAsStringAsync();
-            Mentor mentor = JsonSerializer.Deserialize<Mentor>(json3, options)!;
-            // Act
-            var response3 = await client.DeleteAsync($"api/users/mentor/{mentor.ID}");
-            var response4 = await client.GetAsync("api/users/mentors");
-            string json4 = await response4.Content.ReadAsStringAsync();
-            List<Mentor> mentors = JsonSerializer.Deserialize<List<Mentor>>(json4, options)!;
-
-            // Assert
-            response3.EnsureSuccessStatusCode();
-            Assert.Equal(null, mentors.FirstOrDefault(x => x.ID == mentor.ID));
-            Assert.Equal(null, response3.Content.Headers.ContentType?.ToString());
-
-        }
-
-        [Fact]
-        public async Task put_Api_Mentor_New_Name_ReturnSuccessAndCorrectContentType()
-        {
-            // Arrange
-            HttpContent content = new StringContent("");
-            var client = _factory.CreateClient();
-            var response = await client.PostAsync("api/users/student?name=Sanya&email=email@amail.hu&password=jijiji", content);
-            string json2 = await response.Content.ReadAsStringAsync();
-            Student student = JsonSerializer.Deserialize<Student>(json2, options)!;
-
-            var response2 = await client.PostAsync($"api/users/mentor?id={student.ID}", content);
-
-            string json3 = await response2.Content.ReadAsStringAsync();
-            Mentor mentor = JsonSerializer.Deserialize<Mentor>(json3, options)!;
-            // Act
-            var response3 = await client.PutAsync($"api/users/mentor/{mentor.ID}?newName=Tomi", content);
-            var response4 = await client.GetAsync($"api/users/mentors/{mentor.ID}");
-            string json4 = await response4.Content.ReadAsStringAsync();
-            Mentor mentor2 = JsonSerializer.Deserialize<Mentor>(json4, options)!;
-
-            // Assert
-            response3.EnsureSuccessStatusCode();
-            Assert.Equal("Tomi", mentor2.Name);
-            Assert.Equal(null, response3.Content.Headers.ContentType?.ToString());
-
-        }*/
     }
 }
