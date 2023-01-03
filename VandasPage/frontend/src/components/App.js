@@ -15,11 +15,7 @@ import { Route, Routes } from 'react-router-dom';
 import { DataProvider } from '../context/dataContext';
 import { AuthProvider } from '../context/AuthProvider';
 import RequireAuth from './RequireAuth';
-const ROLES = {
-  User: 2001,
-  Editor: 1984,
-  Admin: 5150,
-};
+
 function App() {
   return (
     <AuthProvider>
@@ -32,7 +28,7 @@ function App() {
           {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
             <Route
-              element={<RequireAuth allowedRoles={[ROLES.User]} />}
+              element={<RequireAuth allowedRoles={[0,1,2,3,4,5,6,7,8,9,100]} />}
             >
               <Route index element={<Home />} />
               <Route path="User">
