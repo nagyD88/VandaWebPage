@@ -10,6 +10,9 @@ return (
         <Link to="/">Home</Link>
       </div>
       <div className={`navElement ${colorTheme}`}>
+        <Link to="preregister">Előregisztráció</Link>
+      </div>
+      <div className={`navElement ${colorTheme}`}>
         <Link to="register">Regisztráció</Link>
       </div>
       <div className={`navElement ${colorTheme}`}>

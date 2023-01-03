@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import DataContext from './dataContext/dataContext';
 
 
-  var email_Regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const EMAIL_REGEX = /^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$/;
 
 const PreRegistration = () => {
   const { colorTheme } = useContext(DataContext);
@@ -17,17 +17,24 @@ const PreRegistration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('email', email);
-    console.log('admin', admin);
-    console.log('firstName', firstName);
-    console.log('lastName', lastName);
-    const response = await api.post('/user', {
-      email: email,
-      admin: admin,
-      firstName: firstName,
-      lastName: lastName
-    });
-    console.log(response);
+    // console.log('email', email);
+    // console.log('admin', admin);
+    // console.log('firstName', firstName);
+    // console.log('lastName', lastName);
+    if(EMAIL_REGEX.test(email)){
+      setEmailValidation(true)
+      const response = await api.post('/user', {
+        email: email,
+        admin: admin,
+        firstName: firstName,
+        lastName: lastName
+      });
+      console.log(response);
+    }
+    else{
+      setEmailValidation(false)
+    }
+    console.log(emailValidation)
     
   };
   return (
