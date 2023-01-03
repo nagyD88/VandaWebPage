@@ -10,9 +10,9 @@ namespace VandasPage.Controllers
     public class UserController : Controller
     {
         
-        private readonly VandaContext _context;
+        private readonly Context _context;
         
-        public UserController(VandaContext context)
+        public UserController(Context context)
         {
             _context = context;
         }

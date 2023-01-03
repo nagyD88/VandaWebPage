@@ -5,15 +5,17 @@ using VandasPage.Models.DTOs;
 
 namespace VandasPage.Data
 {
-    public class VandaContext : DbContext
+    public class Context : DbContext
     {
-        public VandaContext(DbContextOptions<VandaContext> options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
         }
         public DbSet<User> Users { get; set; }
         public DbSet<MeetingLog> MeetingLogs { get; set; }
+        
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("users");
