@@ -28,9 +28,9 @@ function App() {
           {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
             <Route
-              element={<RequireAuth allowedRoles={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 100]}/>}>
+              element={<RequireAuth allowedRoles={[true, false]}/>}>
               {/* justfor admin */}
-              <Route element={<RequireAuth allowedRoles={[100]} />}>
+              <Route element={<RequireAuth allowedRoles={[true]} />}>
                 <Route path="User">
                   <Route index element={<Users />} />
                   <Route path=":id" element={<User />} />

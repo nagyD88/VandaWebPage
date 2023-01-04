@@ -25,8 +25,7 @@ namespace VandasPage.Data
                         LastName = "Alma",
                         Password = "alma",
                         Email = "alma@alma.hu",
-                        Admin = true,
-                        Role = Role.admin
+                        Admin = true
                     },
                     new User
                     {
@@ -34,8 +33,7 @@ namespace VandasPage.Data
                         LastName = "malac",
                         Password = "malac",
                         Email = "malac@malac.hu",
-                        Admin = false,
-                        Role = Role.first
+                        Admin = false
                     }
                  );
                 context.SaveChanges();
