@@ -29,6 +29,7 @@ namespace VandasPage.Models
         public int? NumberOfDetailsLeft { get; set; }
         public decimal? priceLeft { get; set; }
         public string? Password { get; set; }
+        public HashSet<Level> Levels { get; set; }
 
         public void PayADetail(decimal amount)
         {
