@@ -9,5 +9,6 @@ namespace VandasPage.Models
         public string CategoryName { get; set; }
         public int LevelNumber { get; set; }
         public HashSet<User> users { get; set; }
+        public HashSet<EducationalMaterial> educationalMaterials { get; set; }
     }
 }
