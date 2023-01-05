@@ -115,6 +115,12 @@ namespace VandasPage.Data
             await SaveChangesAsync();
             return newLevel.Entity;
         }
+        public async Task<EducationalMaterial> CreateEducationMaterial(EducationalMaterial educationalMaterial)
+        {
+            var newEducationMaterial = await EducationMaterials.AddAsync(educationalMaterial);
+            await SaveChangesAsync();
+            return newEducationMaterial.Entity;
+        }
     }
 }
 
