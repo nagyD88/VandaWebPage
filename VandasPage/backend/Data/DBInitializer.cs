@@ -87,7 +87,7 @@ namespace VandasPage.Data
                     );
                 context.SaveChanges();
 
-                context.educationalMaterials.AddRange(
+                context.EducationMaterials.AddRange(
                     new EducationalMaterial
                     {
                         Name = "Tanc",
@@ -110,6 +110,7 @@ namespace VandasPage.Data
                         Type = "picture"
                     }
                     );
+                context.SaveChanges();
 
             }
         }
