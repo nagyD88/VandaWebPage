@@ -30,6 +30,7 @@ namespace page_tests
         [Theory]
         [InlineData("api/education")]
         [InlineData("api/education/level")]
+        [InlineData("api/education/1")]
 
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
