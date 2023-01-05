@@ -87,6 +87,29 @@ namespace VandasPage.Data
                     );
                 context.SaveChanges();
 
+                context.educationalMaterials.AddRange(
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x => x.CategoryName=="psycho" && x.LevelNumber==1).First(),
+                        Content ="Tancolni Jó",
+                        Type = "text"
+                    },
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x => x.CategoryName == "psycho" && x.LevelNumber == 1).First(),
+                        Content = "https://www.youtube.com/watch?v=fn3KWM1kuAw",
+                        Type = "video"
+                    },
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x => x.CategoryName == "psycho" && x.LevelNumber == 1).First(),
+                        Content = "https://cdn.pixabay.com/photo/2018/02/06/14/07/ease-3134828_960_720.jpg",
+                        Type = "picture"
+                    }
+                    );
 
             }
         }
