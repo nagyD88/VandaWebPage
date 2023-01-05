@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Text.RegularExpressions;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
+
 
 namespace VandasPage.Data
 {
@@ -10,6 +12,8 @@ namespace VandasPage.Data
         public VandaContext(DbContextOptions<VandaContext> options) : base(options)
         {
         }
+        private const string EMAIL_PATTERN = @"^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$";
+        private  Regex emailRe = new Regex(EMAIL_PATTERN);
         public DbSet<User> Users { get; set; }
         public DbSet<MeetingLog> MeetingLogs { get; set; }
         public DbSet<Question> Questions { get; set; }
@@ -49,6 +53,11 @@ namespace VandasPage.Data
             await SaveChangesAsync();
 
             return regUser.Entity;
+        }
+
+        public bool EmailValidation(string email)
+        {
+            return Regex.IsMatch(email, EMAIL_PATTERN);
         }
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
