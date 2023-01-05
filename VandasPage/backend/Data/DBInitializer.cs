@@ -21,12 +21,12 @@ namespace VandasPage.Data
                 context.Levels.AddRange(
                     new Level
                     {
-                        StudyName = "psycho",
+                        CategoryName = "psycho",
                         LevelNumber = 1
                     },
                     new Level
                     {
-                        StudyName = "psycho",
+                        CategoryName = "psycho",
                         LevelNumber = 2
                     }
                     );
@@ -39,7 +39,7 @@ namespace VandasPage.Data
                         Password = "alma",
                         Email = "alma@alma.hu",
                         Admin = true,
-                        Levels = new HashSet<Level>{ context.Levels.FirstOrDefault(x=>x.StudyName=="psycho" && x.LevelNumber==1) }
+                        Levels = new HashSet<Level>{ context.Levels.FirstOrDefault(x=>x.CategoryName=="psycho" && x.LevelNumber==1) }
                     },
                     
                     new User
