@@ -40,7 +40,7 @@ namespace VandasPage.Controllers
             User newUser=await _context.CreateNewUser(user);
             if (newUser == null)
             {
-                return BadRequest();
+                return BadRequest("This email is already registered");
             }
             return newUser;
         }

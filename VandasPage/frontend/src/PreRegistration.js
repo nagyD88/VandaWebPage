@@ -1,41 +1,41 @@
-import React from 'react';
-import { useState } from 'react';
-import api from './hooks/api';
-import { useContext } from 'react';
-import DataContext from './dataContext/dataContext';
+import React from "react";
+import { useState } from "react";
+import api from "./hooks/api";
+import { useContext } from "react";
+import DataContext from "./dataContext/dataContext";
 
-
-  const EMAIL_REGEX = /^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$/;
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$/;
 
 const PreRegistration = () => {
   const { colorTheme } = useContext(DataContext);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [emailValidation, setEmailValidation] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [emailErr, setEmailErr] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [admin, setAdmin] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log('email', email);
-    // console.log('admin', admin);
-    // console.log('firstName', firstName);
-    // console.log('lastName', lastName);
-    if(EMAIL_REGEX.test(email)){
-      setEmailValidation(true)
-      const response = await api.post('/user', {
-        email: email,
-        admin: admin,
-        firstName: firstName,
-        lastName: lastName
-      });
-      console.log(response);
+    try {
+      if (EMAIL_REGEX.test(email)) {
+        setEmailValidation(true);
+        const response = await api.post("/user", {
+          email: email,
+          admin: admin,
+          firstName: firstName,
+          lastName: lastName,
+        });
+        console.log(response);
+        setEmailErr("");
+      }
+    } catch (err) {
+      setEmailErr(err.message);
+      console.log(emailErr);
+      console.log(err.message);
     }
-    else{
-      setEmailValidation(false)
-    }
-    console.log(emailValidation)
-    
+    console.log(`email validation: ${emailValidation}`);
   };
   return (
     <>
@@ -73,6 +73,7 @@ const PreRegistration = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </label>
+          {emailErr.length > 0 && <p>This email is already registered.</p>}
 
           <label>
             Admin:
