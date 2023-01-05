@@ -6,7 +6,8 @@ namespace VandasPage.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public string StudyName { get; set; }
+        public string CategoryName { get; set; }
         public int LevelNumber { get; set; }
+        public HashSet<User> users { get; set; }
     }
 }
