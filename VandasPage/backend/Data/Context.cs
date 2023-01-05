@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Text.RegularExpressions;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
 
@@ -15,6 +16,8 @@ namespace VandasPage.Data
         
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
+
+        private const string EMAIL_PATTERN = @"^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$";
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,6 +54,11 @@ namespace VandasPage.Data
             await SaveChangesAsync();
 
             return regUser.Entity;
+        }
+
+        public bool EmailValidation(string email)
+        {
+            return Regex.IsMatch(email, EMAIL_PATTERN);
         }
         public async Task<User> constructPassword(UserRegDTO userRegDTO)
         {
