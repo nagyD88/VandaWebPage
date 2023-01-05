@@ -16,7 +16,7 @@ namespace VandasPage.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
         public DbSet<Level> Levels { get; set; }
-        public DbSet<EducationalMaterial> educationalMaterials { get; set; }
+        public DbSet<EducationalMaterial> EducationMaterials { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -99,6 +99,15 @@ namespace VandasPage.Data
         public Task<User> GetUserLogedIn(string password, string email)
         {
             return Users.FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
+        }
+
+        public Task<List<EducationalMaterial>> GetEducationMaterials()
+        {
+            return EducationMaterials.ToListAsync();
+        }
+        public Task<List<Level>> GetLevels()
+        {
+            return Levels.Include(x=>x.users).Include(x=>x.educationalMaterials).ToListAsync();
         }
     }
 }
