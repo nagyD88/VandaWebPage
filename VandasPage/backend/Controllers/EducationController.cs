@@ -26,7 +26,7 @@ namespace VandasPage.Controllers
             return await _context.CreateEducationMaterial(educationalMaterial);
         }
         [HttpGet]
-        [Route ($"id")]
+        [Route ("{id}")]
         public async Task<ActionResult<EducationalMaterial>> GetEducationMaterialById(long id)
         {
             EducationalMaterial eductaionMaterial= await _context.GetEducationMaterialById(id);
