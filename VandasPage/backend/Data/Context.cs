@@ -25,10 +25,9 @@ namespace VandasPage.Data
             modelBuilder.Entity<MeetingLog>().ToTable("meetinglogs");
             modelBuilder.Entity<Level>().ToTable("levels");
         }
-
         public Task<List<User>> GetUsers()
         {
-            return Users.ToListAsync();
+            return Users.Include(user=>user.Levels).ToListAsync();
         }
         public Task<User>? GetUserById(long id)
         {
