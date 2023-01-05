@@ -121,6 +121,11 @@ namespace VandasPage.Data
             await SaveChangesAsync();
             return newEducationMaterial.Entity;
         }
+
+        public async Task<EducationalMaterial> GetEducationMaterialById(long id)
+        {
+            return await EducationMaterials.FirstOrDefaultAsync(x=>x.Id == id);
+        }
     }
 }
 
