@@ -109,6 +109,12 @@ namespace VandasPage.Data
         {
             return Levels.Include(x=>x.users).Include(x=>x.educationalMaterials).ToListAsync();
         }
+        public async Task<Level> CreateNewLevel(Level level)
+        {
+            var newLevel = await Levels.AddAsync(level);
+            await SaveChangesAsync();
+            return newLevel.Entity;
+        }
     }
 }
 

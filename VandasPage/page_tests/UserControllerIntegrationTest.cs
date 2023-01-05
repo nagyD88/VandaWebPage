@@ -45,6 +45,8 @@ namespace TestProject
         [Theory]
         [InlineData("api/user")]
         [InlineData("api/user/1")]
+        [InlineData("api/education")]
+        [InlineData("api/education/level")]
 
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {

@@ -20,11 +20,19 @@ namespace VandasPage.Controllers
         {
             return await _context.GetEducationMaterials();
         }
+        
         [HttpGet]
         [Route ("level")]
         public async Task<List<Level>> GetLevels()
         {
             return await _context.GetLevels();
         }
+        [HttpPost]
+        [Route("level")]
+        public async Task<Level> PostLevel(Level level)
+        {
+            return await _context.CreateNewLevel(level);
+        }
+
     }
 }
