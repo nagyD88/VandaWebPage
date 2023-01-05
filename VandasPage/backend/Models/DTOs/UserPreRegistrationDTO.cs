@@ -2,7 +2,7 @@
 
 namespace VandasPage.Models.DTOs
 {
-    public class UserRegistrationDTO
+    public class UserPreRegistrationDTO
     {
         [Required, EmailAddress(ErrorMessage ="Invalid email address")]
         public string Email { get; set; }

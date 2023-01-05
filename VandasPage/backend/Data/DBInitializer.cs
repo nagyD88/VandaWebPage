@@ -8,9 +8,9 @@ namespace VandasPage.Data
     {
         public async static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new VandaContext(
+            using (var context = new Context(
                 serviceProvider.GetRequiredService<
-                DbContextOptions<VandaContext>>()))
+                DbContextOptions<Context>>()))
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -25,7 +25,8 @@ namespace VandasPage.Data
                         LastName = "Alma",
                         Password = "alma",
                         Email = "alma@alma.hu",
-                        Admin = true
+                        Admin = true,
+                        Role = Role.admin
                     },
                     new User
                     {
@@ -33,7 +34,8 @@ namespace VandasPage.Data
                         LastName = "malac",
                         Password = "malac",
                         Email = "malac@malac.hu",
-                        Admin = false
+                        Admin = false,
+                        Role = Role.first
                     }
                  );
                 context.SaveChanges();

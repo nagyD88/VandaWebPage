@@ -10,9 +10,9 @@ namespace VandasPage.Controllers
     public class UserController : Controller
     {
         
-        private readonly VandaContext _context;
+        private readonly Context _context;
         
-        public UserController(VandaContext context)
+        public UserController(Context context)
         {
             _context = context;
         }
@@ -34,8 +34,24 @@ namespace VandasPage.Controllers
             return user;
         }
 
+
+        //first try version
         [HttpPost]
-        public async Task<ActionResult<User>> CreateNewUser(UserRegistrationDTO user)
+        [Route("login")]
+        public async Task<ActionResult<User>> LoginUser(loginDTO login)
+        {
+            string password = login.Password;
+            string email = login.Email;
+            User user= await _context.GetUserLogedIn(password, email);
+            if (User == null)
+            {
+                return NotFound();
+            }
+            return user;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<User>> CreateNewUser(UserPreRegistrationDTO user)
         {
             bool isValid = _context.EmailValidation(user.Email);
             if (!isValid)
@@ -48,8 +64,20 @@ namespace VandasPage.Controllers
             {
                 return BadRequest("This email is already registered");
             }
-            
+            //küldeni emailt az uj regisztrálonak!
             return newUser;
+        }
+
+
+        [HttpPut]
+        [Route("registration")]
+        public async Task<ActionResult<User>> registrationUser(UserRegDTO user)
+        {
+            if (await _context.GetUserById(user.Id) == null)
+            {
+                return NotFound();
+            }
+            return await _context.constructPassword(user);
         }
 
         [HttpPut]

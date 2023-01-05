@@ -1,23 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Text.RegularExpressions;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
 
-
 namespace VandasPage.Data
 {
-    public class VandaContext : DbContext
+    public class Context : DbContext
     {
-        public VandaContext(DbContextOptions<VandaContext> options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
         }
-        private const string EMAIL_PATTERN = @"^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$";
-        private  Regex emailRe = new Regex(EMAIL_PATTERN);
         public DbSet<User> Users { get; set; }
         public DbSet<MeetingLog> MeetingLogs { get; set; }
+        
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("users");
@@ -35,7 +33,7 @@ namespace VandasPage.Data
                 return Users.FirstOrDefaultAsync(x => x.Id == id);   
         }
 
-        public async Task<User> CreateNewUser(UserRegistrationDTO user)
+        public async Task<User> CreateNewUser(UserPreRegistrationDTO user)
         {
             if (Users.Any(x => x.Email == user.Email))
             {
@@ -54,11 +52,20 @@ namespace VandasPage.Data
 
             return regUser.Entity;
         }
-
-        public bool EmailValidation(string email)
+        public async Task<User> constructPassword(UserRegDTO userRegDTO)
         {
-            return Regex.IsMatch(email, EMAIL_PATTERN);
+            var userToGetPassword = Users.FirstOrDefault(x => x.Id == userRegDTO.Id);
+            if (userToGetPassword == null)
+            {
+                return null;
+            }
+            userToGetPassword.Password = userRegDTO.Password;
+
+            var updatedUser = Users.Update(userToGetPassword);
+            await SaveChangesAsync();
+            return updatedUser.Entity;
         }
+       
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
             var userToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
@@ -86,6 +93,10 @@ namespace VandasPage.Data
             return userDeleted.Entity;
         }
             
+        public Task<User> GetUserLogedIn(string password, string email)
+        {
+            return Users.FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
+        }
     }
 }
 
