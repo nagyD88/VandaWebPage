@@ -50,6 +50,16 @@ namespace VandasPage.Controllers
         {
             return await _context.CreateNewLevel(level);
         }
-
+        [HttpGet]
+        [Route("levet/{id}")]
+        public async Task<ActionResult<Level>>GetLevelById(long id)
+        {
+            Level level = await _context.GetLevelById(id);
+            if (level == null)
+            {
+                return NotFound();
+            }
+            return level;
+        }
     }
 }

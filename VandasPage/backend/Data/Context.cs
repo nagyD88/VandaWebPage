@@ -126,6 +126,11 @@ namespace VandasPage.Data
         {
             return await EducationMaterials.FirstOrDefaultAsync(x=>x.Id == id);
         }
+
+        public async Task<Level> GetLevelById(long id)
+        {
+            return await Levels.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
 
