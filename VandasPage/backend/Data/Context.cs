@@ -15,6 +15,7 @@ namespace VandasPage.Data
         
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
+        public DbSet<Level> Levels { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,11 +23,11 @@ namespace VandasPage.Data
             modelBuilder.Entity<Question>().ToTable("questions");
             modelBuilder.Entity<Questionnaire>().ToTable("questionnaires");
             modelBuilder.Entity<MeetingLog>().ToTable("meetinglogs");
+            modelBuilder.Entity<Level>().ToTable("levels");
         }
-
         public Task<List<User>> GetUsers()
         {
-            return Users.ToListAsync();
+            return Users.Include(user=>user.Levels).ToListAsync();
         }
         public Task<User>? GetUserById(long id)
         {

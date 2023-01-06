@@ -6,7 +6,6 @@ import User from './User';
 import Questionary from './Questionary';
 import Questionarys from './Questionarys';
 import Education from './Education';
-import Registration from './Registration';
 import PreRegistration from './PreRegistration';
 import Login from './Login';
 import Missing from './Missing';
@@ -15,6 +14,7 @@ import { Route, Routes } from 'react-router-dom';
 import { DataProvider } from '../context/dataContext';
 import { AuthProvider } from '../context/AuthProvider';
 import RequireAuth from './RequireAuth';
+import Registration from './Registration';
 
 function App() {
   return (
@@ -28,13 +28,16 @@ function App() {
           {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
             <Route
-              element={<RequireAuth allowedRoles={[0,1,2,3,4,5,6,7,8,9,100]} />}
-            >
-              <Route index element={<Home />} />
-              <Route path="User">
-                <Route index element={<Users />} />
-                <Route path=":id" element={<User />} />
+              element={<RequireAuth allowedRoles={[true, false]}/>}>
+              {/* justfor admin */}
+              <Route element={<RequireAuth allowedRoles={[true]} />}>
+                <Route path="User">
+                  <Route index element={<Users />} />
+                  <Route path=":id" element={<User />} />
+                </Route>
+                <Route path="register" element={<PreRegistration />} />
               </Route>
+              <Route index element={<Home />} />
               <Route path="questionnaire">
                 <Route index element={<Questionarys />} />
                 <Route path=":id" element={<Questionary />} />
@@ -42,7 +45,6 @@ function App() {
               <Route path="Education">
                 <Route index element={<Education />} />
               </Route>
-              <Route path="register" element={<PreRegistration />} />
             </Route>
           </Route>
         </Routes>
