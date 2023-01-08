@@ -92,5 +92,54 @@ namespace page_tests
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
             Assert.Equal("cumi", level.CategoryName);
         }
+
+
+        [Fact]
+        public async Task Delete_Api_EucationReturnSuccessAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new EducationalMaterial
+            {
+                Content = "hajrá",
+                Name = "szurkolás",
+                Type = "Text"
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+            
+
+            var postResponse = await client.PostAsync("api/education", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            EducationalMaterial educationMaterial = JsonSerializer.Deserialize<EducationalMaterial>(json, options)!;
+
+            // Act
+
+            var deleteResponse = await client.DeleteAsync($"api/education/{educationMaterial.Id}");
+            string deleteJson = await postResponse.Content.ReadAsStringAsync();
+            EducationalMaterial deletedEducationMaterial = JsonSerializer.Deserialize<EducationalMaterial>(deleteJson, options)!;
+            // Assert
+            deleteResponse.EnsureSuccessStatusCode();
+            Assert.Equal("szurkolás", deletedEducationMaterial.Name);
+            Assert.Equal("application/json; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
+        }
+
+        [Theory]
+        [InlineData("api/education/-7")]
+        [InlineData("api/education/level/-7")]
+        public async Task delete_Api_educationReturnNotfoundIfBadId(string url)
+        {
+            // Arrange
+           
+
+
+
+
+            // Act
+            var deleteResponse = await client.DeleteAsync(url);
+
+            // Assert
+            Assert.Equal(404, (int)deleteResponse.StatusCode);
+            Assert.Equal("application/problem+json; charset=utf-8", deleteResponse.Content.Headers.ContentType.ToString());
+        }
     }
 }
