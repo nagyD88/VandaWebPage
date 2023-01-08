@@ -129,7 +129,7 @@ namespace VandasPage.Data
 
         public async Task<Level> GetLevelById(long id)
         {
-            return await Levels.FirstOrDefaultAsync(x => x.Id == id);
+            return await Levels.Include(x=> x.educationalMaterials).FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<Level> DeleteLevelById(long id)
         {
