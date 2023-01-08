@@ -5,7 +5,7 @@ import { getId } from '../utils/EmbedLinkCreator';
 const EducationMaterial = ({ material }) => {
     return (
     <div className="education-material">
-      <h2>{material.name}</h2>
+      <h3>{material.name}</h3>
       {material.type == 'text' && (
         <article>{material.content}</article>
       )}
@@ -13,7 +13,7 @@ const EducationMaterial = ({ material }) => {
         <img src={material.content}></img>
       )}
       {material.type == 'video' && (
-        <div class="ratio ratio-16x9">
+        <div className="ratio ratio-16x9">
           <iframe
             src={"https://www.youtube.com/embed/"+getId(material.content)}
             title="YouTube video"
