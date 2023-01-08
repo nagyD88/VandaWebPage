@@ -22,6 +22,8 @@ namespace VandasPage.Data
 
         public DbSet<Level> Levels { get; set; }
 
+        public DbSet<EducationalMaterial> EducationMaterials { get; set; }
+
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +32,7 @@ namespace VandasPage.Data
             modelBuilder.Entity<Questionnaire>().ToTable("questionnaires");
             modelBuilder.Entity<MeetingLog>().ToTable("meetinglogs");
             modelBuilder.Entity<Level>().ToTable("levels");
+            modelBuilder.Entity<EducationalMaterial>().ToTable("educationmaterials");
         }
         public Task<List<User>> GetUsers()
         {
@@ -108,6 +111,58 @@ namespace VandasPage.Data
         public Task<User> GetUserLogedIn(string password, string email)
         {
             return Users.FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
+        }
+
+        public Task<List<EducationalMaterial>> GetEducationMaterials()
+        {
+            return EducationMaterials.ToListAsync();
+        }
+        public Task<List<Level>> GetLevels()
+        {
+            return Levels.Include(x=>x.users).Include(x=>x.educationalMaterials).ToListAsync();
+        }
+        public async Task<Level> CreateNewLevel(Level level)
+        {
+            var newLevel = await Levels.AddAsync(level);
+            await SaveChangesAsync();
+            return newLevel.Entity;
+        }
+        public async Task<EducationalMaterial> CreateEducationMaterial(EducationalMaterial educationalMaterial)
+        {
+            var newEducationMaterial = await EducationMaterials.AddAsync(educationalMaterial);
+            await SaveChangesAsync();
+            return newEducationMaterial.Entity;
+        }
+
+        public async Task<EducationalMaterial> GetEducationMaterialById(long id)
+        {
+            return await EducationMaterials.FirstOrDefaultAsync(x=>x.Id == id);
+        }
+
+        public async Task<Level> GetLevelById(long id)
+        {
+            return await Levels.Include(x=> x.educationalMaterials).FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public async Task<Level> DeleteLevelById(long id)
+        {
+            var levelToDelete = Levels.FirstOrDefault(x => x.Id == id);
+            if (levelToDelete == null) { return null; }
+            var levelDeleted = Levels.Remove(levelToDelete);
+            await SaveChangesAsync();
+            return levelDeleted.Entity;
+        }
+
+        public async Task<EducationalMaterial> DeleteEducationMaterialById(long id)
+        {
+            var EducationMaterialToDelete = EducationMaterials.FirstOrDefault(x => x.Id == id);
+            if (EducationMaterialToDelete == null) { return null; }
+            var levelDeleted = EducationMaterials.Remove(EducationMaterialToDelete);
+            await SaveChangesAsync();
+            return levelDeleted.Entity;
+        }
+        public async Task<List<Level>> GetLevelsByCategoryName (string categoryName)
+        {
+            return await Levels.Include(x => x.educationalMaterials).Where(x=>x.CategoryName==categoryName).ToListAsync();
         }
     }
 }

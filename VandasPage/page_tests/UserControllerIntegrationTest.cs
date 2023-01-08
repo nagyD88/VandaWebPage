@@ -9,13 +9,13 @@ using VandasPage.Models.DTOs;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace TestProject
+namespace page_tests
 {
-    public class ControllerIntegrationTest : IClassFixture<WebApplicationFactory<Program>>
+    public class UserControllerIntegrationTest : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly WebApplicationFactory<Program> _factory;
 
-        public ControllerIntegrationTest(WebApplicationFactory<Program> factory)
+        public UserControllerIntegrationTest(WebApplicationFactory<Program> factory)
         {
             _factory = factory;
         }

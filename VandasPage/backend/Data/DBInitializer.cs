@@ -21,11 +21,13 @@ namespace VandasPage.Data
                 context.Levels.AddRange(
                     new Level
                     {
+                        Name = "kezdő",
                         CategoryName = "psycho",
                         LevelNumber = 1
                     },
                     new Level
                     {
+                        Name = "haladó",
                         CategoryName = "psycho",
                         LevelNumber = 2
                     }
@@ -87,6 +89,30 @@ namespace VandasPage.Data
                     );
                 context.SaveChanges();
 
+                context.EducationMaterials.AddRange(
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x => x.CategoryName=="psycho" && x.LevelNumber==1).First(),
+                        Content ="Tancolni Jó",
+                        Type = "text"
+                    },
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x => x.CategoryName == "psycho" && x.LevelNumber == 1).First(),
+                        Content = "https://www.youtube.com/watch?v=fn3KWM1kuAw",
+                        Type = "video"
+                    },
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x => x.CategoryName == "psycho" && x.LevelNumber == 1).First(),
+                        Content = "https://cdn.pixabay.com/photo/2018/02/06/14/07/ease-3134828_960_720.jpg",
+                        Type = "picture"
+                    }
+                    );
+                context.SaveChanges();
 
             }
         }
