@@ -129,17 +129,42 @@ namespace page_tests
         public async Task delete_Api_educationReturnNotfoundIfBadId(string url)
         {
             // Arrange
-           
-
-
-
-
+          
             // Act
             var deleteResponse = await client.DeleteAsync(url);
 
             // Assert
             Assert.Equal(404, (int)deleteResponse.StatusCode);
             Assert.Equal("application/problem+json; charset=utf-8", deleteResponse.Content.Headers.ContentType.ToString());
+        }
+        [Fact]
+        public async Task Delete_Api_LevelReturnSuccessAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new Level
+            {
+                CategoryName = "cumi",
+                LevelNumber = 6,
+                educationalMaterials = new HashSet<EducationalMaterial>(),
+                users = new HashSet<User>()
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+
+            var postResponse = await client.PostAsync("api/education/level", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            Level level = JsonSerializer.Deserialize<Level>(json, options)!;
+
+            // Act
+
+            var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
+            string deleteJson = await postResponse.Content.ReadAsStringAsync();
+            Level deletedLevel = JsonSerializer.Deserialize<Level>(deleteJson, options)!;
+            // Assert
+            deleteResponse.EnsureSuccessStatusCode();
+            Assert.Equal("cumi", deletedLevel.CategoryName);
+            Assert.Equal("application/json; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
         }
     }
 }
