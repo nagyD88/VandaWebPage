@@ -21,11 +21,13 @@ namespace VandasPage.Data
                 context.Levels.AddRange(
                     new Level
                     {
+                        Name = "kezdő",
                         CategoryName = "psycho",
                         LevelNumber = 1
                     },
                     new Level
                     {
+                        Name = "haladó",
                         CategoryName = "psycho",
                         LevelNumber = 2
                     }
