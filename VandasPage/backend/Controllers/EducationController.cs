@@ -78,15 +78,16 @@ namespace VandasPage.Controllers
         public async Task<ActionResult<Level>> DeleteLevel(long id)
         {
             Level levelToDelete = await _context.GetLevelById(id);
+            if (levelToDelete == null)
+            {
+                return NotFound();
+            }
             if (levelToDelete.educationalMaterials.Count != 0)
             {
                 return BadRequest("first you have to delete the education materials");
             }
             Level level = await _context.DeleteLevelById(id);
-            if (level == null)
-            {
-                return NotFound();
-            }
+            
             return level;
         }
     }
