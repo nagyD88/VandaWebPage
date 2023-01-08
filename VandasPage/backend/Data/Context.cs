@@ -131,6 +131,23 @@ namespace VandasPage.Data
         {
             return await Levels.FirstOrDefaultAsync(x => x.Id == id);
         }
+        public async Task<Level> DeleteLevelById(long id)
+        {
+            var levelToDelete = Levels.FirstOrDefault(x => x.Id == id);
+            if (levelToDelete == null) { return null; }
+            var levelDeleted = Levels.Remove(levelToDelete);
+            await SaveChangesAsync();
+            return levelDeleted.Entity;
+        }
+
+        public async Task<EducationalMaterial> DeleteEducationMaterialById(long id)
+        {
+            var EducationMaterialToDelete = EducationMaterials.FirstOrDefault(x => x.Id == id);
+            if (EducationMaterialToDelete == null) { return null; }
+            var levelDeleted = EducationMaterials.Remove(EducationMaterialToDelete);
+            await SaveChangesAsync();
+            return levelDeleted.Entity;
+        }
     }
 }
 

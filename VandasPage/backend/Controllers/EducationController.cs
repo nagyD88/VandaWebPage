@@ -36,7 +36,18 @@ namespace VandasPage.Controllers
             }
             return eductaionMaterial;
         }
-        
+        [HttpDelete]
+        [Route ("{id}")]
+        public async Task<ActionResult<EducationalMaterial>> DeleteEducationMaterial(long id)
+        {
+            EducationalMaterial educationMaterial = await _context.DeleteEducationMaterialById(id);
+            if (educationMaterial == null)
+            {
+                return NotFound();
+            }
+            return educationMaterial;
+        }
+
         [HttpGet]
         [Route ("level")]
         public async Task<List<Level>> GetLevels()
@@ -51,10 +62,22 @@ namespace VandasPage.Controllers
             return await _context.CreateNewLevel(level);
         }
         [HttpGet]
-        [Route("levet/{id}")]
+        [Route("level/{id}")]
         public async Task<ActionResult<Level>>GetLevelById(long id)
         {
             Level level = await _context.GetLevelById(id);
+            if (level == null)
+            {
+                return NotFound();
+            }
+            return level;
+        }
+
+        [HttpDelete]
+        [Route("level/{id}")]
+        public async Task<ActionResult<Level>> DeleteLevel(long id)
+        {
+            Level level = await _context.DeleteLevelById(id);
             if (level == null)
             {
                 return NotFound();
