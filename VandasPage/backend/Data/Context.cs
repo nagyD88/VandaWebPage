@@ -148,6 +148,10 @@ namespace VandasPage.Data
             await SaveChangesAsync();
             return levelDeleted.Entity;
         }
+        public async Task<List<Level>> GetLevelsByCategoryName (string categoryName)
+        {
+            return await Levels.Include(x => x.educationalMaterials).Where(x=>x.CategoryName==categoryName).ToListAsync();
+        }
     }
 }
 
