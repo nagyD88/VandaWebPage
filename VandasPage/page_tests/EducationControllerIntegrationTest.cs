@@ -166,5 +166,42 @@ namespace page_tests
             Assert.Equal("cumi", deletedLevel.CategoryName);
             Assert.Equal("application/json; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
         }
+
+        [Fact]
+        public async Task Delete_Api_Levelwhen_there_is_EducationMaterial_in_itReturnSuccessAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new Level
+            {
+                CategoryName = "cumi",
+                LevelNumber = 6,
+                educationalMaterials = new HashSet<EducationalMaterial> { 
+                    new EducationalMaterial
+                    {
+                    Content = "hajrá",
+                    Name = "szurkolás",
+                    Type = "Text"
+                    }
+                },
+                users = new HashSet<User>()
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+
+            var postResponse = await client.PostAsync("api/education/level", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            Level level = JsonSerializer.Deserialize<Level>(json, options)!;
+
+            // Act
+
+            var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
+            string deleteJson = await postResponse.Content.ReadAsStringAsync();
+            Level deletedLevel = JsonSerializer.Deserialize<Level>(deleteJson, options)!;
+            // Assert
+            Assert.Equal(400, (int)deleteResponse.StatusCode);
+            
+            Assert.Equal("text/plain; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
+        }
     }
 }
