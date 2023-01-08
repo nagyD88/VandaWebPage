@@ -53,10 +53,16 @@ namespace VandasPage.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> CreateNewUser(UserPreRegistrationDTO user)
         {
+            bool isValid = _context.EmailValidation(user.Email);
+            if (!isValid)
+            {
+                return BadRequest("Invalid email address");
+            }
+
             User newUser=await _context.CreateNewUser(user);
             if (newUser == null)
             {
-                return BadRequest();
+                return BadRequest("This email is already registered");
             }
             //küldeni emailt az uj regisztrálonak!
             return newUser;

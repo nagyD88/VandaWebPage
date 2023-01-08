@@ -28,6 +28,7 @@ function App() {
           {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
             <Route
+
               element={<RequireAuth allowedRoles={[true, false]}/>}>
               {/* justfor admin */}
               <Route element={<RequireAuth allowedRoles={[true]} />}>
@@ -35,7 +36,8 @@ function App() {
                   <Route index element={<Users />} />
                   <Route path=":id" element={<User />} />
                 </Route>
-                <Route path="register" element={<PreRegistration />} />
+                <Route path="preregister" element={<PreRegistration />} />
+
               </Route>
               <Route index element={<Home />} />
               <Route path="questionnaire">
@@ -45,6 +47,7 @@ function App() {
               <Route path="Education">
                 <Route index element={<Education />} />
               </Route>
+
             </Route>
           </Route>
         </Routes>
