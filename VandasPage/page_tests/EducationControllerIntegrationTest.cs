@@ -44,5 +44,29 @@ namespace page_tests
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
 
+        [Fact]
+        public async Task Post_Api_educationReturnSuccessAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new EducationalMaterial
+            {
+                Content = "hajrá",
+                Name = "szurkolás",
+                Type = "Text"
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+            
+            // Act
+            var response = await client.PostAsync("api/education", content);
+            string json = await response.Content.ReadAsStringAsync();
+            EducationalMaterial material = JsonSerializer.Deserialize<EducationalMaterial>(json, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/education/{material.Id}");
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
+            Assert.Equal("szurkolás", material.Name);
+        }
+
     }
 }
