@@ -17,7 +17,11 @@ namespace VandasPage.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
 
+
         private const string EMAIL_PATTERN = @"^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$";
+
+        public DbSet<Level> Levels { get; set; }
+
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,11 +29,11 @@ namespace VandasPage.Data
             modelBuilder.Entity<Question>().ToTable("questions");
             modelBuilder.Entity<Questionnaire>().ToTable("questionnaires");
             modelBuilder.Entity<MeetingLog>().ToTable("meetinglogs");
+            modelBuilder.Entity<Level>().ToTable("levels");
         }
-
         public Task<List<User>> GetUsers()
         {
-            return Users.ToListAsync();
+            return Users.Include(user=>user.Levels).ToListAsync();
         }
         public Task<User>? GetUserById(long id)
         {

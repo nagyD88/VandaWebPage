@@ -18,6 +18,19 @@ namespace VandasPage.Data
                 {
                     return;
                 }
+                context.Levels.AddRange(
+                    new Level
+                    {
+                        CategoryName = "psycho",
+                        LevelNumber = 1
+                    },
+                    new Level
+                    {
+                        CategoryName = "psycho",
+                        LevelNumber = 2
+                    }
+                    );
+                context.SaveChanges();
                 context.Users.AddRange(
                     new User
                     {
@@ -26,18 +39,18 @@ namespace VandasPage.Data
                         Password = "alma",
                         Email = "alma@alma.hu",
                         Admin = true,
-                        Role = Role.admin
+                        Levels = new HashSet<Level>{ context.Levels.FirstOrDefault(x=>x.CategoryName=="psycho" && x.LevelNumber==1) }
                     },
+                    
                     new User
                     {
                         FirstName = "cucu",
                         LastName = "malac",
                         Password = "malac",
                         Email = "malac@malac.hu",
-                        Admin = false,
-                        Role = Role.first
+                        Admin = false
                     }
-                 );
+                 ) ;
                 context.SaveChanges();
 
                 context.Questionnaires.AddRange(
@@ -73,6 +86,8 @@ namespace VandasPage.Data
                     }
                     );
                 context.SaveChanges();
+
+
             }
         }
     }

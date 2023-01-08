@@ -350,5 +350,7 @@ MigrationBackup/
 .ionide/
 
 
+
 /VandasPage/backend/appsettings.json
 /VandasPage/backend/appsettings-development.json
+

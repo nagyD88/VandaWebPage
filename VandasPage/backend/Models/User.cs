@@ -26,10 +26,10 @@ namespace VandasPage.Models
         public decimal? Price { get; set; }
         public int? NumberOfDetailsStart { get; set; }
         public HashSet<MeetingLog> MeetingLogs { get; set; }
-        public Role Role { get; set; }
         public int? NumberOfDetailsLeft { get; set; }
         public decimal? priceLeft { get; set; }
         public string? Password { get; set; }
+        public HashSet<Level> Levels { get; set; }
 
         public void PayADetail(decimal amount)
         {
