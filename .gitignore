@@ -349,4 +349,8 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-appsettings.*
+
+
+/VandasPage/backend/appsettings.json
+/VandasPage/backend/appsettings-development.json
+
