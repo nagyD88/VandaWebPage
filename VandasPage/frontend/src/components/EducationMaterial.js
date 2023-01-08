@@ -1,7 +1,9 @@
 import React from 'react';
+import { getId } from '../utils/EmbedLinkCreator';
+
 
 const EducationMaterial = ({ material }) => {
-  return (
+    return (
     <div className="education-material">
       <h2>{material.name}</h2>
       {material.type == 'text' && (
@@ -13,7 +15,7 @@ const EducationMaterial = ({ material }) => {
       {material.type == 'video' && (
         <div class="ratio ratio-16x9">
           <iframe
-            src={material.content}
+            src={"https://www.youtube.com/embed/"+getId(material.content)}
             title="YouTube video"
             allowFullScreen
           ></iframe>
