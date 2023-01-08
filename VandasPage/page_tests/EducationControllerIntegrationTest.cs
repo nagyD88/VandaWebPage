@@ -8,6 +8,7 @@ using System.Text;
 using VandasPage.Models.DTOs;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using System.Collections.Generic;
 
 namespace page_tests
 {
@@ -67,6 +68,29 @@ namespace page_tests
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
             Assert.Equal("szurkolás", material.Name);
         }
+        [Fact]
+        public async Task Post_Api_levelReturnSuccessAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new Level
+            {
+                CategoryName = "cumi",
+                LevelNumber = 6,
+                educationalMaterials = new HashSet<EducationalMaterial>(),
+                users = new HashSet<User>()
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
 
+            // Act
+            var response = await client.PostAsync("api/education/level", content);
+            string json = await response.Content.ReadAsStringAsync();
+            Level level = JsonSerializer.Deserialize<Level>(json, options)!;
+            var deleteResponse = await client.DeleteAsync($"api/education/{level.Id}");
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());
+            Assert.Equal("cumi", level.CategoryName);
+        }
     }
 }
