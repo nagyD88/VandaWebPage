@@ -11,7 +11,7 @@ return (
       <div className={`navElement ${colorTheme}`}>
         <Link to="/">Home</Link>
       </div>
-      {auth.roles && <>
+      {/* {auth.roles && <> */}
       <div className={`navElement ${colorTheme}`}>
         <Link to="preregister">Előregisztráció</Link>
       </div>
@@ -21,7 +21,7 @@ return (
       <div className={`navElement ${colorTheme}`}>
         <Link to="User">Felhasználók</Link>
       </div>
-      </>}
+      {/* </>} */}
 
       <div className={`navElement ${colorTheme}`}>
         <Link to="questionnaire">Kérdőív</Link>
