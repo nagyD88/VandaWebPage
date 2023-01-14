@@ -80,7 +80,7 @@ namespace VandasPage.Controllers
             if (levels.Count == 0) { return NotFound(); }
             return levels;
         }
-        //questionably that we need this or not
+        //questionable that we need this or not
         [HttpPut]
         [Route("level/{id}")]
         public async Task<ActionResult<Level>> UpdateLevel(long id , Level level)
