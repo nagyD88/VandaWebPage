@@ -345,7 +345,7 @@ namespace page_tests
             var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             // 
-            var addResponse = await client.PatchAsync($"/api/Education/level/{level.Id}/material", patchContent);
+            var addResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material", patchContent);
             var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
             var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
             string patchJson = await removeResponse.Content.ReadAsStringAsync();
@@ -354,6 +354,34 @@ namespace page_tests
             addResponse.EnsureSuccessStatusCode();
             Assert.DoesNotContain(patchLevel.educationalMaterials, x => x.Id == educationMaterial.Id);
             Assert.Equal("application/json; charset=utf-8", addResponse.Content.Headers.ContentType?.ToString());
+        }
+
+
+        [Theory]
+        [InlineData("api/Education/level/-7/material")]
+        [InlineData("api/Education/level/-7/material/remove")]
+        public async Task AddOrRemove_if_wrongID_returns_correctContentType(string url)
+        {
+            var materialPayload = new EducationalMaterial
+            {
+                Content = "hajrá",
+                Name = "szurkolás",
+                Type = "Text"
+            };
+            var materialStringPayload = JsonConvert.SerializeObject(materialPayload);
+            var materialPostContent = new StringContent(materialStringPayload, Encoding.UTF8, "application/json");
+
+
+            var materialPostResponse = await client.PostAsync("api/education", materialPostContent);
+            string materialJson = await materialPostResponse.Content.ReadAsStringAsync();
+            EducationalMaterial educationMaterial = JsonSerializer.Deserialize<EducationalMaterial>(materialJson, options)!;
+
+            var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
+            var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
+            // 
+            var Response = await client.PatchAsync(url, patchContent);
+
+            Assert.Equal("text/plain; charset=utf-8", Response.Content.Headers.ContentType?.ToString());
         }
     }
 }
