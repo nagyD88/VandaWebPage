@@ -9,6 +9,7 @@ using VandasPage.Models.DTOs;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace page_tests
 {
@@ -77,7 +78,9 @@ namespace page_tests
                 CategoryName = "cumi",
                 LevelNumber = 6,
                 educationalMaterials = new HashSet<EducationalMaterial>(),
+                Name = "Test",
                 users = new HashSet<User>()
+                
             };
             var stringPayload = JsonConvert.SerializeObject(payload);
             var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
@@ -95,7 +98,7 @@ namespace page_tests
 
 
         [Fact]
-        public async Task Delete_Api_EucationReturnSuccessAndCorrectContentType()
+        public async Task Delete_Api_EducationReturnSuccessAndCorrectContentType()
         {
             // Arrange
             var payload = new EducationalMaterial
@@ -137,6 +140,7 @@ namespace page_tests
             Assert.Equal(404, (int)deleteResponse.StatusCode);
             Assert.Equal("application/problem+json; charset=utf-8", deleteResponse.Content.Headers.ContentType.ToString());
         }
+
         [Fact]
         public async Task Delete_Api_LevelReturnSuccessAndCorrectContentType()
         {
@@ -145,6 +149,7 @@ namespace page_tests
             {
                 CategoryName = "cumi",
                 LevelNumber = 6,
+                Name = "Test",
                 educationalMaterials = new HashSet<EducationalMaterial>(),
                 users = new HashSet<User>()
             };
@@ -159,7 +164,7 @@ namespace page_tests
             // Act
 
             var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
-            string deleteJson = await postResponse.Content.ReadAsStringAsync();
+            string deleteJson = await deleteResponse.Content.ReadAsStringAsync();
             Level deletedLevel = JsonSerializer.Deserialize<Level>(deleteJson, options)!;
             // Assert
             deleteResponse.EnsureSuccessStatusCode();
@@ -168,13 +173,14 @@ namespace page_tests
         }
 
         [Fact]
-        public async Task Delete_Api_Levelwhen_there_is_EducationMaterial_in_itReturnCorrectContentType()
+        public async Task Delete_Api_Level_when_there_is_EducationMaterial_in_itReturnCorrectContentType()
         {
             // Arrange
             var payload = new Level
             {
                 CategoryName = "cumi",
                 LevelNumber = 6,
+                Name = "Test",
                 educationalMaterials = new HashSet<EducationalMaterial> { 
                     new EducationalMaterial
                     {
@@ -196,12 +202,60 @@ namespace page_tests
             // Act
 
             var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
-            string deleteJson = await postResponse.Content.ReadAsStringAsync();
+            string deleteJson = await deleteResponse.Content.ReadAsStringAsync();
             Level deletedLevel = JsonSerializer.Deserialize<Level>(deleteJson, options)!;
             // Assert
-            Assert.Equal(400, (int)deleteResponse.StatusCode);
+            Assert.Equal(404, (int)deleteResponse.StatusCode);
             
-            Assert.Equal("text/plain; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
+            Assert.Equal("application/problem+json; charset=utf-8", deleteResponse.Content.Headers.ContentType?.ToString());
+        }
+
+        [Fact]
+        public async Task patch_Api_Add_material_to_level_ReturnSuccessAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new Level
+            {
+                CategoryName = "cumi",
+                LevelNumber = 6,
+                Name = "Test",
+                educationalMaterials = new HashSet<EducationalMaterial>(),
+                users = new HashSet<User>()
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+
+            var postResponse = await client.PostAsync("api/education/level", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            Level level = JsonSerializer.Deserialize<Level>(json, options)!;
+
+            var materialPayload = new EducationalMaterial
+            {
+                Content = "hajrá",
+                Name = "szurkolás",
+                Type = "Text"
+            };
+            var materialStringPayload = JsonConvert.SerializeObject(materialPayload);
+            var materialPostContent = new StringContent(materialStringPayload, Encoding.UTF8, "application/json");
+
+
+            var materialPostResponse = await client.PostAsync("api/education", materialPostContent);
+            string materialJson = await materialPostResponse.Content.ReadAsStringAsync();
+            EducationalMaterial educationMaterial = JsonSerializer.Deserialize<EducationalMaterial>(materialJson, options)!;
+            
+            var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
+            var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
+            // 
+            var addResponse = await client.PatchAsync($"/api/Education/level/{level.Id}/material", patchContent);
+            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
+            var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
+            string patchJson = await addResponse.Content.ReadAsStringAsync();
+            Level patchLevel = JsonSerializer.Deserialize<Level>(patchJson, options)!;
+            // Assert
+            addResponse.EnsureSuccessStatusCode();
+            Assert.Contains(patchLevel.educationalMaterials, x => x.Id==educationMaterial.Id);
+            Assert.Equal("application/json; charset=utf-8", addResponse.Content.Headers.ContentType?.ToString());
         }
     }
 }
