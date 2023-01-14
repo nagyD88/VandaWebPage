@@ -168,7 +168,7 @@ namespace page_tests
         }
 
         [Fact]
-        public async Task Delete_Api_Levelwhen_there_is_EducationMaterial_in_itReturnSuccessAndCorrectContentType()
+        public async Task Delete_Api_Levelwhen_there_is_EducationMaterial_in_itReturnCorrectContentType()
         {
             // Arrange
             var payload = new Level
