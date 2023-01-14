@@ -80,6 +80,39 @@ namespace VandasPage.Controllers
             if (levels.Count == 0) { return NotFound(); }
             return levels;
         }
+        //questionably that we need this or not
+        [HttpPut]
+        [Route("level/{id}")]
+        public async Task<ActionResult<Level>> UpdateLevel(long id , Level level)
+        {
+            Level levelToUpdate = await _context.GetLevelById(id);
+            if (levelToUpdate == null|| level.Id!=id)
+            {
+                return NotFound("wrong ID");
+            }
+            if (_context.UpdateLevel(level) == null) { return NotFound(); }
+            return Ok(_context.UpdateLevel(level));
+        }
+
+        [HttpPatch]
+        [Route("level/{levelId}/material")]
+        public async Task<ActionResult<Level>> AddnewMaterialToLevel(long levelId, long MaterialId)
+        {
+            Level levelToUpdate = await _context.GetLevelById(levelId);
+            EducationalMaterial material = await _context.GetEducationMaterialById(MaterialId);
+            if (levelToUpdate == null|| material == null)
+            {
+                return NotFound("wrong ID");
+            }
+            if (levelToUpdate.educationalMaterials.Any(x => x.Id == MaterialId))
+            {
+                return BadRequest("this material alredy conected to this level");
+            }
+            return await _context.AddMaterialToLevel(levelId, MaterialId);
+
+        }
+
+
         [HttpDelete]
         [Route("level/{id}")]
         public async Task<ActionResult<Level>> DeleteLevel(long id)

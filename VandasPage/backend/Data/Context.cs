@@ -152,6 +152,23 @@ namespace VandasPage.Data
         {
             return await Levels.Include(x => x.educationalMaterials).Where(x=>x.CategoryName==categoryName).ToListAsync();
         }
+
+        public async Task<Level> UpdateLevel(Level level)
+        {
+            if (level == null) { return null; }
+            Levels.Update(level);
+            return level;
+        }
+
+        public async Task<Level> AddMaterialToLevel(long levelId, long MaterialId)
+        {
+            Level level = await GetLevelById(levelId);
+            EducationalMaterial material = await GetEducationMaterialById(MaterialId);
+            level.educationalMaterials.Add(material);
+            var levelUpdated=Levels.Update(level);
+            await SaveChangesAsync();
+            return levelUpdated.Entity;
+        }
     }
 }
 
