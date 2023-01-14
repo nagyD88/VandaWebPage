@@ -96,7 +96,7 @@ namespace VandasPage.Controllers
 
         [HttpPatch]
         [Route("level/{levelId}/material")]
-        public async Task<ActionResult<Level>> AddnewMaterialToLevel(long levelId, long MaterialId)
+        public async Task<ActionResult<Level>> AddnewMaterialToLevel(long levelId, [FromBody] long MaterialId)
         {
             Level levelToUpdate = await _context.GetLevelById(levelId);
             EducationalMaterial material = await _context.GetEducationMaterialById(MaterialId);
@@ -113,7 +113,7 @@ namespace VandasPage.Controllers
         }
         [HttpPatch]
         [Route("level/{levelId}/material/remove")]
-        public async Task<ActionResult<Level>> RemoveMaterialFromLevel(long levelId, long MaterialId)
+        public async Task<ActionResult<Level>> RemoveMaterialFromLevel(long levelId, [FromBody] long MaterialId)
         {
             Level levelToUpdate = await _context.GetLevelById(levelId);
             EducationalMaterial material = await _context.GetEducationMaterialById(MaterialId);
