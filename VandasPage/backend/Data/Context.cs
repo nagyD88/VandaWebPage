@@ -169,6 +169,15 @@ namespace VandasPage.Data
             await SaveChangesAsync();
             return levelUpdated.Entity;
         }
+        public async Task<Level> RemoveMaterialFromLevel(long levelId, long MaterialId)
+        {
+            Level level = await GetLevelById(levelId);
+            EducationalMaterial material = await GetEducationMaterialById(MaterialId);
+            level.educationalMaterials.Remove(material);
+            var levelUpdated = Levels.Update(level);
+            await SaveChangesAsync();
+            return levelUpdated.Entity;
+        }
     }
 }
 

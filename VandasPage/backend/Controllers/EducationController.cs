@@ -111,6 +111,23 @@ namespace VandasPage.Controllers
             return await _context.AddMaterialToLevel(levelId, MaterialId);
 
         }
+        [HttpPatch]
+        [Route("level/{levelId}/material/remove")]
+        public async Task<ActionResult<Level>> RemoveMaterialFromLevel(long levelId, long MaterialId)
+        {
+            Level levelToUpdate = await _context.GetLevelById(levelId);
+            EducationalMaterial material = await _context.GetEducationMaterialById(MaterialId);
+            if (levelToUpdate == null || material == null)
+            {
+                return NotFound("wrong ID");
+            }
+            if (!levelToUpdate.educationalMaterials.Any(x => x.Id == MaterialId))
+            {
+                return BadRequest("this material not conected to this level");
+            }
+            return await _context.RemoveMaterialFromLevel(levelId, MaterialId);
+
+        }
 
 
         [HttpDelete]
