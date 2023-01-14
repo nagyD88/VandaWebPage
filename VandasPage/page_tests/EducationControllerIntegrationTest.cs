@@ -360,7 +360,7 @@ namespace page_tests
         [Theory]
         [InlineData("api/Education/level/-7/material")]
         [InlineData("api/Education/level/-7/material/remove")]
-        public async Task AddOrRemove_if_wrongID_returns_correctContentType(string url)
+        public async Task AddOrRemove_if_wrong_Level_ID_returns_correctContentType(string url)
         {
             var materialPayload = new EducationalMaterial
             {
@@ -380,6 +380,34 @@ namespace page_tests
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             // 
             var Response = await client.PatchAsync(url, patchContent);
+
+            Assert.Equal("text/plain; charset=utf-8", Response.Content.Headers.ContentType?.ToString());
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("/remove")]
+        public async Task AddOrRemove_if_wrong_Material_ID_returns_correctContentType(string urlending)
+        {
+            var payload = new Level
+            {
+                CategoryName = "cumi",
+                LevelNumber = 6,
+                Name = "Test",
+                educationalMaterials = new HashSet<EducationalMaterial>(),
+                users = new HashSet<User>()
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+
+            var postResponse = await client.PostAsync("api/education/level", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            Level level = JsonSerializer.Deserialize<Level>(json, options)!;
+            var patchStringPayload = JsonConvert.SerializeObject(-7);
+            var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
+            // 
+            var Response = await client.PatchAsync($"api/Education/level/{level.Id}/material{urlending}", patchContent);
 
             Assert.Equal("text/plain; charset=utf-8", Response.Content.Headers.ContentType?.ToString());
         }
