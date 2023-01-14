@@ -257,5 +257,104 @@ namespace page_tests
             Assert.Contains(patchLevel.educationalMaterials, x => x.Id==educationMaterial.Id);
             Assert.Equal("application/json; charset=utf-8", addResponse.Content.Headers.ContentType?.ToString());
         }
+
+        [Fact]
+        public async Task patch_Api_Add_material_to_level_when_Material_alredy_conected_ReturnSuccessAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new Level
+            {
+                CategoryName = "cumi",
+                LevelNumber = 6,
+                Name = "Test",
+                educationalMaterials = new HashSet<EducationalMaterial>(),
+                users = new HashSet<User>()
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+
+            var postResponse = await client.PostAsync("api/education/level", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            Level level = JsonSerializer.Deserialize<Level>(json, options)!;
+
+            var materialPayload = new EducationalMaterial
+            {
+                Content = "hajrá",
+                Name = "szurkolás",
+                Type = "Text"
+            };
+            var materialStringPayload = JsonConvert.SerializeObject(materialPayload);
+            var materialPostContent = new StringContent(materialStringPayload, Encoding.UTF8, "application/json");
+
+
+            var materialPostResponse = await client.PostAsync("api/education", materialPostContent);
+            string materialJson = await materialPostResponse.Content.ReadAsStringAsync();
+            EducationalMaterial educationMaterial = JsonSerializer.Deserialize<EducationalMaterial>(materialJson, options)!;
+
+            var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
+            var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
+            // 
+            var addResponse = await client.PatchAsync($"/api/Education/level/{level.Id}/material", patchContent);
+            var addResponse2 = await client.PatchAsync($"/api/Education/level/{level.Id}/material", patchContent);
+            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
+            var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
+            string patchJson = await addResponse.Content.ReadAsStringAsync();
+            Level patchLevel = JsonSerializer.Deserialize<Level>(patchJson, options)!;
+            // Assert
+            
+            Assert.Contains(patchLevel.educationalMaterials, x => x.Id == educationMaterial.Id);
+            Assert.Equal("text/plain; charset=utf-8", addResponse2.Content.Headers.ContentType?.ToString());
+        }
+
+
+        [Fact]
+        public async Task patch_Api_Remove_material_from_level_ReturnSuccessAndCorrectContentType()
+        {
+            // Arrange
+            var payload = new Level
+            {
+                CategoryName = "cumi",
+                LevelNumber = 6,
+                Name = "Test",
+                educationalMaterials = new HashSet<EducationalMaterial>(),
+                users = new HashSet<User>()
+            };
+            var stringPayload = JsonConvert.SerializeObject(payload);
+            var postContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+
+            var postResponse = await client.PostAsync("api/education/level", postContent);
+            string json = await postResponse.Content.ReadAsStringAsync();
+            Level level = JsonSerializer.Deserialize<Level>(json, options)!;
+
+            var materialPayload = new EducationalMaterial
+            {
+                Content = "hajrá",
+                Name = "szurkolás",
+                Type = "Text"
+            };
+            var materialStringPayload = JsonConvert.SerializeObject(materialPayload);
+            var materialPostContent = new StringContent(materialStringPayload, Encoding.UTF8, "application/json");
+
+
+            var materialPostResponse = await client.PostAsync("api/education", materialPostContent);
+            string materialJson = await materialPostResponse.Content.ReadAsStringAsync();
+            EducationalMaterial educationMaterial = JsonSerializer.Deserialize<EducationalMaterial>(materialJson, options)!;
+
+            var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
+            var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
+            // 
+            var addResponse = await client.PatchAsync($"/api/Education/level/{level.Id}/material", patchContent);
+            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
+            var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
+            string patchJson = await removeResponse.Content.ReadAsStringAsync();
+            Level patchLevel = JsonSerializer.Deserialize<Level>(patchJson, options)!;
+            // Assert
+            addResponse.EnsureSuccessStatusCode();
+            Assert.DoesNotContain(patchLevel.educationalMaterials, x => x.Id == educationMaterial.Id);
+            Assert.Equal("application/json; charset=utf-8", addResponse.Content.Headers.ContentType?.ToString());
+        }
     }
 }
+
