@@ -80,8 +80,9 @@ color: black;
 .navElement.Dark.active, .navElement.Dark:hover {
   background-color:darkgray;
 }
-
-
+.video {
+  width: 80%;
+}
 
 .header {
   overflow: hidden;
