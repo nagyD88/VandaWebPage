@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import api from '../hooks/api';
 
-const AddEducationMaterial = () => {
+const AddEducationMaterial = ({levelID}) => {
     const [type, setType] = useState('text');
     const [name, setName] = useState('');
     const [content, setContent]= useState('');
@@ -21,6 +21,9 @@ const AddEducationMaterial = () => {
       })
 
       console.log(response);
+      console.log(response.data.id);
+      const patchResponse = await api.patch(`/education/level/${levelID}/material?MaterialId=${response.data.id}` );
+      console.log(patchResponse);
     };
   return (
     <>
