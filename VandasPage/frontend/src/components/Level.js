@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import AddEducationMaterial from './AddEducationMaterial';
 import AuthContext from '../context/AuthProvider';
 import Education from './Education';
+import Dashboard from './Dashboard';
 
 
 const Level = () => {
@@ -18,7 +19,7 @@ const Level = () => {
 
   return (
     <>
-     {auth.roles && <AddEducationMaterial levelID={id} />}
+     {auth.roles && <Dashboard children={<AddEducationMaterial levelID={id} />}/>}
      <div><Education/></div>
       <h2>{data.name}</h2>
       {data.educationalMaterials?.map((material) => (
