@@ -1,10 +1,10 @@
 import React from 'react';
 
-const AreYouSure = () => {
+const AreYouSure = ({ handleOnClick, messege }) => {
   return (
     <>
-      <div id='sure'>Are you sure you want to join this team? </div>
-      <button className='regbutton'>yes</button>
+      <div id='sure'>{messege} </div>
+      <button className='Yes' onClick={handleOnClick} >Igen</button>
     </>
   );
 };
