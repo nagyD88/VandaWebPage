@@ -16,6 +16,7 @@ import { DataProvider } from '../context/dataContext';
 import { AuthProvider } from '../context/AuthProvider';
 import RequireAuth from './RequireAuth';
 import Registration from './Registration';
+import Level from './Level';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
               </Route>
               <Route path="Education">
                 <Route index element={<Education />} />
+                <Route path=":id" element={<Level/>} />
               </Route>
 
             </Route>
