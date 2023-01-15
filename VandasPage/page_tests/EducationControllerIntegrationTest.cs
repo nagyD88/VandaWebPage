@@ -247,8 +247,8 @@ namespace page_tests
             var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             // 
-            var addResponse = await client.PatchAsync($"/api/Education/level/{level.Id}/material", patchContent);
-            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
+            var addResponse = await client.PatchAsync($"/api/Education/level/{level.Id}/material?MaterialId={educationMaterial.Id}", patchContent);
+            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove?MaterialId={educationMaterial.Id}", patchContent);
             var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
             string patchJson = await addResponse.Content.ReadAsStringAsync();
             Level patchLevel = JsonSerializer.Deserialize<Level>(patchJson, options)!;
@@ -295,9 +295,9 @@ namespace page_tests
             var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             // 
-            var addResponse = await client.PatchAsync($"/api/Education/level/{level.Id}/material", patchContent);
-            var addResponse2 = await client.PatchAsync($"/api/Education/level/{level.Id}/material", patchContent);
-            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
+            var addResponse = await client.PatchAsync($"/api/Education/level/{level.Id}/material?MaterialId={educationMaterial.Id}", patchContent);
+            var addResponse2 = await client.PatchAsync($"/api/Education/level/{level.Id}/material?MaterialId={educationMaterial.Id}", patchContent);
+            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove?MaterialId={educationMaterial.Id}", patchContent);
             var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
             string patchJson = await addResponse.Content.ReadAsStringAsync();
             Level patchLevel = JsonSerializer.Deserialize<Level>(patchJson, options)!;
@@ -345,8 +345,8 @@ namespace page_tests
             var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             // 
-            var addResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material", patchContent);
-            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
+            var addResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material?MaterialId={educationMaterial.Id}", patchContent);
+            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove?MaterialId={educationMaterial.Id}", patchContent);
             var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
             string patchJson = await removeResponse.Content.ReadAsStringAsync();
             Level patchLevel = JsonSerializer.Deserialize<Level>(patchJson, options)!;
@@ -358,8 +358,8 @@ namespace page_tests
 
 
         [Theory]
-        [InlineData("api/Education/level/-7/material")]
-        [InlineData("api/Education/level/-7/material/remove")]
+        [InlineData("api/Education/level/-7/material?")]
+        [InlineData("api/Education/level/-7/material/remove?")]
         public async Task AddOrRemove_if_wrong_Level_ID_returns_correctContentType(string url)
         {
             var materialPayload = new EducationalMaterial
@@ -379,7 +379,7 @@ namespace page_tests
             var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             // 
-            var Response = await client.PatchAsync(url, patchContent);
+            var Response = await client.PatchAsync($"{ url}?MaterialId={educationMaterial.Id}", patchContent);
 
             Assert.Equal("text/plain; charset=utf-8", Response.Content.Headers.ContentType?.ToString());
         }
@@ -387,7 +387,7 @@ namespace page_tests
         [Theory]
         [InlineData("")]
         [InlineData("/remove")]
-        public async Task AddOrRemove_if_wrong_Material_ID_returns_correctContentType(string urlending)
+        public async Task AddOrRemove_if_wrong_Material_ID_returns_correctContentType(string URLlending)
         {
             var payload = new Level
             {
@@ -407,7 +407,7 @@ namespace page_tests
             var patchStringPayload = JsonConvert.SerializeObject(-7);
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             // 
-            var Response = await client.PatchAsync($"api/Education/level/{level.Id}/material{urlending}", patchContent);
+            var Response = await client.PatchAsync($"api/Education/level/{level.Id}/material{URLlending}?MaterialId=-7", patchContent);
 
             Assert.Equal("text/plain; charset=utf-8", Response.Content.Headers.ContentType?.ToString());
         }
@@ -450,9 +450,9 @@ namespace page_tests
             var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             // 
-            var addResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material", patchContent);
-            var addResponse2 = await client.PatchAsync($"api/Education/level/{level.Id}/material", patchContent);
-            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
+            var addResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material?MaterialId={educationMaterial.Id}", patchContent);
+            var addResponse2 = await client.PatchAsync($"api/Education/level/{level.Id}/material?MaterialId={educationMaterial.Id}", patchContent);
+            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove?MaterialId={educationMaterial.Id}", patchContent);
             var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
             string patchJson = await removeResponse.Content.ReadAsStringAsync();
             Level patchLevel = JsonSerializer.Deserialize<Level>(patchJson, options)!;
@@ -497,13 +497,13 @@ namespace page_tests
             var patchStringPayload = JsonConvert.SerializeObject(educationMaterial.Id);
             var patchContent = new StringContent(patchStringPayload, Encoding.UTF8, "application/json");
             //
-            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove", patchContent);
+            var removeResponse = await client.PatchAsync($"api/Education/level/{level.Id}/material/remove?MaterialId={educationMaterial.Id}", patchContent);
             var deleteResponse = await client.DeleteAsync($"api/education/level/{level.Id}");
             // Assert
 
             Assert.Equal("text/plain; charset=utf-8", removeResponse.Content.Headers.ContentType?.ToString());
         }
-        //need test for  add when its alredy there and remove when its alredy removed 
+        
     }
 }
 
