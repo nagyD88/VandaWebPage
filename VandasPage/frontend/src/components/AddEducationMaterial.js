@@ -51,7 +51,7 @@ const AddEducationMaterial = () => {
             </div>
             <div className="radio">
               <label>
-                video:
+                videó:
                 <input
                   name="type"
                   type="radio"
