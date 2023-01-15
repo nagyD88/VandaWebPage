@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import api from '../hooks/api';
 
-const AddEducationMaterial = ({ levelID }) => {
+const AddEducationMaterial = ({ levelID, hideModal }) => {
   const [type, setType] = useState('text');
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
@@ -17,8 +17,11 @@ const AddEducationMaterial = ({ levelID }) => {
     const response = await api.post('/education', {
       name: `${name}`,
       type: `${type}`,
-      content: `${content}`,
-    });
+      content: `${content}`
+    })
+    hideModal();
+
+    ;
 
     console.log(response);
     console.log(response.data.id);
