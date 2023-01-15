@@ -13,10 +13,13 @@ const Dashboard = ({ children }) => {
   const hideModal = () => {
     setShow(false);
   };
-
+  let updatedChildren = React.Children.map(children,
+    (child) => {
+        return React.cloneElement(child, { hideModal: hideModal });
+    })
     return (
       <>
-        <Modal show={show} handleClose={hideModal} children={children}>
+        <Modal show={show} handleClose={hideModal} children={updatedChildren}>
           
         </Modal>
         <button id="modalbutton" type="button" onClick={showModal}>
