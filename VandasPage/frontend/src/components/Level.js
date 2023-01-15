@@ -18,7 +18,7 @@ const Level = () => {
 
   return (
     <>
-     {auth.roles && <AddEducationMaterial />}
+     {auth.roles && <AddEducationMaterial levelID={id} />}
      <div><Education/></div>
       <h2>{data.name}</h2>
       {data.educationalMaterials?.map((material) => (
