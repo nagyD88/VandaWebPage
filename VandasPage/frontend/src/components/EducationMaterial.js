@@ -3,11 +3,15 @@ import { getId } from '../utils/EmbedLinkCreator';
 import Dashboard from './Dashboard';
 import AreYouSure from './AreYouSure';
 import api from '../hooks/api';
+import { useContext } from 'react';
+import DataContext from '../context/dataContext';
 
 const EducationMaterial = ({ material }) => {
+  const { setCounter, counter } = useContext(DataContext);
+  
   const handleOnClick = async () => {
     const response = await api.delete(`/education/${material.id}`);
-    console.log(response);
+    setCounter(counter+1);
     
   };
   return (
