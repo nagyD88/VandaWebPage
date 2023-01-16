@@ -1,11 +1,13 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import api from '../hooks/api';
+import DataContext from '../context/dataContext';
 
-const AddEducationMaterial = ({ levelID, hideModal, counter, setCounter}) => {
+const AddEducationMaterial = ({ levelID, hideModal }) => {
   const [type, setType] = useState('text');
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
+  const { setCounter, counter } = useContext(DataContext);
 
   const onValueChange = (e) => {
     setType(e.target.value);
@@ -20,7 +22,7 @@ const AddEducationMaterial = ({ levelID, hideModal, counter, setCounter}) => {
       content: `${content}`
     })
     hideModal();
-    
+
     console.log(response);
     const patchResponse = await api.patch(
       `/education/level/${levelID}/material?MaterialId=${response.data.id}`
