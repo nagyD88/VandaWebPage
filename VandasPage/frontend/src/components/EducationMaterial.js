@@ -10,7 +10,6 @@ const EducationMaterial = ({ material }) => {
     console.log(response);
     
   };
-
   return (
     <div className="education-material">
       <h3>{material.name}</h3>

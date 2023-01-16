@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import api from '../hooks/api';
 
-const AddEducationMaterial = ({ levelID, hideModal }) => {
+const AddEducationMaterial = ({ levelID, hideModal, counter, setCounter}) => {
   const [type, setType] = useState('text');
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
@@ -20,15 +20,13 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
       content: `${content}`
     })
     hideModal();
-
-    ;
-
+    
     console.log(response);
-    console.log(response.data.id);
     const patchResponse = await api.patch(
       `/education/level/${levelID}/material?MaterialId=${response.data.id}`
     );
     console.log(patchResponse);
+    setCounter(counter+1);
   };
 
   return (
@@ -92,7 +90,7 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
             />
           </label>
         </div>
-        <input type="submit" value="Submit" className="sub" />
+        <input type="submit" value="feltölt" className="sub" />
       </form>
     </>
   );
