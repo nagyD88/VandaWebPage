@@ -1,7 +1,6 @@
 import React from 'react';
 import EducationMaterial from './EducationMaterial';
 import DataContext from '../context/dataContext';
-import useAxiosFetch from '../hooks/useAxiosFetch';
 import { useParams } from 'react-router';
 import AddEducationMaterial from './AddEducationMaterial';
 import AuthContext from '../context/AuthProvider';
