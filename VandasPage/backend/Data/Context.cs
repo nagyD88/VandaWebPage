@@ -42,7 +42,7 @@ namespace VandasPage.Data
         {
                 return Users.FirstOrDefaultAsync(x => x.Id == id);   
         }
-
+        
         public async Task<User> CreateNewUser(UserPreRegistrationDTO user)
         {
             if (Users.Any(x => x.Email == user.Email))
@@ -189,6 +189,20 @@ namespace VandasPage.Data
             var levelUpdated = Levels.Update(level);
             await SaveChangesAsync();
             return levelUpdated.Entity;
+        }
+
+        public async Task<List<EducationalMaterial>> ChangeEducationMaterialOrder(List<EducationalMaterial> materials)
+        {
+            List<EducationalMaterial> eduMaterials = new List<EducationalMaterial>();
+            foreach (EducationalMaterial material in materials)
+            {
+                var eduMaterial = await GetEducationMaterialById(material.Id);
+                eduMaterial.Index = material.Index;
+                var updatedMaterial = EducationMaterials.Update(eduMaterial);
+                await SaveChangesAsync();
+                eduMaterials.Add(updatedMaterial.Entity);
+            }
+            return eduMaterials;
         }
     }
 }

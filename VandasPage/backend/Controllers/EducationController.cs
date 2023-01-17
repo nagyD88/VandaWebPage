@@ -130,7 +130,13 @@ namespace VandasPage.Controllers
             return await _context.RemoveMaterialFromLevel(levelId, MaterialId);
 
         }
-
+        [HttpPatch]
+        [Route("level/materials/changeorder")]
+        public async Task<ActionResult<List<EducationalMaterial>>> ChangeEducationMaterialOrder(List<EducationalMaterial> educationalMaterials)
+        {
+            if (!educationalMaterials.Any()) { return BadRequest("There is no education material"); }
+            return await _context.ChangeEducationMaterialOrder(educationalMaterials);
+        }
 
         [HttpDelete]
         [Route("level/{id}")]
