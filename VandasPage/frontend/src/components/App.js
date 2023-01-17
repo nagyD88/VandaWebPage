@@ -47,7 +47,7 @@ function App() {
                 <Route path=":id" element={<Questionary />} />
               </Route>
               <Route path="Education">
-                <Route index element={<Education />} />
+                <Route index element={<Education urlPart={"Education"}/>} />
                 <Route path=":id" element={<Level/>} />
               </Route>
 

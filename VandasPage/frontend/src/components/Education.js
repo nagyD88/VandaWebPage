@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 
 
-const Education = () => {
+const Education = ({urlPart}) => {
   let url = 'https://localhost:7168/api/Education/level';
   const { data, fetchError, isLoading } = useAxiosFetch(url);
   const { colorTheme } = useContext(dataContext);
@@ -23,7 +23,7 @@ const Education = () => {
   return (
     <>
       {data.map((level) => (
-        <Link key={level.id} to={`/Education/${level.id}`}>
+        <Link key={level.id} to={`/${urlPart}/${level.id}`}>
           <div className="level">
             <p>
               {level.name} 
