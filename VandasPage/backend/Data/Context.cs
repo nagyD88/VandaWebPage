@@ -141,7 +141,7 @@ namespace VandasPage.Data
 
         public async Task<Level> GetLevelById(long id)
         {
-            return await Levels.Include(x=> x.educationalMaterials).FirstOrDefaultAsync(x => x.Id == id);
+            return await Levels.Include(x=> x.educationalMaterials.OrderBy(x=>x.Index)).FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<Level> DeleteLevelById(long id)
         {
@@ -194,10 +194,10 @@ namespace VandasPage.Data
         public async Task<List<EducationalMaterial>> ChangeEducationMaterialOrder(List<EducationalMaterial> materials)
         {
             List<EducationalMaterial> eduMaterials = new List<EducationalMaterial>();
-            foreach (EducationalMaterial material in materials)
+            for(int i=0; i<materials.Count; i++)
             {
-                var eduMaterial = await GetEducationMaterialById(material.Id);
-                eduMaterial.Index = material.Index;
+                var eduMaterial = await GetEducationMaterialById(materials[i].Id);
+                eduMaterial.Index = i;
                 var updatedMaterial = EducationMaterials.Update(eduMaterial);
                 await SaveChangesAsync();
                 eduMaterials.Add(updatedMaterial.Entity);
