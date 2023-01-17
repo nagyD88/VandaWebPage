@@ -100,4 +100,4 @@ const Level = () => {
   );
 };
 
-export default Level;
+export default LevelChanger;
