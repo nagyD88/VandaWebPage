@@ -12,6 +12,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import useAxiosFetch from '../hooks/useAxiosFetch';
+import axios from 'axios';
 
 const Level = () => {
   const { id } = useParams();
@@ -54,13 +55,17 @@ const Level = () => {
     console.log(counter);
   }, [counter, id]);
 
-  const handleOnDragEnd = (result) => {
+  const handleOnDragEnd = async (result) => {
     if (!result?.destination) return;
     const Materials = Array.from(eduMaterials);
     const [reorderedItem] = Materials.splice(result.source.index, 1);
     Materials.splice(result.destination.index, 0, reorderedItem);
     setEduMaterials(Materials);
-    console.log(eduMaterials , "drop");
+    const materialsJSON = JSON.stringify(Materials);
+    console.log(materialsJSON);
+    const config = {headers:{ "Content-Type" : "application/json" }}
+    const response = await api.patch('/Education/level/materials/changeorder', materialsJSON, config);
+    console.log(response);
   };
 
   return (
@@ -76,7 +81,7 @@ const Level = () => {
         <Droppable droppableId="educationMaterials">
           {(provided) => (
             <section {...provided.droppableProps} ref={provided.innerRef} >
-              {eduMaterials?.map((material, index) => {
+              {eduMaterials?.map((material) => {
                 return (
                   <Draggable key={material.id} draggableId={material.id.toString()} index={material.index} >
                      {(provided) => (
