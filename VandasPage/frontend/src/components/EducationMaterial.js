@@ -5,9 +5,12 @@ import AreYouSure from './AreYouSure';
 import api from '../hooks/api';
 import { useContext } from 'react';
 import DataContext from '../context/dataContext';
+import AuthContext from '../context/AuthProvider';
+
 
 const EducationMaterial = ({ material }) => {
   const { setCounter, counter } = useContext(DataContext);
+  const { auth } = useContext(AuthContext);
   
   const handleOnClick = async () => {
     const response = await api.delete(`/education/${material.id}`);
@@ -17,14 +20,14 @@ const EducationMaterial = ({ material }) => {
   return (
     <div className="education-material">
       <h3>{material.name}</h3>
-      <Dashboard
+      {auth.roles && (<Dashboard
         children={
           <AreYouSure
             handleOnClick={handleOnClick}
             messege={'Biztos le akarod törölni?'}
           />
         }
-      />
+      />)}
       {material.type == 'text' && (
         <article>{material.content}</article>
       )}
