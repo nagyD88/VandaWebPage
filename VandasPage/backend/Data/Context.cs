@@ -176,7 +176,9 @@ namespace VandasPage.Data
         {
             Level level = await GetLevelById(levelId);
             EducationalMaterial material = await GetEducationMaterialById(MaterialId);
-            level.educationalMaterials.Add(material);
+            material.Index = level.educationalMaterials.Count;
+            var updatedMaterial = EducationMaterials.Update(material);
+            level.educationalMaterials.Add(updatedMaterial.Entity);
             var levelUpdated=Levels.Update(level);
             await SaveChangesAsync();
             return levelUpdated.Entity;
