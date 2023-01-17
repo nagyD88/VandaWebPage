@@ -60,6 +60,7 @@ const Level = () => {
     const [reorderedItem] = Materials.splice(result.source.index, 1);
     Materials.splice(result.destination.index, 0, reorderedItem);
     setEduMaterials(Materials);
+    console.log(eduMaterials , "drop");
   };
 
   return (
@@ -77,9 +78,9 @@ const Level = () => {
             <section {...provided.droppableProps} ref={provided.innerRef} >
               {eduMaterials?.map((material, index) => {
                 return (
-                  <Draggable key={material.id} draggableId={material.id.toString()} index={index} >
+                  <Draggable key={material.id} draggableId={material.id.toString()} index={material.index} >
                      {(provided) => (
-                      <article ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                      <article ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
                         <EducationMaterial key={material.id} material={material} />
                       </article>
                       )}
