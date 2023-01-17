@@ -16,7 +16,7 @@ namespace VandasPage.Controllers
             _context = context;
         }
         [HttpGet]
-        public async Task<List<EducationalMaterial>> GetAllUsers()
+        public async Task<List<EducationalMaterial>> GetAllEducationMaterials()
         {
             return await _context.GetEducationMaterials();
         }
