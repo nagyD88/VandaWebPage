@@ -95,23 +95,27 @@ namespace VandasPage.Data
                         Name = "Tanc",
                         Level = context.Levels.Where(x => x.CategoryName=="psycho" && x.LevelNumber==1).First(),
                         Content ="Tancolni Jó",
-                        Type = "text"
+                        Type = "text",
+                        Index = 0
+              
                     },
                     new EducationalMaterial
                     {
                         Name = "Tanc",
                         Level = context.Levels.Where(x => x.CategoryName == "psycho" && x.LevelNumber == 1).First(),
                         Content = "https://www.youtube.com/watch?v=fn3KWM1kuAw",
-                        Type = "video"
+                        Type = "video",
+                        Index = 1
                     },
                     new EducationalMaterial
                     {
                         Name = "Tanc",
                         Level = context.Levels.Where(x => x.CategoryName == "psycho" && x.LevelNumber == 1).First(),
                         Content = "https://cdn.pixabay.com/photo/2018/02/06/14/07/ease-3134828_960_720.jpg",
-                        Type = "picture"
+                        Type = "picture",
+                        Index=2
                     }
-                    );
+                    );;
                 context.SaveChanges();
 
             }
