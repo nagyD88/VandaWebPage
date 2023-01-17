@@ -23,7 +23,7 @@ const Education = () => {
   return (
     <>
       {data.map((level) => (
-        <Link key={level.id} to={`/education/${level.id}`}>
+        <Link key={level.id} to={`/Education/${level.id}`}>
           <div className="level">
             <p>
               {level.name} 
