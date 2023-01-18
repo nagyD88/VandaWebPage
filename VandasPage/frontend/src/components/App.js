@@ -56,7 +56,6 @@ function App() {
                 <Route index element={<EducationChanger urlPart={"Educationchanger"}/>} />
                 <Route path=":id" element={<LevelChanger/>} />
               </Route>
-              {/*root for level changer */}
             </Route>
           </Route>
         </Routes>

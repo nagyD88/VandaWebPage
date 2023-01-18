@@ -71,7 +71,7 @@ const LevelChanger = () => {
 
   return (
     <>
-      {auth.roles && (
+      {auth.admin && (
         <Dashboard children={<AddEducationMaterial levelID={id} />} />
       )}
       <div>

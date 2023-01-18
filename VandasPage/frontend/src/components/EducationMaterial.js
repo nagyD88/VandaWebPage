@@ -20,7 +20,7 @@ const EducationMaterial = ({ material, canDelete}) => {
   return (
     <div className="education-material">
       <h3>{material.name}</h3>
-      {auth.roles && canDelete && (<Dashboard
+      {auth.admin && canDelete && (<Dashboard
         children={
           <AreYouSure
             handleOnClick={handleOnClick}
