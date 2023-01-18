@@ -86,7 +86,7 @@ const LevelChanger = () => {
                   <Draggable key={material.id} draggableId={material.id.toString()} index={material.index} >
                      {(provided) => (
                       <article ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
-                        <EducationMaterial key={material.id} material={material} />
+                        <EducationMaterial key={material.id} material={material} canDelete={true} />
                       </article>
                       )}
                   </Draggable>

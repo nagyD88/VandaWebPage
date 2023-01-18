@@ -8,7 +8,7 @@ import DataContext from '../context/dataContext';
 import AuthContext from '../context/AuthProvider';
 
 
-const EducationMaterial = ({ material }) => {
+const EducationMaterial = ({ material, canDelete}) => {
   const { setCounter, counter } = useContext(DataContext);
   const { auth } = useContext(AuthContext);
   
@@ -20,7 +20,7 @@ const EducationMaterial = ({ material }) => {
   return (
     <div className="education-material">
       <h3>{material.name}</h3>
-      {auth.roles && (<Dashboard
+      {auth.roles && canDelete && (<Dashboard
         children={
           <AreYouSure
             handleOnClick={handleOnClick}
