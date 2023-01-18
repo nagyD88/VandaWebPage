@@ -23,13 +23,15 @@ namespace VandasPage.Data
                     {
                         Name = "kezdő",
                         CategoryName = "psycho",
-                        LevelNumber = 1
+                        LevelNumber = 1,
+                        Index=0
                     },
                     new Level
                     {
                         Name = "haladó",
                         CategoryName = "psycho",
-                        LevelNumber = 2
+                        LevelNumber = 2,
+                        Index=1
                     }
                     );
                 context.SaveChanges();
