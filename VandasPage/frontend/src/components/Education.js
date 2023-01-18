@@ -1,28 +1,39 @@
-import React from 'react'
+import React from 'react';
+import useAxiosFetch from '../hooks/useAxiosFetch';
+import dataContext from '../context/dataContext';
+import { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-const Education = () => {
+
+
+
+const Education = ({urlPart}) => {
+  let url = 'https://localhost:7168/api/Education/level';
+  const { data, fetchError, isLoading } = useAxiosFetch(url);
+  const { colorTheme, counter } = useContext(dataContext);
+  
+  console.log(data);
+
+  const categorys = new Set();
+
+  useEffect(() => {
+    data.map((level) => categorys.add(level.categoryName));
+    console.log('category');
+    console.log(categorys);
+  }, [data, counter]);
   return (
     <>
-    <nav className='navbar-education'>
-      <div className='chapter'>Nav element</div>
-      <div className='chapter'>Nav element2</div>
-      <div className='chapter'>Nav element3</div>
-      <div className='chapter'>Nav element4</div>
-    </nav>
-    <main className='education'>
-      <video src=""></video>
-    <article>Testing an article in this paragrapgh
-
-      perigpeorguihwpeiroghuwpuieorg
-      ffff
-      - ffff
-      <p>another test</p>
-      <br />
-      <p>and another</p>
-    </article>
-    </main>
+      {data.map((level) => (
+        <Link key={level.id} to={`/${urlPart}/${level.id}`}>
+          <div className="level">
+            <p>
+              {level.name} 
+            </p>
+          </div>
+        </Link>
+      ))}
     </>
-  )
-}
+  );
+};
 
-export default Education
+export default Education;

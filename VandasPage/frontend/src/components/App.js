@@ -1,4 +1,5 @@
 import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home";
 import Layout from "./Layout";
 import Users from "./Users";
@@ -15,6 +16,9 @@ import { DataProvider } from "../context/dataContext";
 import { AuthProvider } from "../context/AuthProvider";
 import RequireAuth from "./RequireAuth";
 import Registration from "./Registration";
+import LevelChanger from './LevelChanger';
+import Level from './Level';
+import EducationChanger from './EducationChanger';
 
 function App() {
   return (
@@ -23,21 +27,27 @@ function App() {
         <Routes>
           {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
-            {/* <Route element={<RequireAuth allowedRoles={[true, false]} />}> */}
-            {/* justfor admin */}
-            {/* <Route element={<RequireAuth allowedRoles={[true, false]} />}> */}
-            <Route index element={<Home />} />
-            <Route path="User">
-              <Route index element={<Users />} />
-              <Route path=":id" element={<User />} />
-            </Route>
-            <Route path="preregister" element={<PreRegistration />} />
-            <Route path="questionnaire">
-              <Route index element={<Questionarys />} />
-              <Route path=":id" element={<Questionary />} />
-            </Route>
-            <Route path="Education">
-              <Route index element={<Education />} />
+            <Route
+
+              element={<RequireAuth allowedRoles={[true, false]}/>}>
+              {/* justfor admin */}
+              <Route element={<RequireAuth allowedRoles={[true]} />}>
+                <Route path="User">
+                  <Route index element={<Users />} />
+                  <Route path=":id" element={<User />} />
+                </Route>
+                <Route path="preregister" element={<PreRegistration />} />
+
+              </Route>
+              <Route index element={<Home />} />
+              <Route path="questionnaire">
+                <Route index element={<Questionarys />} />
+                <Route path=":id" element={<Questionary />} />
+              </Route>
+              <Route path="Education">
+                <Route index element={<Education />} />
+              </Route>
+
             </Route>
           </Route>
 

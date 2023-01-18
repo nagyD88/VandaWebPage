@@ -101,5 +101,25 @@ namespace VandasPage.Controllers
             }
             return Ok(userDeleted);
         }
+
+        [HttpPatch]
+        [Route("{userId}/addlevel")]
+        public async Task<ActionResult<User>> AddlevelToUser(long userId, long levelId)
+        {
+            var user = await _context.GetUserById(userId);
+            if (user == null)
+            {
+                return NotFound("No User found!");
+            }
+            var level = await _context.GetLevelById(levelId);
+            if(level == null)
+            {
+                return NotFound("NO level found");
+            }
+            var userUpdated = await _context.AddlevelToUser(userId, levelId);
+            return userUpdated;
+
+        }
+
     }
 }
