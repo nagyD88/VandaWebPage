@@ -40,7 +40,7 @@ namespace VandasPage.Data
         }
         public Task<User>? GetUserById(long id)
         {
-                return Users.FirstOrDefaultAsync(x => x.Id == id);   
+                return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x => x.Id == id);   
         }
         
         public async Task<User> CreateNewUser(UserPreRegistrationDTO user)
@@ -172,6 +172,7 @@ namespace VandasPage.Data
             return level;
         }
 
+
         public async Task<Level> AddMaterialToLevel(long levelId, long MaterialId)
         {
             Level level = await GetLevelById(levelId);
@@ -220,6 +221,17 @@ namespace VandasPage.Data
             }
             return updatedLevels;
         }
+
+        public async Task<User> AddlevelToUser(long userId, long levelId)
+        {
+            User user = await GetUserById(userId);
+            Level level = await GetLevelById(levelId);
+            user.Levels.Add(level);
+            var updatedUser = Users.Update(user);
+            await SaveChangesAsync();
+            return updatedUser.Entity;
+        }
+
     }
 }
 
