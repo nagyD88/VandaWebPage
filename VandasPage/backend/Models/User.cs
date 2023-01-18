@@ -31,17 +31,5 @@ namespace VandasPage.Models
         public string? Password { get; set; }
         public HashSet<Level> Levels { get; set; }
 
-        public void PayADetail(decimal amount)
-        {
-            NumberOfDetailsLeft--;
-            priceLeft -= amount;
-        }
-
-        public decimal? GetEvenAmounts()
-        {
-            return priceLeft / NumberOfDetailsLeft;
-        }
-
-
     }
 }
