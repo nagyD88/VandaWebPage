@@ -18,6 +18,7 @@ import RequireAuth from './RequireAuth';
 import Registration from './Registration';
 import LevelChanger from './LevelChanger';
 import Level from './Level';
+import EducationChanger from './EducationChanger';
 
 function App() {
   return (
@@ -52,7 +53,7 @@ function App() {
                 <Route path=":id" element={<Level/>} />
               </Route>
               <Route path="Educationchanger">
-                <Route index element={<Education urlPart={"Educationchanger"}/>} />
+                <Route index element={<EducationChanger urlPart={"Educationchanger"}/>} />
                 <Route path=":id" element={<LevelChanger/>} />
               </Route>
               {/*root for level changer */}
