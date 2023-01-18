@@ -206,6 +206,20 @@ namespace VandasPage.Data
             }
             return eduMaterials;
         }
+
+        public async Task<List<Level>> ChangeLevelOrder(List<Level> levels)
+        {
+            List<Level> updatedLevels= new List<Level>();
+            for (int i = 0; i < levels.Count; i++)
+            {
+                var level = await GetLevelById(levels[i].Id);
+                level.Index = i;
+                var updatedLevel = Levels.Update(level);
+                await SaveChangesAsync();
+                updatedLevels.Add(updatedLevel.Entity);
+            }
+            return updatedLevels;
+        }
     }
 }
 
