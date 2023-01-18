@@ -6,12 +6,15 @@ import { Link } from 'react-router-dom';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import api from '../hooks/api';
+import AddLevel from './AddLevel';
+import Dashboard from './Dashboard';
+
 
 
 const EducationChanger = ({ urlPart }) => {
   let dataURL = 'https://localhost:7168/api/Education/level';
   const { data, fError, fLoading } = useAxiosFetch(dataURL);
-  const { colorTheme } = useContext(dataContext);
+  const { colorTheme, counter } = useContext(dataContext);
   const [levels, setLevels] = useState(data || [])
   const [fetchError, setFetchError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +27,7 @@ const EducationChanger = ({ urlPart }) => {
     data.map((level) => categorys.add(level.categoryName));
     console.log('category');
     console.log(categorys);
-  }, [data]);
+  }, [data, counter]);
 
 
  
@@ -48,7 +51,7 @@ const EducationChanger = ({ urlPart }) => {
       }
     };
     fetchData(dataURL);
-  }, []);
+  }, [counter]);
 
   const handleOnDragEnd = async (result) => {
     if (!result?.destination) return;
@@ -67,6 +70,9 @@ const EducationChanger = ({ urlPart }) => {
 
   return (
     <>
+    
+        <Dashboard children={<AddLevel/>} />
+      
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="levels">
           {(provided) => (

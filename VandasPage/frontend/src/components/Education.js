@@ -6,10 +6,11 @@ import { Link } from 'react-router-dom';
 
 
 
+
 const Education = ({urlPart}) => {
   let url = 'https://localhost:7168/api/Education/level';
   const { data, fetchError, isLoading } = useAxiosFetch(url);
-  const { colorTheme } = useContext(dataContext);
+  const { colorTheme, counter } = useContext(dataContext);
   
   console.log(data);
 
@@ -19,7 +20,7 @@ const Education = ({urlPart}) => {
     data.map((level) => categorys.add(level.categoryName));
     console.log('category');
     console.log(categorys);
-  }, [data]);
+  }, [data, counter]);
   return (
     <>
       {data.map((level) => (

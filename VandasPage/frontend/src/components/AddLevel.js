@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import api from '../hooks/api';
 import DataContext from '../context/dataContext';
 
-const AddEducationMaterial = ({ levelID, hideModal }) => {
+const AddLevel = ({ levelID, hideModal }) => {
   const [type, setType] = useState('text');
   const [categoryName, setCategoryName] = useState('');
   const [name, setName] = useState('');
@@ -15,24 +15,20 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await api.post('/Education/level', {
-      
+    console.log({
       categoryName: {categoryName},
       name: {name},
-      "users": [
-      ],
-      "educationalMaterials": [
-    
-      ]
+      users: [],
+      educationalMaterials: []
+    })
+    const response = await api.post('/Education/level', {
+      categoryName: `${categoryName}`,
+      name: `${name}`,
+      users: [],
+      educationalMaterials: []
     })
     hideModal();
-
     console.log(response);
-    const patchResponse = await api.patch(
-      `/education/level/${levelID}/material?MaterialId=${response.data.id}`
-    );
-    console.log(patchResponse);
     setCounter(counter+1);
   };
 
@@ -40,7 +36,7 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
     <>
       <form onSubmit={handleSubmit} className="siStart">
         <label>
-            cím:
+            név:
             <input
               id="Name"
               type="text"
@@ -51,7 +47,7 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
           </label>
 
           <label>
-            tartalom:
+            téma:
             <input
               id="categoryName"
               type="text"
@@ -66,4 +62,4 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
   );
 };
 
-export default AddEducationMaterial;
+export default AddLevel;
