@@ -8,18 +8,19 @@ import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import api from '../hooks/api';
 import AddLevel from './AddLevel';
 import Dashboard from './Dashboard';
+import AreYouSure from './AreYouSure';
 
 
 
 const EducationChanger = ({ urlPart }) => {
   let dataURL = 'https://localhost:7168/api/Education/level';
   const { data, fError, fLoading } = useAxiosFetch(dataURL);
-  const { colorTheme, counter } = useContext(dataContext);
-  const [levels, setLevels] = useState(data || [])
+  const { colorTheme, counter, setCounter } = useContext(dataContext);
+  const [levels, setLevels] = useState(data || []);
   const [fetchError, setFetchError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  console.log("levels: ",levels);
-  console.log("data: ",data);
+  console.log('levels: ', levels);
+  console.log('data: ', data);
 
   const categorys = new Set();
 
@@ -28,9 +29,6 @@ const EducationChanger = ({ urlPart }) => {
     console.log('category');
     console.log(categorys);
   }, [data, counter]);
-
-
- 
 
   useEffect(() => {
     let isMounted = true;
@@ -59,20 +57,32 @@ const EducationChanger = ({ urlPart }) => {
     const [reorderedItem] = Levels.splice(result.source.index, 1);
     Levels.splice(result.destination.index, 0, reorderedItem);
     setLevels(Levels);
-    const iDs=new Array();
-    Levels.map((level)=>iDs.push({id:level.id}))
+    const iDs = new Array();
+    Levels.map((level) => iDs.push({ id: level.id }));
     const levelsJSON = JSON.stringify(iDs);
     console.log(levelsJSON);
-    const config = {headers:{ "Content-Type" : "application/json" }}
-    const response = await api.patch('/Education/level/changeorder', levelsJSON, config);
-    console.log("response :", response);
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+    const response = await api.patch(
+      '/Education/level/changeorder',
+      levelsJSON,
+      config
+    );
+    console.log('response :', response);
   };
+
+  const handleOnClick = async (levelID) => {
+    const response = await api.delete(`/Education/level/${levelID}`);
+    setCounter(counter+1);
+    
+  }
+
 
   return (
     <>
-    
-        <Dashboard children={<AddLevel/>} />
-      
+      <Dashboard children={<AddLevel />} />
+
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="levels">
           {(provided) => (
@@ -93,6 +103,15 @@ const EducationChanger = ({ urlPart }) => {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
+                        <Dashboard
+                          children={
+                            <AreYouSure
+                              levelID = {level.id}
+                              handleOnClick={handleOnClick}
+                              messege={'Biztos le akarod törölni?'}
+                            />
+                          }
+                        />
                         <Link
                           key={level.id}
                           to={`/${urlPart}/${level.id}`}

@@ -1,12 +1,12 @@
 import React from 'react';
 
-const AreYouSure = ({ handleOnClick, messege, hideModal}) => {
+const AreYouSure = ({ handleOnClick, messege, hideModal, levelID}) => {
 
   return (
     <>
       <div id='sure'>{messege} </div>
       <button className='Yes' onClick={()=>{
-        handleOnClick();
+        handleOnClick(levelID);
         hideModal();
         
     }} >Igen</button>
