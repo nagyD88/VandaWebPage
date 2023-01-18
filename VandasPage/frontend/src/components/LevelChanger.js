@@ -13,6 +13,7 @@ import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import axios from 'axios';
+import EducationChanger from './EducationChanger';
 
 const LevelChanger = () => {
   const { id } = useParams();
@@ -74,7 +75,7 @@ const LevelChanger = () => {
         <Dashboard children={<AddEducationMaterial levelID={id} />} />
       )}
       <div>
-        <Education urlPart={"Educationchanger"} />
+        <EducationChanger urlPart={"Educationchanger"} />
       </div>
       <h2>{materialData.name}</h2>
       <DragDropContext onDragEnd={handleOnDragEnd}>
