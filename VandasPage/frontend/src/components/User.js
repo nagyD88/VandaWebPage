@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import DataContext from '../context/dataContext';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import api from '../hooks/api';
+import Select from 'react-select'
 
 
 const User = () => {
@@ -18,6 +19,15 @@ const User = () => {
   const [email, setEmail] = useState("");
   const [communication, setCommunication] = useState("")
   const [MBTI, setMBTI]=useState("")
+
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
+  
+
+
 
   const handleSubmit =async(e)=>{ 
     e.preventDefault();
@@ -54,6 +64,8 @@ const User = () => {
     <div>{data.email}</div>
     <div className={`time ${colorTheme}`}>
       <form onSubmit={handleSubmit} className='siStart'>
+      <Select options={options} />
+
         <label>
           First Name:
           <input 

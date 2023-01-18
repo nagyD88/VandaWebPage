@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './Home';
 import Layout from './Layout';
 import Users from './Users';
@@ -15,6 +16,9 @@ import { DataProvider } from '../context/dataContext';
 import { AuthProvider } from '../context/AuthProvider';
 import RequireAuth from './RequireAuth';
 import Registration from './Registration';
+import LevelChanger from './LevelChanger';
+import Level from './Level';
+import EducationChanger from './EducationChanger';
 
 function App() {
   return (
@@ -45,9 +49,13 @@ function App() {
                 <Route path=":id" element={<Questionary />} />
               </Route>
               <Route path="Education">
-                <Route index element={<Education />} />
+                <Route index element={<Education urlPart={"Education"}/>} />
+                <Route path=":id" element={<Level/>} />
               </Route>
-
+              <Route path="Educationchanger">
+                <Route index element={<EducationChanger urlPart={"Educationchanger"}/>} />
+                <Route path=":id" element={<LevelChanger/>} />
+              </Route>
             </Route>
           </Route>
         </Routes>
