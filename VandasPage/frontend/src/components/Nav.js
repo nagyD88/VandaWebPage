@@ -21,6 +21,9 @@ return (
       <div className={`navElement ${colorTheme}`}>
         <Link to="User">Felhasználók</Link>
       </div>
+      <div className={`navElement ${colorTheme}`}>
+        <Link to="Educationchanger">Oktás Változtatás</Link>
+      </div>
       </>}
 
       <div className={`navElement ${colorTheme}`}>

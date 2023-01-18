@@ -16,6 +16,7 @@ import { DataProvider } from '../context/dataContext';
 import { AuthProvider } from '../context/AuthProvider';
 import RequireAuth from './RequireAuth';
 import Registration from './Registration';
+import LevelChanger from './LevelChanger';
 import Level from './Level';
 
 function App() {
@@ -50,7 +51,11 @@ function App() {
                 <Route index element={<Education urlPart={"Education"}/>} />
                 <Route path=":id" element={<Level/>} />
               </Route>
-
+              <Route path="Educationchanger">
+                <Route index element={<Education urlPart={"Educationchanger"}/>} />
+                <Route path=":id" element={<LevelChanger/>} />
+              </Route>
+              {/*root for level changer */}
             </Route>
           </Route>
         </Routes>

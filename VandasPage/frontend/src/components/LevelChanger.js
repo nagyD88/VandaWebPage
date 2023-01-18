@@ -14,7 +14,7 @@ import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import axios from 'axios';
 
-const Level = () => {
+const LevelChanger = () => {
   const { id } = useParams();
   const url= `https://localhost:7168/api/education/level/${id}`
   
@@ -74,7 +74,7 @@ const Level = () => {
         <Dashboard children={<AddEducationMaterial levelID={id} />} />
       )}
       <div>
-        <Education />
+        <Education urlPart={"Educationchanger"} />
       </div>
       <h2>{materialData.name}</h2>
       <DragDropContext onDragEnd={handleOnDragEnd}>
