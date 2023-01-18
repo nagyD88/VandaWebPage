@@ -39,7 +39,7 @@ a {
   background-color: steelblue;
   transform: translateY(-100%);
   transition-property: all;
-  transition-duration: 2s;
+  transition-duration: 1.5s;
 }
 
 
