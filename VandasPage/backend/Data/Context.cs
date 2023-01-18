@@ -162,7 +162,7 @@ namespace VandasPage.Data
         }
         public async Task<List<Level>> GetLevelsByCategoryName (string categoryName)
         {
-            return await Levels.Include(x => x.educationalMaterials).Where(x=>x.CategoryName==categoryName).OrderBy(x=>x.Index).ToListAsync();
+            return await Levels.Include(x => x.educationalMaterials).OrderBy(x=>x.Index).ToListAsync();
         }
 
         public async Task<Level> UpdateLevel(Level level)

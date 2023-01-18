@@ -22,13 +22,11 @@ namespace VandasPage.Data
                     new Level
                     {
                         Name = "kezdő",
-                        CategoryName = "psycho",
                         Index=0
                     },
                     new Level
                     {
                         Name = "haladó",
-                        CategoryName = "psycho",
                         Index=1
                     }
                     );
@@ -41,7 +39,7 @@ namespace VandasPage.Data
                         Password = "alma",
                         Email = "alma@alma.hu",
                         Admin = true,
-                        Levels = new HashSet<Level>{ context.Levels.FirstOrDefault(x=>x.CategoryName=="psycho" && x.Index==0) }
+                        Levels = new HashSet<Level>{ context.Levels.FirstOrDefault(x=>x.Index==0) }
                     },
                     
                     new User
@@ -93,7 +91,7 @@ namespace VandasPage.Data
                     new EducationalMaterial
                     {
                         Name = "Tanc",
-                        Level = context.Levels.Where(x => x.CategoryName=="psycho" && x.Index==0).First(),
+                        Level = context.Levels.Where(x =>  x.Index==0).First(),
                         Content ="Tancolni Jó",
                         Type = "text",
                         Index = 0
@@ -102,7 +100,7 @@ namespace VandasPage.Data
                     new EducationalMaterial
                     {
                         Name = "Tanc",
-                        Level = context.Levels.Where(x => x.CategoryName == "psycho" && x.Index == 0).First(),
+                        Level = context.Levels.Where(x =>  x.Index == 0).First(),
                         Content = "https://www.youtube.com/watch?v=fn3KWM1kuAw",
                         Type = "video",
                         Index = 1
@@ -110,7 +108,7 @@ namespace VandasPage.Data
                     new EducationalMaterial
                     {
                         Name = "Tanc",
-                        Level = context.Levels.Where(x => x.CategoryName == "psycho" && x.Index == 0).First(),
+                        Level = context.Levels.Where(x =>   x.Index == 0).First(),
                         Content = "https://cdn.pixabay.com/photo/2018/02/06/14/07/ease-3134828_960_720.jpg",
                         Type = "picture",
                         Index=2

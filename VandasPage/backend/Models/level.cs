@@ -6,7 +6,6 @@ namespace VandasPage.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public string CategoryName { get; set; }
         public string Name { get; set; }
         public int Index { get; set; }
         public HashSet<User> users { get; set; }
