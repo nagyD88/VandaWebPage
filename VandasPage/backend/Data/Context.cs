@@ -119,7 +119,7 @@ namespace VandasPage.Data
         }
         public Task<List<Level>> GetLevels()
         {
-            return Levels.Include(x=>x.users).Include(x=>x.educationalMaterials).ToListAsync();
+            return Levels.Include(x=>x.users).Include(x=>x.educationalMaterials).OrderBy(x=> x.Index).ToListAsync();
         }
         public async Task<Level> CreateNewLevel(Level level)
         {
@@ -162,7 +162,7 @@ namespace VandasPage.Data
         }
         public async Task<List<Level>> GetLevelsByCategoryName (string categoryName)
         {
-            return await Levels.Include(x => x.educationalMaterials).Where(x=>x.CategoryName==categoryName).ToListAsync();
+            return await Levels.Include(x => x.educationalMaterials).Where(x=>x.CategoryName==categoryName).OrderBy(x=>x.Index).ToListAsync();
         }
 
         public async Task<Level> UpdateLevel(Level level)
@@ -207,7 +207,7 @@ namespace VandasPage.Data
             return eduMaterials;
         }
 
-        public async Task<List<Level>> ChangeLevelOrder(List<Level> levels)
+        public async Task<List<Level>> ChangeLevelOrder(List<LevelChangeOrderDTO> levels)
         {
             List<Level> updatedLevels= new List<Level>();
             for (int i = 0; i < levels.Count; i++)

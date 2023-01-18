@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VandasPage.Data;
 using VandasPage.Models;
+using VandasPage.Models.DTOs;
 
 namespace VandasPage.Controllers
 {
@@ -140,7 +141,7 @@ namespace VandasPage.Controllers
 
         [HttpPatch]
         [Route("level/changeorder")]
-        public async Task<ActionResult<List<Level>>> ChangeLevelOrder(List<Level> levels)
+        public async Task<ActionResult<List<Level>>> ChangeLevelOrder(List<LevelChangeOrderDTO> levels)
         {
             if (!levels.Any()) { return BadRequest("There is no level"); }
             return await _context.ChangeLevelOrder(levels);
