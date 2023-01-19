@@ -8,11 +8,8 @@ namespace VandasPage.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id  { get; set; }
-        
-        
         [Required]
         public string Email { get; set; }
-
         public bool Admin { get; set; }
         [Required]
         public string FirstName { get; set; }
@@ -30,18 +27,6 @@ namespace VandasPage.Models
         public decimal? priceLeft { get; set; }
         public string? Password { get; set; }
         public HashSet<Level> Levels { get; set; }
-
-        public void PayADetail(decimal amount)
-        {
-            NumberOfDetailsLeft--;
-            priceLeft -= amount;
-        }
-
-        public decimal? GetEvenAmounts()
-        {
-            return priceLeft / NumberOfDetailsLeft;
-        }
-
 
     }
 }

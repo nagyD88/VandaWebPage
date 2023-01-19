@@ -21,13 +21,13 @@ namespace VandasPage.Data
                 context.Levels.AddRange(
                     new Level
                     {
-                        CategoryName = "psycho",
-                        LevelNumber = 1
+                        Name = "kezdő",
+                        Index=0
                     },
                     new Level
                     {
-                        CategoryName = "psycho",
-                        LevelNumber = 2
+                        Name = "haladó",
+                        Index=1
                     }
                     );
                 context.SaveChanges();
@@ -39,7 +39,7 @@ namespace VandasPage.Data
                         Password = "alma",
                         Email = "alma@alma.hu",
                         Admin = true,
-                        Levels = new HashSet<Level>{ context.Levels.FirstOrDefault(x=>x.CategoryName=="psycho" && x.LevelNumber==1) }
+                        Levels = new HashSet<Level>{ context.Levels.FirstOrDefault(x=>x.Index==0) }
                     },
                     
                     new User
@@ -87,6 +87,34 @@ namespace VandasPage.Data
                     );
                 context.SaveChanges();
 
+                context.EducationMaterials.AddRange(
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x =>  x.Index==0).First(),
+                        Content ="Tancolni Jó",
+                        Type = "text",
+                        Index = 0
+              
+                    },
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x =>  x.Index == 0).First(),
+                        Content = "https://www.youtube.com/watch?v=fn3KWM1kuAw",
+                        Type = "video",
+                        Index = 1
+                    },
+                    new EducationalMaterial
+                    {
+                        Name = "Tanc",
+                        Level = context.Levels.Where(x =>   x.Index == 0).First(),
+                        Content = "https://cdn.pixabay.com/photo/2018/02/06/14/07/ease-3134828_960_720.jpg",
+                        Type = "picture",
+                        Index=2
+                    }
+                    );;
+                context.SaveChanges();
 
             }
         }
