@@ -42,7 +42,8 @@ const Login = () => {
       //const accessToken = response?.data?.accessToken;
       const admin = response?.data?.admin;
       const id = response?.data?.id;
-      setAuth({ user: email, pwd: password, admin: admin, id: id/*, accessToken*/ });
+      const levels = response?.data?.levels;
+      setAuth({ user: email, pwd: password, admin: admin, id: id, levels: levels/*, accessToken*/ });
       setUser('');
       setPwd('');
       navigate(from, { replace: true });

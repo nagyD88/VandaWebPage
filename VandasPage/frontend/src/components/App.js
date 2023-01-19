@@ -19,6 +19,7 @@ import Registration from './Registration';
 import LevelChanger from './LevelChanger';
 import Level from './Level';
 import EducationChanger from './EducationChanger';
+import RequireAuthLevel from './RequireAuthLevel';
 
 function App() {
   return (
@@ -50,7 +51,9 @@ function App() {
               </Route>
               <Route path="Education">
                 <Route index element={<Education urlPart={"Education"}/>} />
-                <Route path=":id" element={<Level/>} />
+                  <Route element={<RequireAuthLevel />}>
+                    <Route path=":id" element={<Level/>} />
+                  </Route>
               </Route>
               <Route path="Educationchanger">
                 <Route index element={<EducationChanger urlPart={"Educationchanger"}/>} />
