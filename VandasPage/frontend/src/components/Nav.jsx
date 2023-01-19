@@ -32,7 +32,6 @@ return (
         <li className={`navElement ${colorTheme}`}>
           <Link to="Education">Oktató felület</Link>
         </li>
-      </ul>
     </nav>
   );
 };

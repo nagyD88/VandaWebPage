@@ -6,5 +6,15 @@ export default defineConfig({
   plugins: [reactRefresh()],
   server: {
     port: 3000
-  }
+  },
+  esbuild: {
+    loader: 'jsx'
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      loader: {
+        '.js': 'jsx',
+      },
+    },
+  },
 })
