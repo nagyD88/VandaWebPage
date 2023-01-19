@@ -1,20 +1,20 @@
 
 import { defineConfig } from 'vite'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  plugins: [reactRefresh()],
+  plugins: [react()],
   server: {
     port: 3000
   },
-  esbuild: {
-    loader: 'jsx'
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx',
-      },
-    },
-  },
+  // esbuild: {
+  //   loader: 'jsx'
+  // },
+  // optimizeDeps: {
+  //   esbuildOptions: {
+  //     loader: {
+  //       '.js': 'jsx',
+  //     },
+  //   },
+  // },
 })
