@@ -16,14 +16,13 @@ const User = () => {
   const [email, setEmail] = useState('');
   const [communication, setCommunication] = useState('');
   const [MBTI, setMBTI] = useState('');
-  const [levelId, setLevelId] = useState('');
+  const [levelId, setLevelId] = useState(null);
   const [levels, setLevels] = useState([]);
   const [userData, setUserData] = useState();
 
   useEffect(() => {
     console.log('levels: ', levels);
     console.log('userData: ', userData);
-    setLevelId(levels[0]?.id)
   }, [levels, userData]);
   useEffect(() => {
     let isMounted = true;
@@ -71,6 +70,7 @@ const User = () => {
       email: `${email}`,
       communication: `${communication}`,
       mbti: `${MBTI}`,
+      levelId: levelId
     });
     console.log(response.data);
   };
@@ -100,6 +100,7 @@ const User = () => {
                 value={levelId}
                 onChange={(e) => setLevelId(e.target.value)}
               >
+                <option value={null}>válasz szintet amit megnézhet</option>
                 {levels?.map((level) => (
                   <option key={level.id} value={level.id}>{level.name}</option>
                 ))}
