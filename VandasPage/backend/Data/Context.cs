@@ -114,7 +114,7 @@ namespace VandasPage.Data
             
         public Task<User> GetUserLogedIn(string password, string email)
         {
-            return Users.FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
+            return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
         }
 
         public Task<List<EducationalMaterial>> GetEducationMaterials()
