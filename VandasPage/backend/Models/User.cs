@@ -8,11 +8,8 @@ namespace VandasPage.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id  { get; set; }
-        
-        
         [Required]
         public string Email { get; set; }
-
         public bool Admin { get; set; }
         [Required]
         public string FirstName { get; set; }
