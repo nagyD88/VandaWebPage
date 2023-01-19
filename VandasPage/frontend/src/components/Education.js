@@ -3,27 +3,24 @@ import useAxiosFetch from '../hooks/useAxiosFetch';
 import dataContext from '../context/dataContext';
 import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 
 
 
 const Education = ({urlPart}) => {
-  let url = 'https://localhost:7168/api/Education/level';
+  const { auth } = useAuth();
+  let url = `https://localhost:7168/api/user/${auth.id}`;
+  
   const { data, fetchError, isLoading } = useAxiosFetch(url);
   const { colorTheme, counter } = useContext(dataContext);
-  
   console.log(data);
 
-  const categorys = new Set();
-
-  useEffect(() => {
-    data.map((level) => categorys.add(level.categoryName));
-    console.log('category');
-    console.log(categorys);
-  }, [data, counter]);
+  
+  
   return (
     <>
-      {data.map((level) => (
+      {data?.levels?.map((level) => (
         <Link key={level.id} to={`/${urlPart}/${level.id}`}>
           <div className="level">
             <p>

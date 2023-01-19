@@ -19,15 +19,13 @@ const EducationChanger = ({ urlPart }) => {
   const [levels, setLevels] = useState(data || []);
   const [fetchError, setFetchError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  console.log('levels: ', levels);
-  console.log('data: ', data);
+
 
   const categorys = new Set();
 
   useEffect(() => {
     data.map((level) => categorys.add(level.categoryName));
-    console.log('category');
-    console.log(categorys);
+
   }, [data, counter]);
 
   useEffect(() => {
@@ -60,7 +58,7 @@ const EducationChanger = ({ urlPart }) => {
     const iDs = new Array();
     Levels.map((level) => iDs.push({ id: level.id }));
     const levelsJSON = JSON.stringify(iDs);
-    console.log(levelsJSON);
+
     const config = {
       headers: { 'Content-Type': 'application/json' },
     };
@@ -69,7 +67,7 @@ const EducationChanger = ({ urlPart }) => {
       levelsJSON,
       config
     );
-    console.log('response :', response);
+    
   };
 
   const handleOnClick = async (levelID) => {

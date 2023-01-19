@@ -93,7 +93,11 @@ namespace VandasPage.Data
             userToUpdate.Email= user.Email;
             userToUpdate.MBTI= user.MBTI;
             userToUpdate.Communication=user.Communication;
-
+            if (user.levelId != null)
+            {
+                Level level = await GetLevelById((long)user.levelId);
+                userToUpdate.Levels.Add(level);
+            }
             var updatedUser = Users.Update(userToUpdate);
             await SaveChangesAsync();
             return updatedUser.Entity;
@@ -110,7 +114,7 @@ namespace VandasPage.Data
             
         public Task<User> GetUserLogedIn(string password, string email)
         {
-            return Users.FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
+            return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
         }
 
         public Task<List<EducationalMaterial>> GetEducationMaterials()
