@@ -41,7 +41,8 @@ const Login = () => {
       //console.log(JSON.stringify(response));
       //const accessToken = response?.data?.accessToken;
       const admin = response?.data?.admin;
-      setAuth({ user: email, pwd: password, admin: admin/*, accessToken*/ });
+      const id = response?.data?.id;
+      setAuth({ user: email, pwd: password, admin: admin, id: id/*, accessToken*/ });
       setUser('');
       setPwd('');
       navigate(from, { replace: true });
