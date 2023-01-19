@@ -93,7 +93,11 @@ namespace VandasPage.Data
             userToUpdate.Email= user.Email;
             userToUpdate.MBTI= user.MBTI;
             userToUpdate.Communication=user.Communication;
-
+            if (user.levelId != null)
+            {
+                Level level = await GetLevelById((long)user.levelId);
+                userToUpdate.Levels.Add(level);
+            }
             var updatedUser = Users.Update(userToUpdate);
             await SaveChangesAsync();
             return updatedUser.Entity;

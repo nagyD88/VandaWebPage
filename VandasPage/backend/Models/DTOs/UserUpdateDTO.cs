@@ -11,5 +11,6 @@ namespace VandasPage.Models.DTOs
         public string LastName { get; set; }
         public string? Communication { get; set; }
         public string? MBTI { get; set; }
+        public long? levelId { get; set; }
     }
 }
