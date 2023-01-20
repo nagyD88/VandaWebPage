@@ -25,7 +25,6 @@ namespace VandasPage.Models
         public HashSet<MeetingLog> MeetingLogs { get; set; }
         public int? NumberOfDetailsLeft { get; set; }
         public decimal? priceLeft { get; set; }
-        public string? Password { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
