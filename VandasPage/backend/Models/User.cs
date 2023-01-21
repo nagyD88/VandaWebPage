@@ -11,6 +11,7 @@ namespace VandasPage.Models
         [Required]
         public string Email { get; set; }
         public bool Admin { get; set; }
+        public string UserName { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
