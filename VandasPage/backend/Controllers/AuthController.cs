@@ -7,6 +7,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using VandasPage.Services;
+using VandasPage.Models;
+using VandasPage.Models.DTOs;
 
 namespace VandasPage.Controllers
 
@@ -35,11 +37,11 @@ namespace VandasPage.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto request)
+        public async Task<ActionResult<User>> Register(UserRegDTO request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user.Username = request.Username;
+            user.UserName = request.UserName;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
@@ -47,9 +49,9 @@ namespace VandasPage.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDto request)
+        public async Task<ActionResult<string>> Login(UserRegDTO request)
         {
-            if (user.Username != request.Username)
+            if (user.UserName != request.UserName)
             {
                 return BadRequest("User not found.");
             }
@@ -118,7 +120,7 @@ namespace VandasPage.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,  user.Username),
+                new Claim(ClaimTypes.Name,  user.UserName),
                 new Claim(ClaimTypes.Role, "Admin")
             };
 
