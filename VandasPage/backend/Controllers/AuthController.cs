@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using VandasPage.Services;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
+using VandasPage.Data;
 
 namespace VandasPage.Controllers
 
@@ -17,7 +14,11 @@ namespace VandasPage.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        private readonly Context _context;
+        public AuthController(Context context)
+        {
+            _context= context;
+        }
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
@@ -41,10 +42,16 @@ namespace VandasPage.Controllers
         {
             _authService.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
+            User user = await _context.GetUserById(request.Id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
             user.UserName = request.UserName;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-
+            _context.constructPassword(user);
             return Ok(user);
         }
 
