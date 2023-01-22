@@ -15,19 +15,14 @@ namespace VandasPage.Controllers
     public class AuthController : ControllerBase
     {
         private readonly Context _context;
-        public AuthController(Context context)
-        {
-            _context= context;
-        }
-        private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
 
-        public AuthController(IConfiguration configuration, IUserService userService, IAuthService authService)
+        public AuthController(IUserService userService, IAuthService authService, Context context)
         {
-            _configuration = configuration;
             _userService = userService;
             _authService = authService;
+            _context = context;
         }
 
         [HttpGet, Authorize]
@@ -51,7 +46,7 @@ namespace VandasPage.Controllers
             user.UserName = request.UserName;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            var updatedUser =_context.constructPassword(user);
+            User updatedUser =await _context.constructPassword(user);
             return Ok(updatedUser);
         }
 
@@ -77,7 +72,7 @@ namespace VandasPage.Controllers
             string token = _authService.CreateToken(user);
 
             var refreshToken = _authService.GenerateRefreshToken();
-            SetRefreshToken(refreshToken);
+            SetRefreshToken(refreshToken, user);
 
             return Ok(token);
         }
@@ -105,7 +100,7 @@ namespace VandasPage.Controllers
 
             string token = _authService.CreateToken(user);
             var newRefreshToken = _authService.GenerateRefreshToken();
-            SetRefreshToken(newRefreshToken);
+            SetRefreshToken(newRefreshToken, user);
 
             return Ok(token);
         }
