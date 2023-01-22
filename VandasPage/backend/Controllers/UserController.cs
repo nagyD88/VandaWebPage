@@ -69,7 +69,7 @@ namespace VandasPage.Controllers
         }
 
 
-        [HttpPut]
+      /*  [HttpPut]
         [Route("registration")]
         public async Task<ActionResult<User>> registrationUser(UserRegDTO user)
         {
@@ -79,6 +79,7 @@ namespace VandasPage.Controllers
             }
             return await _context.constructPassword(user);
         }
+      */
 
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)
