@@ -28,7 +28,8 @@ namespace VandasPage.Models
         public decimal? priceLeft { get; set; }
         public byte[]? PasswordHash { get; set; }
         public byte[]? PasswordSalt { get; set; }
-        public string RefreshToken { get; set; } =string.Empty;
+        public long RefreshTokenID { get; set; }
+        public RefreshToken RefreshToken { get; set; }
         public DateTime TokenCreated { get; set; }
         public DateTime TokenExpires { get; set; }
         public HashSet<Level> Levels { get; set; }

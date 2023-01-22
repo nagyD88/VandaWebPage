@@ -14,7 +14,7 @@ namespace VandasPage.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<MeetingLog> MeetingLogs { get; set; }
-        
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
 
@@ -29,11 +29,13 @@ namespace VandasPage.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<User>().HasOne(a => a.RefreshToken).WithOne(a => a.User).HasForeignKey<RefreshToken>(x => x.UserId);
             modelBuilder.Entity<Question>().ToTable("questions");
             modelBuilder.Entity<Questionnaire>().ToTable("questionnaires");
             modelBuilder.Entity<MeetingLog>().ToTable("meetinglogs");
             modelBuilder.Entity<Level>().ToTable("levels");
             modelBuilder.Entity<EducationalMaterial>().ToTable("educationmaterials");
+            modelBuilder.Entity<RefreshToken>().ToTable("refreshTokens");
         }
         public Task<List<User>> GetUsers()
         {
@@ -43,7 +45,12 @@ namespace VandasPage.Data
         {
                 return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x => x.Id == id);   
         }
-        
+
+        public Task<User>? GetUserByUserName(string UserName)
+        {
+            return Users.Include(x => x.Levels).FirstOrDefaultAsync(x => x.UserName == UserName);
+        }
+
         public async Task<User> CreateNewUser(UserPreRegistrationDTO user)
         {
             if (Users.Any(x => x.Email == user.Email))
