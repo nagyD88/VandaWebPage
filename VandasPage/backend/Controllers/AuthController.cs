@@ -51,16 +51,22 @@ namespace VandasPage.Controllers
             user.UserName = request.UserName;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            _context.constructPassword(user);
-            return Ok(user);
+            var updatedUser =_context.constructPassword(user);
+            return Ok(updatedUser);
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserRegDTO request)
         {
-            if (user.UserName != request.UserName)
+            User user = await _context.GetUserById(request.Id);
+
+            if (user == null)
             {
                 return BadRequest("User not found.");
+            }
+            if (user.UserName != request.UserName)
+            {
+                return BadRequest("Wrong username.");
             }
 
             if (!_authService.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
@@ -77,8 +83,15 @@ namespace VandasPage.Controllers
         }
 
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<string>> RefreshToken()
+        public async Task<ActionResult<string>> RefreshToken(long Id)
         {
+            User user = await _context.GetUserById(Id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
             var refreshToken = Request.Cookies["refreshToken"];
 
             if (!user.RefreshToken.Equals(refreshToken))
@@ -98,7 +111,7 @@ namespace VandasPage.Controllers
         }
 
 
-        private void SetRefreshToken(RefreshToken newRefreshToken)
+        private void SetRefreshToken(RefreshToken newRefreshToken, User user)
         {
             var cookieOptions = new CookieOptions
             {
