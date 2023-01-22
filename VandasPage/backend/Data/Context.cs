@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Text.RegularExpressions;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
+using System.Security.Cryptography;
 
 namespace VandasPage.Data
 {
@@ -67,6 +68,16 @@ namespace VandasPage.Data
         {
             return Regex.IsMatch(email, EMAIL_PATTERN);
         }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
         public async Task<User> constructPassword(UserRegDTO userRegDTO)
         {
             var userToGetPassword = Users.FirstOrDefault(x => x.Id == userRegDTO.Id);
@@ -74,8 +85,11 @@ namespace VandasPage.Data
             {
                 return null;
             }
-            userToGetPassword.Password = userRegDTO.Password;
 
+            CreatePasswordHash(userRegDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            userToGetPassword.UserName = userRegDTO.UserName;
+            userToGetPassword.PasswordHash = passwordHash;
+            userToGetPassword.PasswordSalt = passwordSalt;
             var updatedUser = Users.Update(userToGetPassword);
             await SaveChangesAsync();
             return updatedUser.Entity;
@@ -114,7 +128,7 @@ namespace VandasPage.Data
             
         public Task<User> GetUserLogedIn(string password, string email)
         {
-            return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
+            return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x=>x.Email == email );//jelszót még ellenörizni kell
         }
 
         public Task<List<EducationalMaterial>> GetEducationMaterials()
