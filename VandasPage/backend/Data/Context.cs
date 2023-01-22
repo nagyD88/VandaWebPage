@@ -78,18 +78,16 @@ namespace VandasPage.Data
             }
         }
 
-        public async Task<User> constructPassword(UserRegDTO userRegDTO)
+        public async Task<User> constructPassword(User user)
         {
-            var userToGetPassword = Users.FirstOrDefault(x => x.Id == userRegDTO.Id);
+            var userToGetPassword = Users.FirstOrDefault(x => x.Id == user.Id);
             if (userToGetPassword == null)
             {
                 return null;
             }
-
-            CreatePasswordHash(userRegDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            userToGetPassword.UserName = userRegDTO.UserName;
-            userToGetPassword.PasswordHash = passwordHash;
-            userToGetPassword.PasswordSalt = passwordSalt;
+            userToGetPassword.UserName = user.UserName;
+            userToGetPassword.PasswordHash = user.PasswordHash;
+            userToGetPassword.PasswordSalt = user.PasswordSalt;
             var updatedUser = Users.Update(userToGetPassword);
             await SaveChangesAsync();
             return updatedUser.Entity;
