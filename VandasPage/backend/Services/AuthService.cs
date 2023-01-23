@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using VandasPage.Models;
+using Newtonsoft.Json;
 
 namespace VandasPage.Services
 {
@@ -31,10 +32,17 @@ namespace VandasPage.Services
 
         public string CreateToken(User user)
         {
+            string jsonString = JsonConvert.SerializeObject(user.Levels, Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Role, user.Admin.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Actor, jsonString)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

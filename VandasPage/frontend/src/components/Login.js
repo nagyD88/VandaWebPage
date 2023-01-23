@@ -6,7 +6,7 @@ import api from '../hooks/api';
 import decode from 'jwt-claims';
 
 const Login = () => {
-  const { setAuth } = useAuth();
+  const { setAuth, auth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,18 +39,20 @@ const Login = () => {
       console.log(response);
       
 
-;
-      const decoded = decode(response?.data)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-      console.log(decoded);
 
-      console.log(JSON.stringify(response?.data));
-      const admin = decoded?.admin;
-      const id = response?.data?.id;
-      const levels = response?.data?.levels;
-      setAuth({ user: email, pwd: password, admin: admin, id: id, levels: levels/*, accessToken*/ });
+      const admin = "True"==decode(response?.data)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      const id = decode(response?.data)['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+      const levels = JSON.parse(decode(response?.data)['http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor']);
+      setAuth({ user: email, pwd: password, admin: admin, id: id, levels: levels});
       setUser('');
       setPwd('');
       navigate(from, { replace: true });
+      
+      console.log(admin);
+      console.log(id);
+      console.log(levels);
+
+      console.log(auth);
       
     } catch (err) {
       if (!err?.response) {
