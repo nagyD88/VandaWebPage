@@ -3,6 +3,7 @@ import useAuth from '../hooks/useAuth';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../hooks/api';
+import decode from 'jwt-claims';
 
 const Login = () => {
   const { setAuth } = useAuth();
@@ -31,16 +32,19 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post('/user/login', {
+      const response = await api.post('/Auth/login', {
         password: password,
         email: email,
       });
       console.log(response);
+      
+
+;
+      const decoded = decode(response?.data)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      console.log(decoded);
 
       console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response));
-      //const accessToken = response?.data?.accessToken;
-      const admin = response?.data?.admin;
+      const admin = decoded?.admin;
       const id = response?.data?.id;
       const levels = response?.data?.levels;
       setAuth({ user: email, pwd: password, admin: admin, id: id, levels: levels/*, accessToken*/ });
