@@ -46,12 +46,7 @@ a {
   width: 80%;
 }
 
-footer {
-  position: absolute;
-  bottom:-30%;
-  left: calc(50% - 80px);
-  margin-bottom: 1.5rem;
-}
+
 
 .App {
   text-align: center;
@@ -141,7 +136,23 @@ footer {
   color: white;
 }
 
+.course-list{
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  background-color: sandybrown;
+}
+
 .mainPart{
+  position: absolute;
   margin-left: 170px;
   height: 100vh;
+}
+
+footer {
+  position: absolute;
+  bottom:-30%;
+  left: calc(50% - 80px);
+  margin-bottom: 1.5rem;
+  
 }
