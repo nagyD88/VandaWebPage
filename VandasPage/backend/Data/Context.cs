@@ -43,7 +43,7 @@ namespace VandasPage.Data
         }
         public Task<User>? GetUserById(long id)
         {
-                return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x => x.Id == id);   
+                return Users.Include(x=>x.Levels.OrderBy(y=>y.Index)).FirstOrDefaultAsync(x => x.Id == id);   
         }
 
         public Task<User>? GetUserByEmail(string Email)
