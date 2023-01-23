@@ -138,18 +138,6 @@ color: black;
   width: 80%;
 }
 
-.header {
-  overflow: hidden;
-  background-color: white;
-  padding: 20px 10px;
-  color: black;
-  text-align: center;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 25px;
-  border-radius: 4px;
-  position: relative;
-}
 .header.Dark{
   background-color: black;
   color: white;
