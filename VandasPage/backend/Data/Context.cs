@@ -46,9 +46,9 @@ namespace VandasPage.Data
                 return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x => x.Id == id);   
         }
 
-        public Task<User>? GetUserByUserName(string UserName)
+        public Task<User>? GetUserByEmail(string Email)
         {
-            return Users.Include(x => x.Levels).FirstOrDefaultAsync(x => x.UserName == UserName);
+            return Users.Include(x => x.Levels).FirstOrDefaultAsync(x => x.Email == Email);
         }
 
         public async Task<User> CreateNewUser(UserPreRegistrationDTO user)
@@ -76,14 +76,6 @@ namespace VandasPage.Data
             return Regex.IsMatch(email, EMAIL_PATTERN);
         }
 
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
 
         public async Task<User> constructPassword(User user)
         {
@@ -92,7 +84,6 @@ namespace VandasPage.Data
             {
                 return null;
             }
-            userToGetPassword.UserName = user.UserName;
             userToGetPassword.PasswordHash = user.PasswordHash;
             userToGetPassword.PasswordSalt = user.PasswordSalt;
             var updatedUser = Users.Update(userToGetPassword);

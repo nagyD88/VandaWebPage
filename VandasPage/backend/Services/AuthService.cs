@@ -33,7 +33,6 @@ namespace VandasPage.Services
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,  user.UserName),
                 new Claim(ClaimTypes.Role, user.Admin.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };

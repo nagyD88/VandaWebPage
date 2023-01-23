@@ -43,7 +43,6 @@ namespace VandasPage.Controllers
             {
                 return NotFound();
             }
-            user.UserName = request.UserName;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             User updatedUser =await _context.constructPassword(user);
@@ -53,7 +52,7 @@ namespace VandasPage.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserLogDTO request)
         {
-            User user = await _context.GetUserByUserName(request.UserName);
+            User user = await _context.GetUserByEmail(request.Email);
 
             if (user == null)
             {

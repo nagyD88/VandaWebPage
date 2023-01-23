@@ -41,7 +41,6 @@ namespace VandasPage.Data
                         LastName = "Alma",
                         Email = "alma@alma.hu",
                         Admin = true,
-                        UserName = "Alma",
                         PasswordHash = Encoding.ASCII.GetBytes("k8ahcyCs6OIFR/lwIPq5A3bXTP9sHfsuksiODcbY+eXbtwfcQdA7ZxpO6wK9//CsBUelGLBcGOrVIckqp1xWBw=="),
                         PasswordSalt = Encoding.ASCII.GetBytes("euWyoG6b6pewJaTCT8abS5T2sPjlRIJyW0758OdysmGg1W94R19XaA6g49WR8EDkcrOPQaBKSnaC4j0n1FXQobXIHgaFN5hZzH+uZ9JhwfVIxAGyxcOUY6jshbZAS45NDOg7zVobdrcay1TcbwxH2We/pix97hqWFIGybHLg24w="),
                         Levels = new HashSet<Level> { context.Levels.FirstOrDefault(x => x.Index == 0) }
@@ -52,7 +51,6 @@ namespace VandasPage.Data
                         FirstName = "cucu",
                         LastName = "malac",
                         Email = "malac@malac.hu",
-                        UserName = "malac",
                         Admin = false,
                         PasswordHash = Encoding.ASCII.GetBytes("s0wotvkLieuy9oYMephdotc18fAAEXSsKdhp0sW0nToTv1b9UT3E2W6CvNRQhQ7JgTzEY2+fXKCjR+aKQ0w36A=="),
                         PasswordSalt = Encoding.ASCII.GetBytes("f4cHp0ZCcyP/qe40TuMf8EvQpJvpfNAv68xWRzbk//bA+dILTs7eUolp1CanZvV5PP/lAwlQv5MOKz9ATx69Yge7gWmJaNnPlW0H0f+qj2EMqX1VnZ+Q6/IWu4A7PByyhxAG3k9Y4lv6wdXJiLSkHBeQjzU1VVw8ZHKjxCQ3rOo=")
