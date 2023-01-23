@@ -49,6 +49,15 @@ namespace VandasPage.Data
                         Password = "malac",
                         Email = "malac@malac.hu",
                         Admin = false
+                    },
+
+                    new User
+                    {
+                        FirstName = "f",
+                        LastName = "f",
+                        Password= "f",
+                        Email = "f@f.hu",
+                        Admin = true
                     }
                  ) ;
                 context.SaveChanges();
