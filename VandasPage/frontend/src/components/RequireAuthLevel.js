@@ -16,7 +16,7 @@ const RequireAuthLevel = () => {
     console.log ("id: ", id)
 
     return (
-        auth.levels.some(x =>x.id ==id)
+        auth.levels.some(x =>x.Id ==id)
             ? <Outlet />
             : auth?.user
                 ? <Navigate to="/unauthorized" state={{ from: location }} replace />
