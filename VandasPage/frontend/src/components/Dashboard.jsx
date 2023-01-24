@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import Modal from './Modal.js';
+import Modal from './Modal';
 import "./Dashboard.css";
 
 const Dashboard = ({ children }) => {
