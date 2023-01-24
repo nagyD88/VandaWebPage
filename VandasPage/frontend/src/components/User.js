@@ -19,11 +19,17 @@ const User = () => {
   const [levelId, setLevelId] = useState(null);
   const [levels, setLevels] = useState([]);
   const [userData, setUserData] = useState();
+  const [levelsToAdd, setLevelsToAdd] =useState([])
 
   useEffect(() => {
     console.log('levels: ', levels);
     console.log('userData: ', userData);
+    const filteredLevels = levels.filter(x => !(userData?.levels?.some(y=>y.id === x.id)));
+    setLevelsToAdd(filteredLevels);
+    console.log("filtered: ",filteredLevels);
   }, [levels, userData]);
+
+
   useEffect(() => {
     let isMounted = true;
     let levelUrl = '/Education/level';
@@ -101,7 +107,7 @@ const User = () => {
                 onChange={(e) => setLevelId(e.target.value)}
               >
                 <option value={null}>válasz szintet amit megnézhet</option>
-                {levels?.map((level) => (
+                {levelsToAdd?.map((level) => (
                   <option key={level.id} value={level.id}>{level.name}</option>
                 ))}
               </select>
