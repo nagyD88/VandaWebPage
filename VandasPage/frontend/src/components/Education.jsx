@@ -22,7 +22,7 @@ const Education = ({ urlPart }) => {
     <>
       <ul className="course-list">
       {data.map((level) => (
-        <li>
+        <li key={level.id}>
           <Link key={level.id} to={`/Education/${level.id}`}>
             {level.name}
           </Link>
