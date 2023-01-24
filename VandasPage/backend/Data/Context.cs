@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Text.RegularExpressions;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
+using System.Security.Cryptography;
 
 namespace VandasPage.Data
 {
@@ -13,7 +14,7 @@ namespace VandasPage.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<MeetingLog> MeetingLogs { get; set; }
-        
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
 
@@ -28,11 +29,13 @@ namespace VandasPage.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<User>().HasOne(a => a.RefreshToken).WithOne(a => a.User).HasForeignKey<RefreshToken>(x => x.UserId);
             modelBuilder.Entity<Question>().ToTable("questions");
             modelBuilder.Entity<Questionnaire>().ToTable("questionnaires");
             modelBuilder.Entity<MeetingLog>().ToTable("meetinglogs");
             modelBuilder.Entity<Level>().ToTable("levels");
             modelBuilder.Entity<EducationalMaterial>().ToTable("educationmaterials");
+            modelBuilder.Entity<RefreshToken>().ToTable("refreshTokens");
         }
         public Task<List<User>> GetUsers()
         {
@@ -40,9 +43,14 @@ namespace VandasPage.Data
         }
         public Task<User>? GetUserById(long id)
         {
-                return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x => x.Id == id);   
+                return Users.Include(x=>x.Levels.OrderBy(y=>y.Index)).FirstOrDefaultAsync(x => x.Id == id);   
         }
-        
+
+        public Task<User>? GetUserByEmail(string Email)
+        {
+            return Users.Include(x => x.Levels).FirstOrDefaultAsync(x => x.Email == Email);
+        }
+
         public async Task<User> CreateNewUser(UserPreRegistrationDTO user)
         {
             if (Users.Any(x => x.Email == user.Email))
@@ -67,15 +75,17 @@ namespace VandasPage.Data
         {
             return Regex.IsMatch(email, EMAIL_PATTERN);
         }
-        public async Task<User> constructPassword(UserRegDTO userRegDTO)
+
+
+        public async Task<User> constructPassword(User user)
         {
-            var userToGetPassword = Users.FirstOrDefault(x => x.Id == userRegDTO.Id);
+            var userToGetPassword = Users.FirstOrDefault(x => x.Id == user.Id);
             if (userToGetPassword == null)
             {
                 return null;
             }
-            userToGetPassword.Password = userRegDTO.Password;
-
+            userToGetPassword.PasswordHash = user.PasswordHash;
+            userToGetPassword.PasswordSalt = user.PasswordSalt;
             var updatedUser = Users.Update(userToGetPassword);
             await SaveChangesAsync();
             return updatedUser.Entity;
@@ -112,10 +122,6 @@ namespace VandasPage.Data
             return userDeleted.Entity;
         }
             
-        public Task<User> GetUserLogedIn(string password, string email)
-        {
-            return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x=>x.Email == email && x.Password == password);
-        }
 
         public Task<List<EducationalMaterial>> GetEducationMaterials()
         {

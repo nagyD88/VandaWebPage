@@ -9,9 +9,9 @@ namespace VandasPage.Controllers
     [Route("api/user")]
     public class UserController : Controller
     {
-        
+
         private readonly Context _context;
-        
+
         public UserController(Context context)
         {
             _context = context;
@@ -25,7 +25,7 @@ namespace VandasPage.Controllers
         [Route("{id}")]
         public async Task<ActionResult<User>> GetUserById(long id)
         {
-            User user =  await _context.GetUserById(id);
+            User user = await _context.GetUserById(id);
 
             if (user == null)
             {
@@ -35,20 +35,7 @@ namespace VandasPage.Controllers
         }
 
 
-        //first try version
-        [HttpPost]
-        [Route("login")]
-        public async Task<ActionResult<User>> LoginUser(loginDTO login)
-        {
-            string password = login.Password;
-            string email = login.Email;
-            User user= await _context.GetUserLogedIn(password, email);
-            if (User == null)
-            {
-                return NotFound();
-            }
-            return user;
-        }
+
 
         [HttpPost]
         public async Task<ActionResult<User>> CreateNewUser(UserPreRegistrationDTO user)
@@ -59,7 +46,7 @@ namespace VandasPage.Controllers
                 return BadRequest("Invalid email address");
             }
 
-            User newUser=await _context.CreateNewUser(user);
+            User newUser = await _context.CreateNewUser(user);
             if (newUser == null)
             {
                 return BadRequest("This email is already registered");
@@ -69,16 +56,6 @@ namespace VandasPage.Controllers
         }
 
 
-        [HttpPut]
-        [Route("registration")]
-        public async Task<ActionResult<User>> registrationUser(UserRegDTO user)
-        {
-            if (await _context.GetUserById(user.Id) == null)
-            {
-                return NotFound();
-            }
-            return await _context.constructPassword(user);
-        }
 
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)
@@ -94,7 +71,7 @@ namespace VandasPage.Controllers
         [Route("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
-            var userDeleted= await _context.DeleteUser(id);
+            var userDeleted = await _context.DeleteUser(id);
             if (userDeleted == null)
             {
                 return NotFound();
@@ -112,14 +89,12 @@ namespace VandasPage.Controllers
                 return NotFound("No User found!");
             }
             var level = await _context.GetLevelById(levelId);
-            if(level == null)
+            if (level == null)
             {
                 return NotFound("NO level found");
             }
             var userUpdated = await _context.AddlevelToUser(userId, levelId);
             return userUpdated;
-
         }
-
     }
 }

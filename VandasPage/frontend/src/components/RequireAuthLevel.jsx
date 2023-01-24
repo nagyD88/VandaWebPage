@@ -1,7 +1,5 @@
 import { useLocation, Navigate, Outlet, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import api from "../hooks/api";
-import { useEffect, useState } from "react";
 
 
 const RequireAuthLevel = () => {
@@ -16,7 +14,7 @@ const RequireAuthLevel = () => {
     console.log ("id: ", id)
 
     return (
-        auth.levels.some(x =>x.id ==id)
+        auth.levels.some(x =>x.Id ==id)
             ? <Outlet />
             : auth?.user
                 ? <Navigate to="/unauthorized" state={{ from: location }} replace />
