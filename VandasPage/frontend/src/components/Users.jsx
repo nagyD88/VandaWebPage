@@ -9,7 +9,7 @@ const Users = () => {
   const { data, fetchError, isLoading } = useAxiosFetch(url);
   const {colorTheme } = useContext(DataContext);
 
-  console.log(data);
+
 
   return (
     <>
