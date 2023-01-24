@@ -1,7 +1,5 @@
 import { useLocation, Navigate, Outlet, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import api from "../hooks/api";
-import { useEffect, useState } from "react";
 
 
 const RequireAuthLevel = () => {
