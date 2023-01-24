@@ -122,10 +122,6 @@ namespace VandasPage.Data
             return userDeleted.Entity;
         }
             
-        public Task<User> GetUserLogedIn(string password, string email)
-        {
-            return Users.Include(x=>x.Levels).FirstOrDefaultAsync(x=>x.Email == email );//jelszót még ellenörizni kell
-        }
 
         public Task<List<EducationalMaterial>> GetEducationMaterials()
         {

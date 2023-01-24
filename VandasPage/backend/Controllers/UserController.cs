@@ -35,20 +35,7 @@ namespace VandasPage.Controllers
         }
 
 
-        //first try version
-        [HttpPost]
-        [Route("login")]
-        public async Task<ActionResult<User>> LoginUser(loginDTO login)
-        {
-            string password = login.Password;
-            string email = login.Email;
-            User user = await _context.GetUserLogedIn(password, email);
-            if (User == null)
-            {
-                return NotFound();
-            }
-            return user;
-        }
+
 
         [HttpPost]
         public async Task<ActionResult<User>> CreateNewUser(UserPreRegistrationDTO user)
@@ -69,17 +56,6 @@ namespace VandasPage.Controllers
         }
 
 
-      /*  [HttpPut]
-        [Route("registration")]
-        public async Task<ActionResult<User>> registrationUser(UserRegDTO user)
-        {
-            if (await _context.GetUserById(user.Id) == null)
-            {
-                return NotFound();
-            }
-            return await _context.constructPassword(user);
-        }
-      */
 
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)

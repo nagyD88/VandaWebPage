@@ -47,7 +47,7 @@ const Login = () => {
       setUser('');
       setPwd('');
       navigate(from, { replace: true });
-      
+      console.log(response.data)
       console.log(admin);
       console.log(id);
       console.log(levels);
