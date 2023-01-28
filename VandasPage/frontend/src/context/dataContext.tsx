@@ -6,9 +6,10 @@ type ColorType = "Light" | "Dark"
 type DatacontexType = {
   colorTheme:ColorType;
   setColorTheme:(colorTheme: ColorType) => void;
-  counter:number;
+  counter:number; 
   setCounter:(counter:number)=>void;
 }
+
 const DataContext = createContext<DatacontexType>({
   colorTheme:"Light",
   setColorTheme:(colorTheme:ColorType)=>{},
