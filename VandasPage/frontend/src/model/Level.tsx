@@ -3,8 +3,8 @@ import { User } from "./User";
 
 export interface Level {
     id: number;
-    Name: string;
-    Index:number;
+    name: string;
+    index:number;
     users: User[];
     educationalMaterials:EducationMaterial[];
   }
