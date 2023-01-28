@@ -13,7 +13,7 @@ const DataContext = createContext<DatacontexType>({
   colorTheme:"Light",
   setColorTheme:(colorTheme:ColorType)=>{},
   counter:0,
-  setCounter:()=>{}
+  setCounter:(counter:number)=>{}
 });
 
 export const DataProvider = ({ children }: ChildrenType): ReactElement => {
