@@ -3,14 +3,14 @@ import axios from 'axios';
 
 const useAxiosFetch = (dataUrl) => {
   const [data, setData] = useState([]);
-  const [fetchError, setFetchError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState<string|null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
     const source = axios.CancelToken.source();
 
-    const fetchData = async (url) => {
+    const fetchData = async (url:string) => {
       setIsLoading(true);
       try {
         const response = await axios.get(url, {
