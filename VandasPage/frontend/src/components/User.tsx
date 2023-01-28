@@ -4,6 +4,8 @@ import { useParams } from 'react-router';
 import DataContext from '../context/dataContext';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import api from '../hooks/api';
+import { Level } from '../model/Level';
+import { User } from '../model/User';
 
 const User = () => {
   const { id } = useParams();
@@ -11,15 +13,15 @@ const User = () => {
 
   const { colorTheme } = useContext(DataContext);
   const { data, fetchError, isLoading } = useAxiosFetch(url);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [communication, setCommunication] = useState('');
-  const [MBTI, setMBTI] = useState('');
-  const [levelId, setLevelId] = useState(null);
-  const [levels, setLevels] = useState([]);
-  const [userData, setUserData] = useState();
-  const [levelsToAdd, setLevelsToAdd] =useState([])
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [communication, setCommunication] = useState<string>('');
+  const [MBTI, setMBTI] = useState<string>('');
+  const [levelId, setLevelId] = useState<number>();
+  const [levels, setLevels] = useState<Level[]>([]);
+  const [userData, setUserData] = useState<User|undefined>();
+  const [levelsToAdd, setLevelsToAdd] =useState<Level[]>([])
 
   useEffect(() => {
     console.log('levels: ', levels);
@@ -34,9 +36,9 @@ const User = () => {
     let isMounted = true;
     let levelUrl = '/Education/level';
     let userUrl = `/user/${id}`;
-    const fetchLevel = async (url) => {
+    const fetchLevel = async (url:string) => {
       try {
-        const response = await api.get(url);
+        const response = await api.get<Level[]>(url);
         if (isMounted) {
           setLevels(response.data);
           console.log(response.data);
@@ -49,16 +51,16 @@ const User = () => {
       }
     };
 
-    const fetchUser = async (url) => {
+    const fetchUser = async (url:string) => {
       try {
-        const response = await api.get(url);
+        const response = await api.get<User>(url);
         if (isMounted) {
           setUserData(response.data);
           console.log(response.data);
         }
       } catch (err) {
         if (isMounted) {
-          setUserData();
+          setUserData(undefined);
         }
       } finally {
       }
@@ -82,11 +84,12 @@ const User = () => {
   };
 
   useEffect(() => {
-    setFirstName(data.firstName);
-    setLastName(data.lastName);
-    setEmail(data.email);
-    setCommunication(data.communication);
-    setMBTI(data.mbti);
+    let user= data as unknown as User;//erre rákérdezni hogy lehetne jobban!!
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setEmail(user.email);
+    setCommunication(user.communication);
+    setMBTI(user.mbti);
   }, [data]);
   return (
     <>
@@ -104,9 +107,9 @@ const User = () => {
             <form onSubmit={handleSubmit} className="siStart">
               <select
                 value={levelId}
-                onChange={(e) => setLevelId(e.target.value)}
+                onChange={(e) => setLevelId(parseInt(e.target.value))}
               >
-                <option value={null}>válasz szintet amit megnézhet</option>
+                <option value={undefined}>válasz szintet amit megnézhet</option>
                 {levelsToAdd?.map((level) => (
                   <option key={level.id} value={level.id}>{level.name}</option>
                 ))}
@@ -148,8 +151,8 @@ const User = () => {
                 <textarea
                   value={communication}
                   onChange={(e) => setCommunication(e.target.value)}
-                  rows="4"
-                  cols="50"
+                  rows={4}
+                  cols={50}
                 />
               </label>
 
