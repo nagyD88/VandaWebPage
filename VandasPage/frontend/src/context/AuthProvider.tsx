@@ -1,40 +1,40 @@
 import React, { ReactElement } from 'react';
 import { createContext, useState } from 'react';
-import {Level} from '../model/Level'
+import { LevelType } from '../model/LevelType';
 type ChildrenType = { children?: ReactElement | ReactElement[] };
 
-type AuthType={
-  user: string, 
-  admin: boolean, 
-  id: number, 
-  levels: Level[]
+type AuthType = {
+  user: string;
+  admin: boolean;
+  id: number;
+  levels: LevelType[];
 };
 
-
-type AuthContextType ={
+type AuthContextType = {
   auth: AuthType;
-  setAuth:(auth: AuthType) => void;}
+  setAuth: (auth: AuthType) => void;
+};
 
 const AuthContext = createContext<AuthContextType>({
-  auth:{
-    user:"", 
-    admin:false, 
-    id:-1, 
-    levels:[]
+  auth: {
+    user: '',
+    admin: false,
+    id: -1,
+    levels: [],
   },
-  setAuth:()=>{}
+  setAuth: () => {},
 });
 
-export const AuthProvider = ({ children }:ChildrenType) => {
+export const AuthProvider = ({ children }: ChildrenType) => {
   const [auth, setAuth] = useState<AuthType>({
-    user:"", 
-    admin:false, 
-    id:-1, 
-    levels:[]
+    user: '',
+    admin: false,
+    id: -1,
+    levels: [],
   });
 
   return (
-    <AuthContext.Provider value={{ auth:auth, setAuth:setAuth }}>
+    <AuthContext.Provider value={{ auth: auth, setAuth: setAuth }}>
       {children}
     </AuthContext.Provider>
   );

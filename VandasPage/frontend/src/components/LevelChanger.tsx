@@ -14,23 +14,24 @@ import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import axios from 'axios';
 import EducationChanger from './EducationChanger';
+import { EducationMaterialtype } from '../model/EducationMaterialType';
+import { Level } from '../model/LevelType';
 
 const LevelChanger = () => {
   const { id } = useParams();
-  const url= `https://localhost:7168/api/education/level/${id}`
-  
+  const url = `https://localhost:7168/api/education/level/${id}`;
+
   const dataUrl = `education/level/${id}`;
   const { colorTheme, counter } = useContext(DataContext);
   const { data } = useAxiosFetch(url);
-  
+
   const { auth } = useContext(AuthContext);
-  const [materialData, setMaterialData] = useState(data||[]);
-  const [eduMaterials, setEduMaterials] = useState(data.educationalMaterials || [])
+  const [materialData, setMaterialData] = useState<Level>(data || []);
+  const [eduMaterials, setEduMaterials] = useState<
+    EducationMaterialtype[]
+  >(data.educationalMaterials || []);
   const [fetchError, setFetchError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  
-  
-
 
   useEffect(() => {
     let isMounted = true;
@@ -64,8 +65,14 @@ const LevelChanger = () => {
     setEduMaterials(Materials);
     const materialsJSON = JSON.stringify(Materials);
     console.log(materialsJSON);
-    const config = {headers:{ "Content-Type" : "application/json" }}
-    const response = await api.patch('/Education/level/materials/changeorder', materialsJSON, config);
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+    const response = await api.patch(
+      '/Education/level/materials/changeorder',
+      materialsJSON,
+      config
+    );
     console.log(response);
   };
 
@@ -75,24 +82,40 @@ const LevelChanger = () => {
         <Dashboard children={<AddEducationMaterial levelID={id} />} />
       )}
       <div>
-        <EducationChanger urlPart={"Educationchanger"} />
+        <EducationChanger urlPart={'Educationchanger'} />
       </div>
       <h2>{materialData.name}</h2>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="educationMaterials">
           {(provided) => (
-            <section {...provided.droppableProps} ref={provided.innerRef} >
-              {eduMaterials?.map((material) => {
+            <section
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {eduMaterials?.map((material: EducationMaterial) => {
                 return (
-                  <Draggable key={material.id} draggableId={material.id.toString()} index={material.index} >
-                     {(provided) => (
-                      <article ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
-                        <EducationMaterial key={material.id} material={material} canDelete={true} />
+                  <Draggable
+                    key={material.id}
+                    draggableId={material.id.toString()}
+                    index={material.index}
+                  >
+                    {(provided) => (
+                      <article
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <EducationMaterial
+                          key={material.id}
+                          material={material}
+                          canDelete={true}
+                        />
                       </article>
-                      )}
+                    )}
                   </Draggable>
-                )})}
-                {provided.placeholder}
+                );
+              })}
+              {provided.placeholder}
             </section>
           )}
         </Droppable>

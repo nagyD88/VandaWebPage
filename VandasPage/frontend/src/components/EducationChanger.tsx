@@ -14,7 +14,7 @@ import AreYouSure from './AreYouSure';
 
 const EducationChanger = ({ urlPart }) => {
   let dataURL = 'https://localhost:7168/api/Education/level';
-  const { data, fError, fLoading } = useAxiosFetch(dataURL);
+  const { data } = useAxiosFetch(dataURL);
   const { colorTheme, counter, setCounter } = useContext(dataContext);
   const [levels, setLevels] = useState(data || []);
   const [fetchError, setFetchError] = useState(null);
@@ -31,7 +31,7 @@ const EducationChanger = ({ urlPart }) => {
   useEffect(() => {
     let isMounted = true;
 
-    const fetchData = async (url) => {
+    const fetchData = async (url:string) => {
       try {
         const response = await api.get(url);
         if (isMounted) {

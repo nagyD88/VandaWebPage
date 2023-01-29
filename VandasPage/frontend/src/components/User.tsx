@@ -4,8 +4,8 @@ import { useParams } from 'react-router';
 import DataContext from '../context/dataContext';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import api from '../hooks/api';
-import { Level } from '../model/Level';
-import { User } from '../model/User';
+import { LevelType } from '../model/LevelType';
+import { UserType } from '../model/UserType';
 
 const User = () => {
   const { id } = useParams();
@@ -19,26 +19,27 @@ const User = () => {
   const [communication, setCommunication] = useState<string>('');
   const [MBTI, setMBTI] = useState<string>('');
   const [levelId, setLevelId] = useState<number>();
-  const [levels, setLevels] = useState<Level[]>([]);
-  const [userData, setUserData] = useState<User|undefined>();
-  const [levelsToAdd, setLevelsToAdd] =useState<Level[]>([])
+  const [levels, setLevels] = useState<LevelType[]>([]);
+  const [userData, setUserData] = useState<UserType | undefined>();
+  const [levelsToAdd, setLevelsToAdd] = useState<LevelType[]>([]);
 
   useEffect(() => {
     console.log('levels: ', levels);
     console.log('userData: ', userData);
-    const filteredLevels = levels.filter(x => !(userData?.levels?.some(y=>y.id === x.id)));
+    const filteredLevels = levels.filter(
+      (x) => !userData?.levels?.some((y) => y.id === x.id)
+    );
     setLevelsToAdd(filteredLevels);
-    console.log("filtered: ",filteredLevels);
+    console.log('filtered: ', filteredLevels);
   }, [levels, userData]);
-
 
   useEffect(() => {
     let isMounted = true;
     let levelUrl = '/Education/level';
     let userUrl = `/user/${id}`;
-    const fetchLevel = async (url:string) => {
+    const fetchLevel = async (url: string) => {
       try {
-        const response = await api.get<Level[]>(url);
+        const response = await api.get<LevelType[]>(url);
         if (isMounted) {
           setLevels(response.data);
           console.log(response.data);
@@ -51,9 +52,9 @@ const User = () => {
       }
     };
 
-    const fetchUser = async (url:string) => {
+    const fetchUser = async (url: string) => {
       try {
-        const response = await api.get<User>(url);
+        const response = await api.get<UserType>(url);
         if (isMounted) {
           setUserData(response.data);
           console.log(response.data);
@@ -78,13 +79,13 @@ const User = () => {
       email: `${email}`,
       communication: `${communication}`,
       mbti: `${MBTI}`,
-      levelId: levelId
+      levelId: levelId,
     });
     console.log(response.data);
   };
 
   useEffect(() => {
-    let user= data as unknown as User;//erre rákérdezni hogy lehetne jobban!!
+    let user = data as unknown as UserType; //erre rákérdezni hogy lehetne jobban!!
     setFirstName(user.firstName);
     setLastName(user.lastName);
     setEmail(user.email);
@@ -109,9 +110,13 @@ const User = () => {
                 value={levelId}
                 onChange={(e) => setLevelId(parseInt(e.target.value))}
               >
-                <option value={undefined}>válasz szintet amit megnézhet</option>
+                <option value={undefined}>
+                  válasz szintet amit megnézhet
+                </option>
                 {levelsToAdd?.map((level) => (
-                  <option key={level.id} value={level.id}>{level.name}</option>
+                  <option key={level.id} value={level.id}>
+                    {level.name}
+                  </option>
                 ))}
               </select>
               <label>

@@ -1,20 +1,20 @@
 import React from "react";
 import useAxiosFetch from "../hooks/useAxiosFetch";
-import dataContext from "../context/dataContext";
+import DataContext from '../context/dataContext';
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Education = ({ urlPart }) => {
   let url = "https://localhost:7168/api/Education/level";
   const { data, fetchError, isLoading } = useAxiosFetch(url);
-  const { colorTheme, counter } = useContext(dataContext);
+  const { colorTheme, counter } = useContext(DataContext);
 
   console.log(data);
 
   const categorys = new Set();
 
   useEffect(() => {
-    data.map((level) => categorys.add(level.categoryName));
+    data?.map((level) => categorys.add(level.categoryName));
     console.log("category");
     console.log(categorys);
   }, [data, counter]);

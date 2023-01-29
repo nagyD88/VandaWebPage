@@ -1,13 +1,11 @@
 import React, { RefObject } from 'react';
 import { useRef, useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
-import {  useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../hooks/api';
 import decode from 'jwt-claims';
-import { Level } from '../model/Level';
-import { Token } from '../model/Token';
-
-
+import { LevelType } from '../model/LevelType';
+import { Token } from '../model/TokenType';
 
 const Login = () => {
   const { setAuth, auth } = useAuth();
@@ -42,23 +40,30 @@ const Login = () => {
         email: email,
       });
       console.log(response);
-      
 
-
-      const admin:boolean = "True"==decode(response?.data)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-      const id:number = decode(response?.data)['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
-      const levels:Level[] = JSON.parse(decode(response?.data)['http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor']);
-      setAuth({ user: email, admin: admin, id: id, levels: levels});
+      const admin: boolean =
+        'True' ==
+        decode(response?.data)[
+          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+        ];
+      const id: number = decode(response?.data)[
+        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
+      ];
+      const levels: LevelType[] = JSON.parse(
+        decode(response?.data)[
+          'http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor'
+        ]
+      );
+      setAuth({ user: email, admin: admin, id: id, levels: levels });
       setUser('');
       setPwd('');
       navigate(from, { replace: true });
-      console.log(response.data)
+      console.log(response.data);
       console.log(admin);
       console.log(id);
       console.log(levels);
 
       console.log(auth);
-      
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
