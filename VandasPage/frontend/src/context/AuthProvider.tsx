@@ -5,7 +5,7 @@ type ChildrenType = { children?: ReactElement | ReactElement[] };
 
 type AuthType = {
   user: string;
-  admin: boolean;
+  admin: boolean|null;
   id: number;
   levels: LevelType[];
 };
@@ -18,7 +18,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({
   auth: {
     user: '',
-    admin: false,
+    admin: null,
     id: -1,
     levels: [],
   },
@@ -28,7 +28,7 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: ChildrenType) => {
   const [auth, setAuth] = useState<AuthType>({
     user: '',
-    admin: false,
+    admin: null,
     id: -1,
     levels: [],
   });
