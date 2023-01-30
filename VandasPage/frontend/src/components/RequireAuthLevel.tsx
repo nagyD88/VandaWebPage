@@ -7,17 +7,15 @@ import useAuth from "../hooks/useAuth";
 const RequireAuthLevel = () => {
     const { auth } = useAuth();
     const location = useLocation();
-    
 
-  
-    const {idString} = useParams()
-    const id = parseInt(idString!)
-    console.log("userId: ", auth.id)
-    console.log ("levels: ", auth.levels)
-    console.log ("id: ", id)
+    const { id } = useParams()
+    
+    
+    console.log("auth: ", auth)
 
     return (
-        auth.levels.some(x =>x.id ==id)
+        auth.levels.some(x =>x.id.toString() ==id) // auth-bol jön ami a jvt-tokenböl ott nagybetü de miért vagy a többi miért nem?
+
             ? <Outlet />
             : auth?.user
                 ? <Navigate to="/unauthorized" state={{ from: location }} replace />
