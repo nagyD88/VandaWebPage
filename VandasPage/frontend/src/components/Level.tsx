@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import EducationMaterial from './EducationMaterial';
 import DataContext from '../context/dataContext';
-import { useContext } from 'react';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import { useParams } from 'react-router';
 import AuthContext from '../context/AuthProvider';
 import Education from './Education';
+import { LevelType } from '../model/LevelType';
 
 
 
@@ -16,13 +16,15 @@ const Level = () => {
   const { colorTheme } = useContext(DataContext);
   const { data, fetchError, isLoading } = useAxiosFetch(url);
   const { auth } = useContext(AuthContext);
-
+  console.log(data)
+  console.log(url)
   return (
     <>
      
      <div><Education urlPart={"Education"}/></div>
+     
       <h2>{data.name}</h2>
-      {data.educationalMaterials?.map((material) => (
+      {data?.educationalMaterials?.map((material) => (
         <EducationMaterial key={material.id} material={material} canDelete={false} />
       ))}
     </>
