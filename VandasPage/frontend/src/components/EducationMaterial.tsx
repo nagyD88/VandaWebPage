@@ -6,9 +6,13 @@ import api from '../hooks/api';
 import { useContext } from 'react';
 import DataContext from '../context/dataContext';
 import AuthContext from '../context/AuthProvider';
+import { EducationMaterialtype } from '../model/EducationMaterialType';
 
-
-const EducationMaterial = ({ material, canDelete}) => {
+type AppProps = {
+  material: EducationMaterialtype;
+  canDelete: boolean;
+};
+const EducationMaterial = ({ material, canDelete}:AppProps) => {
   const { setCounter, counter } = useContext(DataContext);
   const { auth } = useContext(AuthContext);
   
@@ -25,6 +29,8 @@ const EducationMaterial = ({ material, canDelete}) => {
           <AreYouSure
             handleOnClick={handleOnClick}
             messege={'Biztos le akarod törölni?'}
+            hideModal={''}
+            levelID={material.level.id}
           />
         }
       />)}

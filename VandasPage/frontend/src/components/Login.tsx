@@ -24,7 +24,6 @@ const Login = () => {
 
   useEffect(() => {
     userRef.current?.focus();
-    console.log(useRef);
   }, []);
 
   useEffect(() => {
@@ -58,12 +57,9 @@ const Login = () => {
       setUser('');
       setPwd('');
       navigate(from, { replace: true });
-      console.log(response.data);
-      console.log(admin);
-      console.log(id);
-      console.log(levels);
 
-      console.log(auth);
+
+      
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
