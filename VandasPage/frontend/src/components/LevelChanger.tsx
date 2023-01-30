@@ -4,7 +4,6 @@ import DataContext from '../context/dataContext';
 import { useParams } from 'react-router';
 import AddEducationMaterial from './AddEducationMaterial';
 import AuthContext from '../context/AuthProvider';
-import Education from './Education';
 import Dashboard from './Dashboard';
 import { useContext, useState, useEffect } from 'react';
 import api from '../hooks/api';
@@ -12,10 +11,9 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import useAxiosFetch from '../hooks/useAxiosFetch';
-import axios from 'axios';
 import EducationChanger from './EducationChanger';
 import { EducationMaterialtype } from '../model/EducationMaterialType';
-import { Level } from '../model/LevelType';
+import { LevelType } from '../model/LevelType';
 
 const LevelChanger = () => {
   const { id } = useParams();
@@ -26,27 +24,25 @@ const LevelChanger = () => {
   const { data } = useAxiosFetch(url);
 
   const { auth } = useContext(AuthContext);
-  const [materialData, setMaterialData] = useState<Level>(data || []);
-  const [eduMaterials, setEduMaterials] = useState<
-    EducationMaterialtype[]
-  >(data.educationalMaterials || []);
+  const [materialData, setMaterialData] = useState<LevelType>(data as unknown as LevelType || []);
+  const [eduMaterials, setEduMaterials] = useState<EducationMaterialtype[]>([]);
   const [fetchError, setFetchError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
-    const fetchData = async (url) => {
+    const fetchData = async (url:string) => {
       try {
         const response = await api.get(url);
         if (isMounted) {
-          setMaterialData(response.data);
-          setEduMaterials(response.data.educationalMaterials);
+          setMaterialData(response.data as LevelType);
+          setEduMaterials(response.data.educationalMaterials as EducationMaterialtype[]);
         }
       } catch (err) {
         if (isMounted) {
           setFetchError(err.message);
-          setMaterialData([]);
+          setMaterialData([] as unknown as LevelType );
           setEduMaterials([]);
         }
       } finally {
@@ -79,7 +75,7 @@ const LevelChanger = () => {
   return (
     <>
       {auth.admin && (
-        <Dashboard children={<AddEducationMaterial levelID={id} />} />
+        <Dashboard children={<AddEducationMaterial levelID={id} hideModal={""}/>} /> //hidemodal to give
       )}
       <div>
         <EducationChanger urlPart={'Educationchanger'} />
@@ -92,7 +88,7 @@ const LevelChanger = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {eduMaterials?.map((material: EducationMaterial) => {
+              {eduMaterials?.map((material: EducationMaterialtype) => {
                 return (
                   <Draggable
                     key={material.id}
