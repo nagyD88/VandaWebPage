@@ -1,13 +1,21 @@
 import React from "react";
-import useAxiosFetch from "../hooks/useAxiosFetch";
 import DataContext from '../context/dataContext';
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { LevelType } from "../model/LevelType";
+import { useQuery } from "react-query"
+import api from "../hooks/api";
+
 
 const Education = () => {
   let url = "https://localhost:7168/api/Education/level";
-  const { data, fetchError, isLoading } = useAxiosFetch(url);
+
+  const getLevels = async () => {
+    const response = await api.get<LevelType[]>(url)
+    return response.data
+  }
+  const { isLoading, isError, error , data } = useQuery('user', getLevels )
+
   const { colorTheme } = useContext(DataContext);
   console.log("eduLevel: ",data)
   
@@ -16,7 +24,7 @@ const Education = () => {
   return (
     <>
       <ul className="course-list">
-      {data?.map((level: LevelType) => (
+      {data?.map((level) => (
         
         <li>
           <>

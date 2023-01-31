@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery, useMutation, useQueryClient } from "react-query"
+import { useQuery } from "react-query"
 import { useContext } from 'react';
 import DataContext from '../context/dataContext';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { UserType } from '../model/UserType';
 
 const Users = () => {
   let url = '/user';
-  const queryClient = useQueryClient()
+  
   const getUsers = async () => {
     const response = await api.get<UserType[]>(url)
     return response.data
