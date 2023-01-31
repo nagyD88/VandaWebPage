@@ -2,108 +2,95 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { useParams } from 'react-router';
 import DataContext from '../context/dataContext';
-import useAxiosFetch from '../hooks/useAxiosFetch';
 import api from '../hooks/api';
 import { LevelType } from '../model/LevelType';
 import { UserType } from '../model/UserType';
+import { useQuery, useMutation, useQueryClient } from "react-query"
+
+
 
 const User = () => {
   const { id } = useParams();
-  let url = `https://localhost:7168/api/user/${id}`;
+  let url = `/user/${id}`;
+  let levelUrl = '/Education/level';
 
+  const queryClient = useQueryClient()
+
+  const getLevels = async () => {
+    const response = await api.get<LevelType[]>(levelUrl)
+    return response.data
+  }
+  const getUsers = async () => {
+    const response = await api.get<UserType>(url)
+    return response.data
+  }
+
+  const { isLoading, isError, error , data } = useQuery('user', getUsers )
+  const levelsResponse = useQuery("levels", getLevels)
   const { colorTheme } = useContext(DataContext);
-  const { data, fetchError, isLoading } = useAxiosFetch(url);
+  
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [communication, setCommunication] = useState<string>('');
   const [MBTI, setMBTI] = useState<string>('');
   const [levelId, setLevelId] = useState<number>();
-  const [levels, setLevels] = useState<LevelType[]>([]);
-  const [userData, setUserData] = useState<UserType | undefined>();
-  const [levelsToAdd, setLevelsToAdd] = useState<LevelType[]>([]);
+  const [levelsToAdd, setLevelsToAdd] = useState<LevelType[] | undefined>([]);
 
   useEffect(() => {
-    console.log('levels: ', levels);
-    console.log('userData: ', userData);
-    const filteredLevels = levels.filter(
-      (x) => !userData?.levels?.some((y) => y.id === x.id)
+    console.log('levels: ', levelsResponse?.data);
+    console.log('userData: ', data);
+    const filteredLevels = levelsResponse?.data?.filter(
+      (x) => !data?.levels?.some((y) => y.id === x.id)
     );
     setLevelsToAdd(filteredLevels);
     console.log('filtered: ', filteredLevels);
-  }, [levels, userData]);
+    
+    if (data!==undefined){
+      console.log('alma')
+      setFirstName(data!.firstName);
+      setLastName(data!.lastName);
+      setEmail(data!.email);
+      setCommunication(data!.communication);
+      setMBTI(data!.mbti);
+  }}, [data, levelsResponse?.data]);
 
-  useEffect(() => {
-    let isMounted = true;
-    let levelUrl = '/Education/level';
-    let userUrl = `/user/${id}`;
-    const fetchLevel = async (url: string) => {
-      try {
-        const response = await api.get<LevelType[]>(url);
-        if (isMounted) {
-          setLevels(response.data);
-          console.log(response.data);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setLevels([]);
-        }
-      } finally {
-      }
-    };
 
-    const fetchUser = async (url: string) => {
-      try {
-        const response = await api.get<UserType>(url);
-        if (isMounted) {
-          setUserData(response.data);
-          console.log(response.data);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setUserData(undefined);
-        }
-      } finally {
-      }
-    };
-    fetchUser(userUrl);
-    fetchLevel(levelUrl);
-  }, []);
+  const updateUser =async ()=> await api.put<UserType>('/user', {
+    id: `${id}`,
+    firstName: `${firstName}`,
+    lastName: `${lastName}`,
+    email: `${email}`,
+    communication: `${communication}`,
+    mbti: `${MBTI}`,
+    levelId: levelId,
+  });
 
+  const updateUserMutation = useMutation(updateUser, {
+    onSuccess: () => {
+        // Invalidates cache and refetch 
+        queryClient.invalidateQueries('user')
+    }
+})
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await api.put('/user', {
-      id: `${id}`,
-      firstName: `${firstName}`,
-      lastName: `${lastName}`,
-      email: `${email}`,
-      communication: `${communication}`,
-      mbti: `${MBTI}`,
-      levelId: levelId,
-    });
-    console.log(response.data);
+    updateUserMutation.mutate()
   };
 
-  useEffect(() => {
-    let user = data as unknown as UserType; //erre rákérdezni hogy lehetne jobban!!
-    setFirstName(user.firstName);
-    setLastName(user.lastName);
-    setEmail(user.email);
-    setCommunication(user.communication);
-    setMBTI(user.mbti);
-  }, [data]);
+
   return (
     <>
       {isLoading && <p className="statusMsg">Loading ...</p>}
-      {!isLoading && fetchError && (
-        <p className="statusMsg err">{fetchError}</p>
+      {!isLoading && isError && (
+        <p className="statusMsg err">{error as string}</p>
       )}
-      {!isLoading && !fetchError && (
+      {!isLoading && !isError && (
         <>
           <h2>
-            {userData?.firstName} {userData?.lastName}
+            {data?.firstName} {data?.lastName}
           </h2>
-          <div>{userData?.email}</div>
+          <div>{data?.email}</div>
           <div className={`time ${colorTheme}`}>
             <form onSubmit={handleSubmit} className="siStart">
               <select

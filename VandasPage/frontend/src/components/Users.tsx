@@ -1,5 +1,5 @@
 import React from 'react';
-import useAxiosFetch from '../hooks/useAxiosFetch';
+import { useQuery, useMutation, useQueryClient } from "react-query"
 import { useContext } from 'react';
 import DataContext from '../context/dataContext';
 import { Link } from 'react-router-dom';
@@ -7,27 +7,24 @@ import api from '../hooks/api';
 import { UserType } from '../model/UserType';
 
 const Users = () => {
-  let url = 'https://localhost:7168/api/user';
-  const { data, fetchError, isLoading } = useAxiosFetch(url);
+  let url = '/user';
+  const queryClient = useQueryClient()
+  const getUsers = async () => {
+    const response = await api.get<UserType[]>(url)
+    return response.data
+}
+    const { isLoading, isError, error , data } = useQuery('user', getUsers )
+  
   const { colorTheme } = useContext(DataContext);
 
-  const getAllUsers = async () => {
-    const users = await api.get<UserType[]>(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return await users;
-  };
-  console.log('getAll: ', getAllUsers());
 
   return (
     <>
       {isLoading && <p className="statusMsg">Loading ...</p>}
-      {!isLoading && fetchError && (
-        <p className="statusMsg err">{fetchError}</p>
+      {!isLoading && isError && (
+        <p className="statusMsg err">{error as string}</p>
       )}
-      {!isLoading && !fetchError && (
+      {!isLoading && !isError && (
         <>
           <div className={`design ${colorTheme}`}></div>
           <div className={`teamContainer ${colorTheme}`}>
