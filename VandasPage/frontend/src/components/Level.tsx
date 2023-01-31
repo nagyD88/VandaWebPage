@@ -20,7 +20,7 @@ const Level = () => {
   return (
     <>
      
-     <div><Education urlPart={"Education"}/></div>
+     <div><Education /></div>
      
       <h2>{data.name}</h2>
       {data?.educationalMaterials?.map((material) => (
