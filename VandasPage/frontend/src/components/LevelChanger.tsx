@@ -49,7 +49,6 @@ const LevelChanger = () => {
       }
     };
     fetchData(dataUrl);
-    console.log(counter);
   }, [counter, id]);
 
   const handleOnDragEnd = async (result) => {
@@ -77,7 +76,7 @@ const LevelChanger = () => {
         <Dashboard children={<AddEducationMaterial levelID={id} hideModal={""}/>} /> //hidemodal to give
       )}
       <div>
-        <EducationChanger urlPart={'Educationchanger'} />
+        <EducationChanger />
       </div>
       <h2>{materialData.name}</h2>
       <DragDropContext onDragEnd={handleOnDragEnd}>

@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import DataContext from '../context/dataContext';
 import AuthContext from '../context/AuthProvider';
 import { EducationMaterialtype } from '../model/EducationMaterialType';
+import { useParams } from 'react-router-dom';
 
 type AppProps = {
   material: EducationMaterialtype;
@@ -15,7 +16,8 @@ type AppProps = {
 const EducationMaterial = ({ material, canDelete}:AppProps) => {
   const { setCounter, counter } = useContext(DataContext);
   const { auth } = useContext(AuthContext);
-  
+  console.log(material)
+  const {id} = useParams();
   const handleOnClick = async () => {
     const response = await api.delete(`/education/${material.id}`);
     setCounter(counter+1);
@@ -30,7 +32,7 @@ const EducationMaterial = ({ material, canDelete}:AppProps) => {
             handleOnClick={handleOnClick}
             messege={'Biztos le akarod törölni?'}
             hideModal={''}
-            levelID={material.level.id}
+            levelID={id}
           />
         }
       />)}

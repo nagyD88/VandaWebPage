@@ -13,7 +13,7 @@ import { LevelType } from '../model/LevelType';
 
 
 
-const EducationChanger = ({ urlPart }) => {
+const EducationChanger = () => {
   let dataURL = 'https://localhost:7168/api/Education/level';
   const { data } = useAxiosFetch(dataURL);
   const { colorTheme, counter, setCounter } = useContext(dataContext);
@@ -74,7 +74,7 @@ const EducationChanger = ({ urlPart }) => {
 
   return (
     <>
-      <Dashboard children={<AddLevel hideModal={undefined}  />} /> // kell neki hidemodal?
+      <Dashboard children={<AddLevel hideModal={undefined}  />} /> 
 
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="levels">
@@ -107,7 +107,7 @@ const EducationChanger = ({ urlPart }) => {
                         />
                         <Link
                           key={level.id}
-                          to={`/${urlPart}/${level.id}`}
+                          to={`/Educationchanger/${level.id}`}
                         >
                           <div className="level">
                             <p>{level.name}</p>

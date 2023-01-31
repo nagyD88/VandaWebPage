@@ -9,7 +9,7 @@ const Education = () => {
   let url = "https://localhost:7168/api/Education/level";
   const { data, fetchError, isLoading } = useAxiosFetch(url);
   const { colorTheme } = useContext(DataContext);
-  
+  console.log("eduLevel: ",data)
   
 
 
