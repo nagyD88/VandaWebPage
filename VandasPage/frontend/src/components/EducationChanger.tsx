@@ -14,8 +14,8 @@ import { LevelType } from '../model/LevelType';
 
 
 const EducationChanger = () => {
-  const {id} = useParams()
   let url = `/education/level`;
+
   const getLevels = async () => {
     const response = await api.get<LevelType[]>(url)
     return response.data
@@ -55,7 +55,6 @@ const EducationChanger = () => {
     }
 })
   
-
 
   const handleOnDragEnd = async (result) => {
     if (!result?.destination) return;
