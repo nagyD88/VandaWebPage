@@ -8,19 +8,32 @@ import DataContext from '../context/dataContext';
 import AuthContext from '../context/AuthProvider';
 import { EducationMaterialtype } from '../model/EducationMaterialType';
 import { useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from 'react-query';
 
 type AppProps = {
   material: EducationMaterialtype;
   canDelete: boolean;
 };
 const EducationMaterial = ({ material, canDelete}:AppProps) => {
+
+  const queryClient = useQueryClient()
   const { setCounter, counter } = useContext(DataContext);
   const { auth } = useContext(AuthContext);
   console.log(material)
   const {id} = useParams();
+  
+  const deleteEducationMaterial = async()=>await api.delete(`/education/${material.id}`);
+
+  const deleteEducationMaterialMutation = useMutation(deleteEducationMaterial, {
+    onSuccess: () => {
+        // Invalidates cache and refetch 
+        queryClient.invalidateQueries('level')
+    }
+})
+
   const handleOnClick = async () => {
-    const response = await api.delete(`/education/${material.id}`);
-    setCounter(counter+1);
+    deleteEducationMaterialMutation.mutate()
+    
     
   };
   return (

@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../hooks/api';
 import decode from 'jwt-claims';
 import { LevelType } from '../model/LevelType';
-import { TokenType } from '../model/TokenType';
+
 
 const Login = () => {
   const { setAuth, auth } = useAuth();
@@ -34,12 +34,11 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post<TokenType>('/Auth/login', {
+      const response = await api.post('/Auth/login', {
         password: password,
         email: email,
       });
-      console.log(response);
-
+      
       const admin: boolean =
         'True' ==
         decode(response?.data)[

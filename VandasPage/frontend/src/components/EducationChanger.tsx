@@ -1,8 +1,8 @@
 import React from 'react';
-import useAxiosFetch from '../hooks/useAxiosFetch';
+import { useQuery, useMutation, useQueryClient} from "react-query"
 import dataContext from '../context/dataContext';
-import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext} from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import api from '../hooks/api';
@@ -14,61 +14,62 @@ import { LevelType } from '../model/LevelType';
 
 
 const EducationChanger = () => {
-  let dataURL = 'https://localhost:7168/api/Education/level';
-  const { data } = useAxiosFetch(dataURL);
+  const {id} = useParams()
+  let url = `/education/level`;
+  const getLevels = async () => {
+    const response = await api.get<LevelType[]>(url)
+    return response.data
+  }
+
+  const queryClient = useQueryClient()
+
+  const { isLoading, isError, error , data } = useQuery('levels', getLevels)
+
   const { colorTheme, counter, setCounter } = useContext(dataContext);
-  const [levels, setLevels] = useState<LevelType[]>(data || []);
-  const [fetchError, setFetchError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  console.log(data)
+  console.log(url)
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  const updateOrder =async (levelsJSON)=> await api.patch(
+    '/Education/level/changeorder',
+    levelsJSON,
+    config
+  );
 
 
+  const deleteLevel = async(levelID)=>await api.delete(`/Education/level/${levelID}`);
 
-  useEffect(() => {
-    let isMounted = true;
+  const deleteLevelMutation = useMutation(deleteLevel, {
+    onSuccess: () => {
+        // Invalidates cache and refetch 
+        queryClient.invalidateQueries('level')
+    }
+})
 
-    const fetchData = async (url:string) => {
-      try {
-        const response = await api.get(url);
-        if (isMounted) {
-          setLevels(response.data);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setFetchError(err.message);
-          setLevels([]);
-        }
-      } finally {
-        isMounted && setIsLoading(false);
-      }
-    };
-    fetchData(dataURL);
-  }, [counter]);
+  const updateLevelOrderMutation = useMutation(updateOrder, {
+    onSuccess: () => {
+        // Invalidates cache and refetch 
+        queryClient.invalidateQueries('level')
+    }
+})
+  
+
 
   const handleOnDragEnd = async (result) => {
     if (!result?.destination) return;
-    const Levels = Array.from(levels);
+    const Levels:LevelType[] = Array.from(data!);
     const [reorderedItem] = Levels.splice(result.source.index, 1);
     Levels.splice(result.destination.index, 0, reorderedItem);
-    setLevels(Levels);
     const iDs = new Array();
     Levels.map((level) => iDs.push({ id: level.id }));
     const levelsJSON = JSON.stringify(iDs);
-
-    const config = {
-      headers: { 'Content-Type': 'application/json' },
-    };
-    const response = await api.patch(
-      '/Education/level/changeorder',
-      levelsJSON,
-      config
-    );
-    
+    updateLevelOrderMutation.mutate(levelsJSON);
   };
 
   const handleOnClick = async (levelID) => {
-    const response = await api.delete(`/Education/level/${levelID}`);
-    setCounter(counter+1);
-    
+    deleteLevelMutation.mutate(levelID)
   }
 
 
@@ -83,7 +84,7 @@ const EducationChanger = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {levels.map((level) => {
+              {data?.map((level) => {
                 return (
                   <Draggable
                     key={level.id}

@@ -5,69 +5,65 @@ import { useParams } from 'react-router';
 import AddEducationMaterial from './AddEducationMaterial';
 import AuthContext from '../context/AuthProvider';
 import Dashboard from './Dashboard';
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import api from '../hooks/api';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
-import useAxiosFetch from '../hooks/useAxiosFetch';
+import { useQuery, useMutation, useQueryClient } from "react-query"
 import EducationChanger from './EducationChanger';
 import { EducationMaterialtype } from '../model/EducationMaterialType';
 import { LevelType } from '../model/LevelType';
 
 const LevelChanger = () => {
-  const { id } = useParams();
-  const url = `https://localhost:7168/api/education/level/${id}`;
 
-  const dataUrl = `education/level/${id}`;
+  const queryClient = useQueryClient()
+  const { id } = useParams();
+  const url = `/education/level/${id}`;
+  
+  const getLevel = async () => {
+
+    const response = await api.get<LevelType>( `/education/level/${id}`)
+    return response.data
+    
+}
+
+
+  const { isLoading, isError, error , data } = useQuery('level', getLevel )
+
   const { colorTheme, counter } = useContext(DataContext);
-  const { data } = useAxiosFetch(url);
 
   const { auth } = useContext(AuthContext);
-  const [materialData, setMaterialData] = useState<LevelType>(data as unknown as LevelType || []);
-  const [eduMaterials, setEduMaterials] = useState<EducationMaterialtype[]>([]);
-  const [fetchError, setFetchError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    let isMounted = true;
 
-    const fetchData = async (url:string) => {
-      try {
-        const response = await api.get(url);
-        if (isMounted) {
-          setMaterialData(response.data as LevelType);
-          setEduMaterials(response.data.educationalMaterials as EducationMaterialtype[]);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setFetchError(err.message);
-          setMaterialData([] as unknown as LevelType );
-          setEduMaterials([]);
-        }
-      } finally {
-        isMounted && setIsLoading(false);
-      }
-    };
-    fetchData(dataUrl);
-  }, [counter, id]);
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  const updateOrder =async (levelsJSON)=> await api.patch(
+    '/Education/level/materials/changeorder',
+    levelsJSON,
+    config
+  );
+
+
+  
+
+  const updateEduMaterialOrderMutation = useMutation(updateOrder, {
+    onSuccess: () => {
+        // Invalidates cache and refetch 
+        queryClient.invalidateQueries('level')
+    }
+})
+
 
   const handleOnDragEnd = async (result) => {
     if (!result?.destination) return;
-    const Materials = Array.from(eduMaterials);
+    const Materials = Array.from(data?.educationalMaterials!);
     const [reorderedItem] = Materials.splice(result.source.index, 1);
     Materials.splice(result.destination.index, 0, reorderedItem);
-    setEduMaterials(Materials);
+    
     const materialsJSON = JSON.stringify(Materials);
-    console.log(materialsJSON);
-    const config = {
-      headers: { 'Content-Type': 'application/json' },
-    };
-    const response = await api.patch(
-      '/Education/level/materials/changeorder',
-      materialsJSON,
-      config
-    );
-    console.log(response);
+    updateEduMaterialOrderMutation.mutate(materialsJSON);
   };
 
   return (
@@ -76,9 +72,9 @@ const LevelChanger = () => {
         <Dashboard children={<AddEducationMaterial levelID={id} hideModal={""}/>} /> //hidemodal to give
       )}
       <div>
-        <EducationChanger />
+        <EducationChanger  />
       </div>
-      <h2>{materialData.name}</h2>
+      <h2>{data?.name}</h2>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="educationMaterials">
           {(provided) => (
@@ -86,7 +82,7 @@ const LevelChanger = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {eduMaterials?.map((material: EducationMaterialtype) => {
+              {data?.educationalMaterials?.map((material: EducationMaterialtype) => {
                 return (
                   <Draggable
                     key={material.id}
