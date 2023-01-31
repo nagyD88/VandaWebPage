@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import api from '../hooks/api';
 import DataContext from '../context/dataContext';
 
-const AddLevel = ({ levelID, hideModal }) => {
+const AddLevel = ({ hideModal }) => {
   const [name, setName] = useState('');
   const { setCounter, counter } = useContext(DataContext);
 

@@ -9,6 +9,7 @@ import api from '../hooks/api';
 import AddLevel from './AddLevel';
 import Dashboard from './Dashboard';
 import AreYouSure from './AreYouSure';
+import { LevelType } from '../model/LevelType';
 
 
 
@@ -16,17 +17,11 @@ const EducationChanger = ({ urlPart }) => {
   let dataURL = 'https://localhost:7168/api/Education/level';
   const { data } = useAxiosFetch(dataURL);
   const { colorTheme, counter, setCounter } = useContext(dataContext);
-  const [levels, setLevels] = useState(data || []);
+  const [levels, setLevels] = useState<LevelType[]>(data || []);
   const [fetchError, setFetchError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
 
-  const categorys = new Set();
-
-  useEffect(() => {
-    data.map((level) => categorys.add(level.categoryName));
-
-  }, [data, counter]);
 
   useEffect(() => {
     let isMounted = true;
@@ -79,7 +74,7 @@ const EducationChanger = ({ urlPart }) => {
 
   return (
     <>
-      <Dashboard children={<AddLevel />} />
+      <Dashboard children={<AddLevel hideModal={undefined}  />} /> // kell neki hidemodal?
 
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="levels">
@@ -104,10 +99,10 @@ const EducationChanger = ({ urlPart }) => {
                         <Dashboard
                           children={
                             <AreYouSure
-                              levelID = {level.id}
+                              levelID={level.id}
                               handleOnClick={handleOnClick}
-                              messege={'Biztos le akarod törölni?'}
-                            />
+                              messege={'Biztos le akarod törölni?'} 
+                              hideModal={undefined}/> // kell neki hidemodal?
                           }
                         />
                         <Link
