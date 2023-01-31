@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import useAxiosFetch from "../hooks/useAxiosFetch";
 import DataContext from '../context/dataContext';
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { LevelType } from "../model/LevelType";
 
-const Education = ({ urlPart }) => {
+const Education = () => {
   let url = "https://localhost:7168/api/Education/level";
   const { data, fetchError, isLoading } = useAxiosFetch(url);
   const { colorTheme } = useContext(DataContext);

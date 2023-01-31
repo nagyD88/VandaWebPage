@@ -1,11 +1,10 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import EducationMaterial from './EducationMaterial';
 import DataContext from '../context/dataContext';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import { useParams } from 'react-router';
 import AuthContext from '../context/AuthProvider';
 import Education from './Education';
-import { LevelType } from '../model/LevelType';
 
 
 

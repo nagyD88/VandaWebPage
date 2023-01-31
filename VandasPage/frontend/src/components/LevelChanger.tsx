@@ -7,7 +7,6 @@ import AuthContext from '../context/AuthProvider';
 import Dashboard from './Dashboard';
 import { useContext, useState, useEffect } from 'react';
 import api from '../hooks/api';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import useAxiosFetch from '../hooks/useAxiosFetch';
