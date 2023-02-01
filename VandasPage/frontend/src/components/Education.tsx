@@ -23,6 +23,12 @@ const Education = () => {
 
   return (
     <>
+    {isLoading && <p className="statusMsg">Loading ...</p>}
+      {!isLoading && isError && (
+        <p className="statusMsg err">{error?.message}</p>
+      )}
+      {!isLoading && !isError && (
+    <>
       <ul className="course-list">
       {data?.map((level) => (
         
@@ -38,7 +44,8 @@ const Education = () => {
       </ul>
       <button className="btn">New course</button>
       <button className="btn">New lesson</button>
-      
+      </>
+      )}
     </>
   );
 };

@@ -28,6 +28,12 @@ const Level = () => {
   console.log(url)
   return (
     <>
+    {isLoading && <p className="statusMsg">Loading ...</p>}
+      {!isLoading && isError && (
+        <p className="statusMsg err">{error?.message}</p>
+      )}
+      {!isLoading && !isError && (
+    <>
      
      <div><Education /></div>
      
@@ -35,6 +41,8 @@ const Level = () => {
       {data?.educationalMaterials?.map((material) => (
         <EducationMaterial key={material.id} material={material} canDelete={false} />
       ))}
+    </>
+      )}
     </>
   );
 };

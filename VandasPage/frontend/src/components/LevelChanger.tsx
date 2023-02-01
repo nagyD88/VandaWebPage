@@ -67,6 +67,11 @@ const LevelChanger = () => {
   };
 
   return (
+    <>{isLoading && <p className="statusMsg">Loading ...</p>}
+      {!isLoading && isError && (
+        <p className="statusMsg err">{error?.message}</p>
+      )}
+      {!isLoading && !isError && (
     <>
       {auth.admin && (
         <Dashboard children={<AddEducationMaterial levelID={id} hideModal={""}/>} /> //hidemodal to give
@@ -110,6 +115,8 @@ const LevelChanger = () => {
           )}
         </Droppable>
       </DragDropContext>
+    </>
+      )}
     </>
   );
 };

@@ -71,6 +71,11 @@ const EducationChanger = () => {
 
 
   return (
+    <>{isLoading && <p className="statusMsg">Loading ...</p>}
+    {!isLoading && isError && (
+      <p className="statusMsg err">{error?.message}</p>
+    )}
+    {!isLoading && !isError && (
     <>
       <Dashboard children={<AddLevel hideModal={undefined}  />} /> 
 
@@ -121,6 +126,8 @@ const EducationChanger = () => {
           )}
         </Droppable>
       </DragDropContext>
+    </>
+    )}
     </>
   );
 };
