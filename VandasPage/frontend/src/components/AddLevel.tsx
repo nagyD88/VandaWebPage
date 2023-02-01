@@ -1,29 +1,30 @@
 import React from 'react';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import api from '../hooks/api';
-import DataContext from '../context/dataContext';
+import { useMutation, useQueryClient } from 'react-query';
 
 const AddLevel = ({ hideModal }) => {
   const [name, setName] = useState('');
-  const { setCounter, counter } = useContext(DataContext);
+  const queryClient = useQueryClient()
+  
+  const PostLevel =async ()=>await api.post('/Education/level', {
+    name: `${name}`,
+    users: [],
+    educationalMaterials: []
+  })
 
 
+  const PostLevelMutation = useMutation(PostLevel, {
+    onSuccess: () => {
+      // Invalidates cache and refetch 
+      queryClient.invalidateQueries('levels')
+  }
+})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      name: {name},
-      users: [],
-      educationalMaterials: []
-    })
-    const response = await api.post('/Education/level', {
-      name: `${name}`,
-      users: [],
-      educationalMaterials: []
-    })
+    PostLevelMutation.mutate();
     hideModal();
-    console.log(response);
-    setCounter(counter+1);
   };
 
   return (

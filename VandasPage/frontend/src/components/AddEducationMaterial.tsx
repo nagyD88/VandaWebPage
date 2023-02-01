@@ -18,8 +18,8 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
   );
 
 
-const PatchEducationMaterialMutation = useMutation(PatchEducationMaterial, {
-  onSuccess: () => {
+  const PatchEducationMaterialMutation = useMutation(PatchEducationMaterial, {
+    onSuccess: () => {
       // Invalidates cache and refetch 
       queryClient.invalidateQueries('level')
   }
