@@ -3,7 +3,7 @@ import { useState } from "react";
 import api from "../hooks/api";
 import { useContext } from "react";
 import DataContext from "../context/dataContext";
-import { useQuery, useMutation, useQueryClient } from "react-query"
+import { useMutation, useQueryClient } from "react-query"
 
 
 const EMAIL_REGEX =
@@ -19,6 +19,8 @@ const PreRegistration = () => {
   const [admin, setAdmin] = useState(false);
   const queryClient = useQueryClient()
   const [errorMsg,setErrorMsg]=useState("");
+
+
   const postUser = async () => 
     await api.post("/user", {
       email: email,
