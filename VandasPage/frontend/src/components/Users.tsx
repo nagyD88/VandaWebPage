@@ -5,6 +5,7 @@ import DataContext from '../context/dataContext';
 import { Link } from 'react-router-dom';
 import api from '../hooks/api';
 import { UserType } from '../model/UserType';
+import { AxiosError } from 'axios';
 
 const Users = () => {
   let url = '/user';
@@ -17,13 +18,14 @@ const Users = () => {
   
   const { colorTheme } = useContext(DataContext);
   console.log(isError);
-  console.log(error?.message);
-
+  if(error instanceof Error){
+    console.log(error.message);
+  }
   return (
     <>
       {isLoading && <p className="statusMsg">Loading ...</p>}
       {!isLoading && isError && (
-        <p className="statusMsg err">{error?.message}</p>
+        <p className="statusMsg err">{error instanceof Error && error.message}</p>
       )}
       {!isLoading && !isError && (
         <>

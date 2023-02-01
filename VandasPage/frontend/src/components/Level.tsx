@@ -30,7 +30,7 @@ const Level = () => {
     <>
     {isLoading && <p className="statusMsg">Loading ...</p>}
       {!isLoading && isError && (
-        <p className="statusMsg err">{error?.message}</p>
+        <p className="statusMsg err">{error instanceof Error && error.message}</p>
       )}
       {!isLoading && !isError && (
     <>
