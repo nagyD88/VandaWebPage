@@ -18,7 +18,7 @@ const PreRegistration = () => {
   const [lastName, setLastName] = useState("");
   const [admin, setAdmin] = useState(false);
   const queryClient = useQueryClient()
-
+  const [errorMsg,setErrorMsg]=useState("");
   const postUser = async () => 
     await api.post("/user", {
       email: email,
@@ -33,15 +33,29 @@ const PreRegistration = () => {
         queryClient.invalidateQueries('Users')
     }
 })
+
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setRegistered(true);
     if(EMAIL_REGEX.test(email)){
       setEmailValidation(true);
-      postUserMutation.mutate();
-      setRegistered(true);
+      try{
+      const response = await postUserMutation.mutateAsync();
+      setErrorMsg("");
+    } catch (err) {
+      if (err.response?.status === 400) {
+        setRegistered(false);
+        console.log(registered);
+      }
+      setErrorMsg(err.message);
+      console.log(errorMsg);
+      console.log(err);
+    } finally {
+      console.log(`email validation: ${emailValidation}`);
+    }
     }
   }
-
 
   return (
     <>
