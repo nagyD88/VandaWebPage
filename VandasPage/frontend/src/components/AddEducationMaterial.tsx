@@ -10,9 +10,6 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
   const [content, setContent] = useState('');
   const queryClient = useQueryClient()
 
-
-
-
   const PatchEducationMaterial =async (response)=>await api.patch(
     `/education/level/${levelID}/material?MaterialId=${response.data.id}`
   );

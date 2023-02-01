@@ -30,7 +30,7 @@ const EducationChanger = () => {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  const updateOrder =async (levelsJSON)=> await api.patch(
+  const updateOrder =async (levelsJSON: string)=> await api.patch(
     '/Education/level/changeorder',
     levelsJSON,
     config

@@ -30,7 +30,7 @@ const LevelChanger = () => {
 
   const { isLoading, isError, error , data } = useQuery('level', getLevel )
 
-  const { colorTheme, counter } = useContext(DataContext);
+  const { colorTheme } = useContext(DataContext);
 
   const { auth } = useContext(AuthContext);
 
