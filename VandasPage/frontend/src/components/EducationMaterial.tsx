@@ -4,7 +4,6 @@ import Dashboard from './Dashboard';
 import AreYouSure from './AreYouSure';
 import api from '../hooks/api';
 import { useContext } from 'react';
-import DataContext from '../context/dataContext';
 import AuthContext from '../context/AuthProvider';
 import { EducationMaterialtype } from '../model/EducationMaterialType';
 import { useParams } from 'react-router-dom';
@@ -17,9 +16,9 @@ type AppProps = {
 const EducationMaterial = ({ material, canDelete}:AppProps) => {
 
   const queryClient = useQueryClient()
-  const { setCounter, counter } = useContext(DataContext);
+  
   const { auth } = useContext(AuthContext);
-  console.log(material)
+  
   const {id} = useParams();
   
   const deleteEducationMaterial = async()=>await api.delete(`/education/${material.id}`);

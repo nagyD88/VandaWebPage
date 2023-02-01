@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery, useMutation, useQueryClient} from "react-query"
 import dataContext from '../context/dataContext';
 import { useContext} from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import api from '../hooks/api';
@@ -25,9 +25,7 @@ const EducationChanger = () => {
 
   const { isLoading, isError, error , data } = useQuery('levels', getLevels)
 
-  const { colorTheme, counter, setCounter } = useContext(dataContext);
-  console.log(data)
-  console.log(url)
+  const { colorTheme } = useContext(dataContext);
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
