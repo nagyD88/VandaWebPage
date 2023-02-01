@@ -42,14 +42,14 @@ const EducationChanger = () => {
   const deleteLevelMutation = useMutation(deleteLevel, {
     onSuccess: () => {
         // Invalidates cache and refetch 
-        queryClient.invalidateQueries('level')
+        queryClient.invalidateQueries('levels')
     }
 })
 
   const updateLevelOrderMutation = useMutation(updateOrder, {
     onSuccess: () => {
         // Invalidates cache and refetch 
-        queryClient.invalidateQueries('level')
+        queryClient.invalidateQueries('levels')
     }
 })
   
