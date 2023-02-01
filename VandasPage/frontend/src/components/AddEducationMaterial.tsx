@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import api from '../hooks/api';
-import DataContext from '../context/dataContext';
-import { useQuery, useMutation, useQueryClient} from "react-query"
+
+import {  useMutation, useQueryClient} from "react-query"
 
 const AddEducationMaterial = ({ levelID, hideModal }) => {
   const [type, setType] = useState('text');

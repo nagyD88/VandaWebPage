@@ -13,16 +13,17 @@ const Users = () => {
     const response = await api.get<UserType[]>(url)
     return response.data
 }
-    const { isLoading, isError, error , data } = useQuery('user', getUsers )
+  const { isLoading, isError, error , data } = useQuery('users', getUsers )
   
   const { colorTheme } = useContext(DataContext);
-
+  console.log(isError);
+  console.log(error?.message);
 
   return (
     <>
       {isLoading && <p className="statusMsg">Loading ...</p>}
       {!isLoading && isError && (
-        <p className="statusMsg err">{error as string}</p>
+        <p className="statusMsg err">{error?.message}</p>
       )}
       {!isLoading && !isError && (
         <>
