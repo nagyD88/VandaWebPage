@@ -24,6 +24,7 @@ namespace VandasPage.Data
         public DbSet<Level> Levels { get; set; }
 
         public DbSet<EducationalMaterial> EducationMaterials { get; set; }
+        public DbSet<Email> Emails { get; set; }
 
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,6 +37,7 @@ namespace VandasPage.Data
             modelBuilder.Entity<Level>().ToTable("levels");
             modelBuilder.Entity<EducationalMaterial>().ToTable("educationmaterials");
             modelBuilder.Entity<RefreshToken>().ToTable("refreshTokens");
+            modelBuilder.Entity<Email>().ToTable("emails");
         }
         public Task<List<User>> GetUsers()
         {
