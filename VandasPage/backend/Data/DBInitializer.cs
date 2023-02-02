@@ -41,8 +41,8 @@ namespace VandasPage.Data
                         LastName = "Alma",
                         Email = "alma@alma.hu",
                         Admin = true,
-                        PasswordHash = Encoding.ASCII.GetBytes("k8ahcyCs6OIFR/lwIPq5A3bXTP9sHfsuksiODcbY+eXbtwfcQdA7ZxpO6wK9//CsBUelGLBcGOrVIckqp1xWBw=="),
-                        PasswordSalt = Encoding.ASCII.GetBytes("euWyoG6b6pewJaTCT8abS5T2sPjlRIJyW0758OdysmGg1W94R19XaA6g49WR8EDkcrOPQaBKSnaC4j0n1FXQobXIHgaFN5hZzH+uZ9JhwfVIxAGyxcOUY6jshbZAS45NDOg7zVobdrcay1TcbwxH2We/pix97hqWFIGybHLg24w="),
+                        PasswordHash = Encoding.ASCII.GetBytes("CEHyWslLbPTwA02ua9dxK6gfxhrdrUwJ3pvCqY06BiFjKrj3p1EIHQU9VHbrjOrQjMoE4Rn6b4L9lK+no/a+RA=="),
+                        PasswordSalt = Encoding.ASCII.GetBytes("6djtf/1iqrK/V3CpqumOBa6W+rPSTlIRHJbt7Z4c+d5iYbNB24Or8t9RCG2yO0Q7qrR00SDcZwUoJ6jX46UfPTbn8wnOTrPrJlkMxtZjnvZ3dexsO7qcF7TGv6ZI2ivVMu675WoNcWHJu7YNkTVMuPswsJdd51jYUms/4Ny9sO0="),
                         Levels = new HashSet<Level> { context.Levels.FirstOrDefault(x => x.Index == 0) }
                     },
 
@@ -128,7 +128,7 @@ namespace VandasPage.Data
                        Name = "Registration Email",
                        To = string.Empty,
                        Subject = "registrálj Oktató honlapon",
-                       Body = "a következő linken kereszül tudsz regisztrálni az oktató honlapra"
+                       Body = "a következő linken kereszül tudsz regisztrálni az oktató honlapra:"
                    });
                 context.SaveChanges();
 
