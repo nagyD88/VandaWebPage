@@ -11,9 +11,11 @@ import {
   } from '@fortawesome/free-solid-svg-icons';
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './register.css';
+import api from '../hooks/api';
+import { useMutation, useQueryClient } from 'react-query';
   
   const PWD_REGEX =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,24}$/;
   
   const register = () => {
     const UserRef = UseRef<HTMLInputElement>(null);
@@ -29,12 +31,11 @@ import './register.css';
   
     const [errMsg, setErrMsg] = UseState('');
     const [success, setSuccess] = UseState(false);
-
+    const queryClient = useQueryClient()
     const queryParams = new URLSearchParams(window.location.search)
     const id = queryParams.get("id")
     const email = queryParams.get("email")
   
-    console.log("querik: ", id, email)
 
     UseEffect(() => {
       UserRef.current?.focus();
@@ -54,16 +55,28 @@ import './register.css';
     UseEffect(() => {
       setErrMsg('');
     }, [pwd, matchPwd]);
-  
+    
+    const postPwdUser = async () => 
+      await api.post("/Auth/register", {
+        id: id,
+        password: pwd
+      });
+
+  const postUserMutation = useMutation(postPwdUser, {
+    onSuccess: () => {
+        // Invalidates cache and refetch 
+        queryClient.invalidateQueries('PWD')
+    }
+})
+
+
+
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const validation = PWD_REGEX.test(pwd);
-      if (validation) {
-        setErrMsg('Invalid Entry');
-        return;
+      if (validMatch && validPwd ){
+        const response = postUserMutation.mutateAsync()
+        console.log(response);
       }
-      console.log(pwd);
-      setSuccess(true);
     };
   
     return (
