@@ -244,6 +244,11 @@ namespace VandasPage.Data
             return updatedUser.Entity;
         }
 
+        public async Task<List<Email>> GetAllEmails()
+        {
+            return await Emails.ToListAsync();
+        }
+
     }
 }
 

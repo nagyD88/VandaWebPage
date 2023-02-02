@@ -6,6 +6,8 @@ using MimeKit;
 using MimeKit.Text;
 using VandasPage.Services.EmailService;
 using VandasPage.Models.DTOs;
+using VandasPage.Models;
+using VandasPage.Data;
 
 namespace VandasPage.Controllers
 {
@@ -15,10 +17,11 @@ namespace VandasPage.Controllers
     public class EmailController : ControllerBase
     {
         private readonly IEmailService _emailService;
-
-        public EmailController(IEmailService emailService)
+        private readonly Context _context;
+        public EmailController(IEmailService emailService, Context context)
         {
             _emailService = emailService;
+            _context = context;
         }
 
         [HttpPost]
@@ -26,6 +29,11 @@ namespace VandasPage.Controllers
         {
             _emailService.SendEmail(request);
             return Ok();
+        }
+        [HttpGet]
+        public async Task<List<Email>> GetAllEmails()
+        {
+            return await _context.GetAllEmails();
         }
     }
 }
