@@ -92,7 +92,17 @@ namespace VandasPage.Data
             await SaveChangesAsync();
             return updatedUser.Entity;
         }
-       
+        
+
+        public async Task<bool> isEmailAndIdMatching(string email, long id)
+        {
+            User user = await GetUserById(id);
+            if (user == null)
+            {
+                return false;
+            }
+            return user.Email == email;
+        }
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
             var userToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
