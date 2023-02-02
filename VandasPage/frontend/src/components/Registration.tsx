@@ -12,17 +12,12 @@ import {
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './register.css';
   
-  const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
   const PWD_REGEX =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   
   const register = () => {
     const UserRef = UseRef<HTMLInputElement>(null);
     const errRef = UseRef<HTMLInputElement>(null);
-  
-    const [user, setUser] = UseState('');
-    const [validName, setValidName] = UseState(false);
-    const [userFocus, setUserFocus] = UseState(false);
   
     const [pwd, setPwd] = UseState('');
     const [validPwd, setValidPwd] = UseState(false);
@@ -34,17 +29,18 @@ import './register.css';
   
     const [errMsg, setErrMsg] = UseState('');
     const [success, setSuccess] = UseState(false);
+
+    const queryParams = new URLSearchParams(window.location.search)
+    const id = queryParams.get("id")
+    const email = queryParams.get("email")
   
+    console.log("querik: ", id, email)
+
     UseEffect(() => {
       UserRef.current?.focus();
     }, []);
   
-    UseEffect(() => {
-      const result = USER_REGEX.test(user);
-      console.log(result);
-      console.log(user);
-      setValidName(result);
-    }, [user]);
+ 
   
     UseEffect(() => {
       const result = PWD_REGEX.test(pwd);
@@ -57,17 +53,16 @@ import './register.css';
   
     UseEffect(() => {
       setErrMsg('');
-    }, [user, pwd, matchPwd]);
+    }, [pwd, matchPwd]);
   
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const v1 = USER_REGEX.test(user);
-      const v2 = PWD_REGEX.test(pwd);
-      if (!v1 || !v2) {
+      const validation = PWD_REGEX.test(pwd);
+      if (validation) {
         setErrMsg('Invalid Entry');
         return;
       }
-      console.log(user, pwd);
+      console.log(pwd);
       setSuccess(true);
     };
   
@@ -91,45 +86,6 @@ import './register.css';
             </p>
             <h1>Register</h1>
             <form onSubmit={handleSubmit}>
-              <label htmlFor="username">
-                Username:
-                <span className={validName ? 'valid' : 'hide'}>
-                  <FontAwesomeIcon icon={faCheck} />
-                </span>
-                <span
-                  className={validName || !user ? 'hide' : 'invalid'}
-                >
-                  <FontAwesomeIcon icon={faTimes} />
-                </span>
-              </label>
-              <input
-                type="text"
-                id="username"
-                ref={UserRef}
-                autoComplete="off"
-                onChange={(e) => setUser(e.target.value)}
-                required
-                aria-invalid={validName ? 'false' : 'true'}
-                aria-describedby="uidnote"
-                onFocus={() => setUserFocus(true)}
-                onBlur={() => setUserFocus(false)}
-              />
-              <p
-                id="uidnote"
-                className={
-                  userFocus && user && !validName
-                    ? 'instructions'
-                    : 'offscreen'
-                }
-              >
-                <FontAwesomeIcon icon={faInfoCircle} />
-                4 to 24 characters.
-                <br />
-                Must begin with a letter.
-                <br />
-                Letters, numbers, underscores, hyphens allowed.
-              </p>
-  
               <label htmlFor="password">
                 Password:
                 <span className={validPwd ? 'valid' : 'hide'}>
@@ -206,7 +162,7 @@ import './register.css';
   
               <button
                 disabled={
-                  !validName || !validPwd || !validMatch ? true : false
+                  !validPwd || !validMatch ? true : false
                 }
               >
                 Sign Up

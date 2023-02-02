@@ -30,6 +30,7 @@ function App() {
           <Route path="Login" element={<Login />} />
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<Missing />} />
+          <Route path="registration"element={<Registration/>} />    
           {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
             <Route
