@@ -35,5 +35,17 @@ namespace VandasPage.Controllers
         {
             return await _context.GetAllEmails();
         }
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<Email>> GetEmailById(long id)
+        {
+            Email email = await _context.GetEmailById(id);
+
+            if (email == null)
+            {
+                return NotFound();
+            }
+            return email;
+        }
     }
 }

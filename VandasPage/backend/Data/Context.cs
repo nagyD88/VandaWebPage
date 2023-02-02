@@ -248,7 +248,10 @@ namespace VandasPage.Data
         {
             return await Emails.ToListAsync();
         }
-
+        public async Task<Email> GetEmailById(long id)
+ {
+            return await Emails.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
 
