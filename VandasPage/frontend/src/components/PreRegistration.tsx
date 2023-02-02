@@ -4,6 +4,7 @@ import api from "../hooks/api";
 import { useContext } from "react";
 import DataContext from "../context/dataContext";
 import { useMutation, useQueryClient } from "react-query"
+import {EmailType} from "../model/EmailType"
 
 
 const EMAIL_REGEX =
@@ -20,6 +21,7 @@ const PreRegistration = () => {
   const queryClient = useQueryClient()
   const [errorMsg,setErrorMsg]=useState("");
 
+  const basicRegEmail = 1;
 
   const postUser = async () => 
     await api.post("/user", {
@@ -28,6 +30,11 @@ const PreRegistration = () => {
       firstName: firstName,
       lastName: lastName,
     });
+
+  const getEmial = async ()=> {
+    const response = await api.get<EmailType>(`/email/${basicRegEmail}`);
+    return response.data;
+  }
 
   const postUserMutation = useMutation(postUser, {
     onSuccess: () => {
