@@ -119,7 +119,17 @@ namespace VandasPage.Data
                         Type = "picture",
                         Index = 2
                     }
-                    ); ;
+                    ); 
+                context.SaveChanges();
+
+                context.Emails.AddRange(
+                   new Email
+                   {
+                       Name = "Registration Email",
+                       To = string.Empty,
+                       Subject = "registrálj Oktató honlapon",
+                       Body = "a következő linken kereszül tudsz regisztrálni az oktató honlapra"
+                   });
                 context.SaveChanges();
 
             }
