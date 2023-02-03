@@ -20,7 +20,6 @@ import { useMutation, useQueryClient } from 'react-query';
   const register = () => {
     const UserRef = UseRef<HTMLInputElement>(null);
     const errRef = UseRef<HTMLInputElement>(null);
-  
     const [pwd, setPwd] = UseState('');
     const [validPwd, setValidPwd] = UseState(false);
     const [pwdFocus, setPwdFocus] = UseState(false);
