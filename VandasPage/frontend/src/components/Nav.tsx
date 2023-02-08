@@ -25,6 +25,9 @@ const Nav = () => {
             <li className={`navElement ${colorTheme}`}>
               <Link to="Educationchanger">Oktás Változtatás</Link>
             </li>
+            <li className={`navElement ${colorTheme}`}>
+              <Link to="sendEmail">Email küldés</Link>
+            </li>
           </>
         )}
 

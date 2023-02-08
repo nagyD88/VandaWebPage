@@ -21,6 +21,7 @@ import Level from './Level';
 import EducationChanger from './EducationChanger';
 import RequireAuthLevel from './RequireAuthLevel';
 import RequireAuthReg from './RequireAuthReg';
+import SendEmail from './SendEmail';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
                   path="preregister"
                   element={<PreRegistration />}
                 />
+                <Route path="sendEmail" element={<SendEmail/>}/>
               </Route>
               <Route index element={<Home />} />
               <Route path="questionnaire">
