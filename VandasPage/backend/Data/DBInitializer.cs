@@ -41,8 +41,8 @@ namespace VandasPage.Data
                         LastName = "Alma",
                         Email = "alma@alma.hu",
                         Admin = true,
-                        PasswordHash = Encoding.ASCII.GetBytes("k8ahcyCs6OIFR/lwIPq5A3bXTP9sHfsuksiODcbY+eXbtwfcQdA7ZxpO6wK9//CsBUelGLBcGOrVIckqp1xWBw=="),
-                        PasswordSalt = Encoding.ASCII.GetBytes("euWyoG6b6pewJaTCT8abS5T2sPjlRIJyW0758OdysmGg1W94R19XaA6g49WR8EDkcrOPQaBKSnaC4j0n1FXQobXIHgaFN5hZzH+uZ9JhwfVIxAGyxcOUY6jshbZAS45NDOg7zVobdrcay1TcbwxH2We/pix97hqWFIGybHLg24w="),
+                        PasswordHash = null,
+                        PasswordSalt = null,
                         Levels = new HashSet<Level> { context.Levels.FirstOrDefault(x => x.Index == 0) }
                     },
 
@@ -119,7 +119,17 @@ namespace VandasPage.Data
                         Type = "picture",
                         Index = 2
                     }
-                    ); ;
+                    ); 
+                context.SaveChanges();
+
+                context.Emails.AddRange(
+                   new Email
+                   {
+                       Name = "Registration Email",
+                       To = string.Empty,
+                       Subject = "registrálj Oktató honlapon",
+                       Body = "a következő linken kereszül tudsz regisztrálni az oktató honlapra:"
+                   });
                 context.SaveChanges();
 
             }

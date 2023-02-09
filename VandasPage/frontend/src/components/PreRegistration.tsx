@@ -3,7 +3,8 @@ import { useState } from "react";
 import api from "../hooks/api";
 import { useContext } from "react";
 import DataContext from "../context/dataContext";
-import { useMutation, useQueryClient } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
+import {EmailType} from "../model/EmailType"
 
 
 const EMAIL_REGEX =
@@ -20,6 +21,7 @@ const PreRegistration = () => {
   const queryClient = useQueryClient()
   const [errorMsg,setErrorMsg]=useState("");
 
+  const basicRegEmail = 1;
 
   const postUser = async () => 
     await api.post("/user", {
@@ -29,6 +31,22 @@ const PreRegistration = () => {
       lastName: lastName,
     });
 
+  const getEmail = async ()=> {
+    const response = await api.get<EmailType>(`/email/${basicRegEmail}`);
+    return response.data;
+  }
+
+  const { isLoading, isError, error , data } = useQuery('emial', getEmail )
+  
+
+  const sendEmial = async (response)=> await api.post('/email', {
+    to: email,
+    subject: "Registráció",
+    body: `Kedves ${firstName} ${lastName}!\n
+    ${data?.body} 'http://localhost:3000/registration?id=${response?.data?.id}&email=${email}`
+  });
+
+  
   const postUserMutation = useMutation(postUser, {
     onSuccess: () => {
         // Invalidates cache and refetch 
@@ -45,6 +63,9 @@ const PreRegistration = () => {
       try{
       const response = await postUserMutation.mutateAsync();
       setErrorMsg("");
+      console.log(response);
+      const emailResponse = await sendEmial(response);
+      console.log(emailResponse);
     } catch (err) {
       if (err.response?.status === 400) {
         setRegistered(false);

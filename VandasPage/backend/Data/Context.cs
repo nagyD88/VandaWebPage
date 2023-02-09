@@ -24,6 +24,7 @@ namespace VandasPage.Data
         public DbSet<Level> Levels { get; set; }
 
         public DbSet<EducationalMaterial> EducationMaterials { get; set; }
+        public DbSet<Email> Emails { get; set; }
 
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,6 +37,7 @@ namespace VandasPage.Data
             modelBuilder.Entity<Level>().ToTable("levels");
             modelBuilder.Entity<EducationalMaterial>().ToTable("educationmaterials");
             modelBuilder.Entity<RefreshToken>().ToTable("refreshTokens");
+            modelBuilder.Entity<Email>().ToTable("emails");
         }
         public Task<List<User>> GetUsers()
         {
@@ -90,7 +92,17 @@ namespace VandasPage.Data
             await SaveChangesAsync();
             return updatedUser.Entity;
         }
-       
+        
+
+        public async Task<bool> isEmailAndIdMatching(string email, long id)
+        {
+            User user = await GetUserById(id);
+            if (user == null)
+            {
+                return false;
+            }
+            return user.Email == email;
+        }
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
             var userToUpdate= Users.FirstOrDefault(x=>x.Id == user.Id);
@@ -242,6 +254,14 @@ namespace VandasPage.Data
             return updatedUser.Entity;
         }
 
+        public async Task<List<Email>> GetAllEmails()
+        {
+            return await Emails.ToListAsync();
+        }
+        public async Task<Email> GetEmailById(long id)
+ {
+            return await Emails.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
 

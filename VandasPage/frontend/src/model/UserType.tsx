@@ -1,4 +1,4 @@
-import { Questionnaire } from './QuestionaireType';
+import { QuestionnaireType } from './QuestionaireType';
 import { MeetingLogType } from './MeetingLogType';
 import { LevelType } from './LevelType';
 
@@ -11,7 +11,7 @@ export interface UserType {
   reasonForApplication: string;
   directInquiry: Boolean;
   communication: string;
-  questionnaires: Questionnaire[];
+  questionnaires: QuestionnaireType[];
   mbti: string;
   price: number;
   numberOfDetailsStart: number;

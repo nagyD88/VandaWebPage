@@ -20,9 +20,6 @@ const Nav = () => {
               <Link to="preregister">Előregisztráció</Link>
             </li>
             <li className={`navElement ${colorTheme}`}>
-              <Link to="register">Regisztráció</Link>
-            </li>
-            <li className={`navElement ${colorTheme}`}>
               <Link to="User">Felhasználók</Link>
             </li>
             <li className={`navElement ${colorTheme}`}>

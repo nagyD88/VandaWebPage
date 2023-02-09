@@ -43,6 +43,10 @@ namespace VandasPage.Controllers
             {
                 return NotFound();
             }
+            if  (user.PasswordHash != null)
+            {
+                return BadRequest("user registered");
+            }
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             User updatedUser =await _context.constructPassword(user);
