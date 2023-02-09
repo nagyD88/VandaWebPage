@@ -3,6 +3,8 @@ import { useState } from "react";
 import api from "../hooks/api";
 import { useContext } from "react";
 import DataContext from "../context/dataContext";
+import { useMutation, useQueryClient } from "react-query"
+
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$/;
@@ -12,28 +14,41 @@ const PreRegistration = () => {
   const [email, setEmail] = useState("");
   const [emailValidation, setEmailValidation] = useState(true);
   const [registered, setRegistered] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [admin, setAdmin] = useState(false);
+  const queryClient = useQueryClient()
+  const [errorMsg,setErrorMsg]=useState("");
 
+
+  const postUser = async () => 
+    await api.post("/user", {
+      email: email,
+      admin: admin,
+      firstName: firstName,
+      lastName: lastName,
+    });
+
+  const postUserMutation = useMutation(postUser, {
+    onSuccess: () => {
+        // Invalidates cache and refetch 
+        queryClient.invalidateQueries('Users')
+    }
+})
+
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setRegistered(true);
-    try {
-      const isValid = EMAIL_REGEX.test(email);
-      setEmailValidation(isValid);
-      const response = await api.post("/user", {
-        email: email,
-        admin: admin,
-        firstName: firstName,
-        lastName: lastName,
-      });
-      console.log(response);
+    if(EMAIL_REGEX.test(email)){
+      setEmailValidation(true);
+      try{
+      const response = await postUserMutation.mutateAsync();
       setErrorMsg("");
     } catch (err) {
       if (err.response?.status === 400) {
         setRegistered(false);
+        console.log(registered);
       }
       setErrorMsg(err.message);
       console.log(errorMsg);
@@ -41,7 +56,9 @@ const PreRegistration = () => {
     } finally {
       console.log(`email validation: ${emailValidation}`);
     }
-  };
+    }
+  }
+
   return (
     <>
       <div className={`preReg ${colorTheme}`}>

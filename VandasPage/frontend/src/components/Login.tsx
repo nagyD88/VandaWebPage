@@ -1,10 +1,11 @@
 import React from 'react';
 import { useRef, useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
-import useAxiosFetch from '../hooks/useAxiosFetch';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../hooks/api';
 import decode from 'jwt-claims';
+import { LevelType } from '../model/LevelType';
+
 
 const Login = () => {
   const { setAuth, auth } = useAuth();
@@ -13,8 +14,8 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
 
-  const userRef = useRef();
-  const errRef = useRef();
+  const userRef = useRef<HTMLInputElement>(null);
+  const errRef = useRef<HTMLInputElement>(null);
 
   const [email, setUser] = useState('');
   const [password, setPwd] = useState('');
@@ -22,7 +23,7 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    userRef.current.focus();
+    userRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -37,23 +38,26 @@ const Login = () => {
         password: password,
         email: email,
       });
-      console.log(response);
       
-
-
-      const admin = "True"==decode(response?.data)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-      const id = decode(response?.data)['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
-      const levels = JSON.parse(decode(response?.data)['http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor']);
-      setAuth({ user: email, pwd: password, admin: admin, id: id, levels: levels});
+      const admin: boolean =
+        'True' ==
+        decode(response?.data)[
+          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+        ];
+      const id: number = decode(response?.data)[
+        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
+      ];
+      const levels: LevelType[] = JSON.parse(
+        decode(response?.data)[
+          'http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor'
+        ]
+      );
+      setAuth({ user: email, admin: admin, id: id, levels: levels });
       setUser('');
       setPwd('');
       navigate(from, { replace: true });
-      console.log(response.data)
-      console.log(admin);
-      console.log(id);
-      console.log(levels);
 
-      console.log(auth);
+
       
     } catch (err) {
       if (!err?.response) {
@@ -65,7 +69,7 @@ const Login = () => {
       } else {
         setErrMsg('Login Failed');
       }
-      errRef.current.focus();
+      errRef.current?.focus();
     }
   };
 

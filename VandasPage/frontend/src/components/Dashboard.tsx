@@ -19,8 +19,8 @@ const Dashboard = ({ children }) => {
     })
     return (
       <>
-        <Modal show={show} handleClose={hideModal} children={updatedChildren}>
-          
+        <Modal show={show} handleClose={hideModal} >
+          {updatedChildren}
         </Modal>
         <button id="modalbutton" type="button" onClick={showModal}>
           +

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     useRef as UseRef,
     useState as UseState,
@@ -16,8 +17,8 @@ import './register.css';
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   
   const register = () => {
-    const UserRef = UseRef();
-    const errRef = UseRef();
+    const UserRef = UseRef<HTMLInputElement>(null);
+    const errRef = UseRef<HTMLInputElement>(null);
   
     const [user, setUser] = UseState('');
     const [validName, setValidName] = UseState(false);
@@ -35,7 +36,7 @@ import './register.css';
     const [success, setSuccess] = UseState(false);
   
     UseEffect(() => {
-      UserRef.current.focus();
+      UserRef.current?.focus();
     }, []);
   
     UseEffect(() => {
