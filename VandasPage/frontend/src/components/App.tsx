@@ -20,6 +20,8 @@ import LevelChanger from './LevelChanger';
 import Level from './Level';
 import EducationChanger from './EducationChanger';
 import RequireAuthLevel from './RequireAuthLevel';
+import RequireAuthReg from './RequireAuthReg';
+import SendEmail from './SendEmail';
 
 function App() {
   return (
@@ -30,19 +32,25 @@ function App() {
           <Route path="Login" element={<Login />} />
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<Missing />} />
+          <Route element={<RequireAuthReg />}>
+            <Route path="registration" element={<Registration />} />
+          </Route>
           {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
             <Route
-
-              element={<RequireAuth allowedRoles={[true, false]}/>}>
+              element={<RequireAuth allowedRoles={[true, false]} />}
+            >
               {/* justfor admin */}
               <Route element={<RequireAuth allowedRoles={[true]} />}>
                 <Route path="User">
                   <Route index element={<Users />} />
                   <Route path=":id" element={<User />} />
                 </Route>
-                <Route path="preregister" element={<PreRegistration />} />
-
+                <Route
+                  path="preregister"
+                  element={<PreRegistration />}
+                />
+                <Route path="sendEmail" element={<SendEmail/>}/>
               </Route>
               <Route index element={<Home />} />
               <Route path="questionnaire">
@@ -50,14 +58,14 @@ function App() {
                 <Route path=":id" element={<Questionary />} />
               </Route>
               <Route path="Education">
-                <Route index element={<Education urlPart={"Education"}/>} />
-                  <Route element={<RequireAuthLevel />}>
-                    <Route path=":id" element={<Level/>} />
-                  </Route>
+                <Route index element={<Education />} />
+                <Route element={<RequireAuthLevel />}>
+                  <Route path=":id" element={<Level />} />
+                </Route>
               </Route>
               <Route path="Educationchanger">
-                <Route index element={<EducationChanger urlPart={"Educationchanger"}/>} />
-                <Route path=":id" element={<LevelChanger/>} />
+                <Route index element={<EducationChanger />} />
+                <Route path=":id" element={<LevelChanger />} />
               </Route>
             </Route>
           </Route>

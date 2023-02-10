@@ -12,23 +12,4 @@ public class Questionnaire
 
     public List<Question> Questions { get; set; }
     
-    public int GetAllPoint()
-    {
-        throw new NotImplementedException();
-    }
-
-    public int GetGeneralPresentPoints()
-    {
-        throw new NotImplementedException();
-    }
-
-    public int GetFamilyPoints()
-    {
-        throw new NotImplementedException();
-    }
-
-    public int GetPerformancePoints()
-    {
-        throw new NotImplementedException();
-    }
 }

@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using VandasPage.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace VandasPage.Services
 {
@@ -32,10 +33,17 @@ namespace VandasPage.Services
 
         public string CreateToken(User user)
         {
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
             string jsonString = JsonConvert.SerializeObject(user.Levels, Formatting.None,
                         new JsonSerializerSettings()
                         {
-                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                            ContractResolver = contractResolver,
+                            Formatting = Formatting.Indented
                         });
 
             List<Claim> claims = new List<Claim>

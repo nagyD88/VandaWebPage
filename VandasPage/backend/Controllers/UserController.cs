@@ -55,7 +55,19 @@ namespace VandasPage.Controllers
             return newUser;
         }
 
+        [HttpPost]
+        [Route("ismatching")]
+        public async Task<ActionResult<bool>> isEmailAndIdMatching(IdEmailDTO idEmailDTO)
+        {
+            string email = idEmailDTO.Email;
+            long id=idEmailDTO.Id;
+            if (email == null)
+            {
+                return false;
+            }
 
+            return await _context.isEmailAndIdMatching(email, id);
+        }
 
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)
