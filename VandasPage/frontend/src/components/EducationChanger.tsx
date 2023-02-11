@@ -10,6 +10,7 @@ import AddLevel from './modallContent/AddLevel';
 import Dashboard from './utility/Dashboard';
 import AreYouSure from './modallContent/AreYouSure';
 import { LevelType } from '../model/LevelType';
+import IsLoading from './utility/isLoading';
 
 const EducationChanger = () => {
   let url = `/education/level`;
@@ -71,14 +72,8 @@ const EducationChanger = () => {
   };
 
   return (
-    <>
-      {isLoading && <p className="statusMsg">Loading ...</p>}
-      {!isLoading && isError && (
-        <p className="statusMsg err">
-          {error instanceof Error && error.message}
-        </p>
-      )}
-      {!isLoading && !isError && (
+    <IsLoading
+      children={
         <>
           <Dashboard children={<AddLevel hideModal={undefined} />} />
 
@@ -133,8 +128,11 @@ const EducationChanger = () => {
             </Droppable>
           </DragDropContext>
         </>
-      )}
-    </>
+      }
+      isError={isError}
+      isLoading={isLoading}
+      error={error as Error}
+    />
   );
 };
 

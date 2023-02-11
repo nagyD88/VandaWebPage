@@ -5,37 +5,41 @@ import DataContext from '../context/dataContext';
 import api from '../hooks/api';
 import { LevelType } from '../model/LevelType';
 import { UserType } from '../model/UserType';
-import { useQuery, useMutation, useQueryClient } from "react-query"
-
-
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import IsLoading from './utility/isLoading';
 
 const User = () => {
   const { id } = useParams();
   let url = `/user/${id}`;
   let levelUrl = '/Education/level';
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const getLevels = async () => {
-    const response = await api.get<LevelType[]>(levelUrl)
-    return response.data
-  }
+    const response = await api.get<LevelType[]>(levelUrl);
+    return response.data;
+  };
   const getUsers = async () => {
-    const response = await api.get<UserType>(url)
-    return response.data
-  }
+    const response = await api.get<UserType>(url);
+    return response.data;
+  };
 
-  const { isLoading, isError, error , data } = useQuery('user', getUsers )
-  const levelsResponse = useQuery("levels", getLevels)
+  const { isLoading, isError, error, data } = useQuery(
+    'user',
+    getUsers
+  );
+  const levelsResponse = useQuery('levels', getLevels);
   const { colorTheme } = useContext(DataContext);
-  
+
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [communication, setCommunication] = useState<string>('');
   const [MBTI, setMBTI] = useState<string>('');
   const [levelId, setLevelId] = useState<number>();
-  const [levelsToAdd, setLevelsToAdd] = useState<LevelType[] | undefined>([]);
+  const [levelsToAdd, setLevelsToAdd] = useState<
+    LevelType[] | undefined
+  >([]);
 
   useEffect(() => {
     console.log('levels: ', levelsResponse?.data);
@@ -45,47 +49,43 @@ const User = () => {
     );
     setLevelsToAdd(filteredLevels);
     console.log('filtered: ', filteredLevels);
-    
-    if (data!==undefined){
-      console.log('alma')
+
+    if (data !== undefined) {
+      console.log('alma');
       setFirstName(data!.firstName);
       setLastName(data!.lastName);
       setEmail(data!.email);
       setCommunication(data!.communication);
       setMBTI(data!.mbti);
-  }}, [data, levelsResponse?.data]);
+    }
+  }, [data, levelsResponse?.data]);
 
-
-  const updateUser =async ()=> await api.put<UserType>('/user', {
-    id: `${id}`,
-    firstName: `${firstName}`,
-    lastName: `${lastName}`,
-    email: `${email}`,
-    communication: `${communication}`,
-    mbti: `${MBTI}`,
-    levelId: levelId,
-  });
+  const updateUser = async () =>
+    await api.put<UserType>('/user', {
+      id: `${id}`,
+      firstName: `${firstName}`,
+      lastName: `${lastName}`,
+      email: `${email}`,
+      communication: `${communication}`,
+      mbti: `${MBTI}`,
+      levelId: levelId,
+    });
 
   const updateUserMutation = useMutation(updateUser, {
     onSuccess: () => {
-        // Invalidates cache and refetch 
-        queryClient.invalidateQueries('user')
-    }
-})
-  
+      // Invalidates cache and refetch
+      queryClient.invalidateQueries('user');
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    updateUserMutation.mutate()
+    updateUserMutation.mutate();
   };
 
-
   return (
-    <>
-      {isLoading && <p className="statusMsg">Loading ...</p>}
-      {!isLoading && isError && (
-        <p className="statusMsg err">{error instanceof Error && error.message}</p>
-      )}
-      {!isLoading && !isError && (
+    <IsLoading
+      children={
         <>
           <h2>
             {data?.firstName} {data?.lastName}
@@ -161,8 +161,11 @@ const User = () => {
             </form>
           </div>
         </>
-      )}
-    </>
+      }
+      isError={isError}
+      isLoading={isLoading}
+      error={error as Error}
+    />
   );
 };
 export default User;

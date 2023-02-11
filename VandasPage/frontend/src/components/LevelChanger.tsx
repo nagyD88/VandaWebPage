@@ -13,6 +13,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import EducationChanger from './EducationChanger';
 import { EducationMaterialtype } from '../model/EducationMaterialType';
 import { LevelType } from '../model/LevelType';
+import IsLoading from './utility/isLoading';
 
 const LevelChanger = () => {
   const queryClient = useQueryClient();
@@ -64,21 +65,15 @@ const LevelChanger = () => {
   };
 
   return (
-    <>
-      {isLoading && <p className="statusMsg">Loading ...</p>}
-      {!isLoading && isError && (
-        <p className="statusMsg err">
-          {error instanceof Error && error.message}
-        </p>
-      )}
-      {!isLoading && !isError && (
+    <IsLoading
+      children={
         <>
           {auth.admin && (
             <Dashboard
               children={
                 <AddEducationMaterial levelID={id} hideModal={''} />
               }
-            /> //hidemodal to give
+            /> 
           )}
           <div>
             <EducationChanger />
@@ -122,8 +117,11 @@ const LevelChanger = () => {
             </Droppable>
           </DragDropContext>
         </>
-      )}
-    </>
+      }
+      isError={isError}
+      isLoading={isLoading}
+      error={error as Error}
+    />
   );
 };
 
