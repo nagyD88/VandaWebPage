@@ -44,7 +44,7 @@ const EducationMaterial = ({ material, canDelete }: AppProps) => {
           children={
             <AreYouSure
               handleOnClick={handleOnClick}
-              messege={'Biztos le akarod törölni?'}
+              message={'Biztos le akarod törölni?'}
               hideModal={''}
               levelID={id}
             />

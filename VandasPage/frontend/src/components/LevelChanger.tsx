@@ -14,6 +14,7 @@ import EducationChanger from './EducationChanger';
 import { EducationMaterialtype } from '../model/EducationMaterialType';
 import { LevelType } from '../model/LevelType';
 import IsLoading from './utility/isLoading';
+import DragAndDrop from './utility/DragAndDrop';
 
 const LevelChanger = () => {
   const queryClient = useQueryClient();
@@ -77,43 +78,12 @@ const LevelChanger = () => {
             <EducationChanger />
           </div>
           <h2>{data?.name}</h2>
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="educationMaterials">
-              {(provided) => (
-                <section
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {data?.educationalMaterials?.map(
-                    (material: EducationMaterialtype) => {
-                      return (
-                        <Draggable
-                          key={material.id}
-                          draggableId={material.id.toString()}
-                          index={material.index}
-                        >
-                          {(provided) => (
-                            <article
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <EducationMaterial
-                                key={material.id}
-                                material={material}
-                                canDelete={true}
-                              />
-                            </article>
-                          )}
-                        </Draggable>
-                      );
-                    }
-                  )}
-                  {provided.placeholder}
-                </section>
-              )}
-            </Droppable>
-          </DragDropContext>
+
+          <DragAndDrop
+            handleOnDragEnd={handleOnDragEnd}
+            ListOfItems={data?.educationalMaterials}
+            type={'level'}
+          />
         </>
       }
       isError={isError}
