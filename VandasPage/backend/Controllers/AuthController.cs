@@ -118,5 +118,20 @@ namespace VandasPage.Controllers
             user.TokenCreated = newRefreshToken.Created;
             user.TokenExpires = newRefreshToken.Expires;
         }
+
+        // ha kell valamit csinálni a tokennnel szerveroldalon
+        //[HttpGet("logout")]
+        //public async Task<ActionResult> LogoutUser()
+        //{
+        //    try
+        //    {
+                
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //    return Ok();
+        //}
     }
 }

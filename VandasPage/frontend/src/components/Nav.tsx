@@ -35,6 +35,9 @@ const Nav = () => {
         <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
           <Link to="Education">Oktató felület</Link>
         </li>
+        <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
+          <Link to="/logout">Logout</Link>
+        </li>
       </ul>
     </nav>
   );
