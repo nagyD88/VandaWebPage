@@ -1,7 +1,7 @@
 import React from 'react';
 import { getId } from '../utils/EmbedLinkCreator';
-import Dashboard from './Dashboard';
-import AreYouSure from './modallcontent/AreYouSure';
+import Dashboard from './utility/Dashboard';
+import AreYouSure from './modallContent/AreYouSure';
 import api from '../hooks/api';
 import { useContext } from 'react';
 import AuthContext from '../context/AuthProvider';

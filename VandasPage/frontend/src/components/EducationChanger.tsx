@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import api from '../hooks/api';
-import AddLevel from './modallcontent/AddLevel';
-import Dashboard from './Dashboard';
-import AreYouSure from './modallcontent/AreYouSure';
+import AddLevel from './modallContent/AddLevel';
+import Dashboard from './utility/Dashboard';
+import AreYouSure from './modallContent/AreYouSure';
 import { LevelType } from '../model/LevelType';
 
 const EducationChanger = () => {
