@@ -68,13 +68,11 @@ const LevelChanger = () => {
     <IsLoading
       children={
         <>
-          {auth.admin && (
-            <Dashboard
-              children={
-                <AddEducationMaterial levelID={id} hideModal={''} />
-              }
-            /> 
-          )}
+          <Dashboard
+            children={
+              <AddEducationMaterial levelID={id} hideModal={''} />
+            }
+          />
           <div>
             <EducationChanger />
           </div>
