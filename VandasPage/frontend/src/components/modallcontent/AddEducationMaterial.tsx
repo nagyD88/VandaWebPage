@@ -1,25 +1,28 @@
 import React from 'react';
 import { useState } from 'react';
-import api from '../hooks/api';
-import {  useMutation, useQueryClient} from "react-query"
+import api from '../../hooks/api';
+import { useMutation, useQueryClient } from 'react-query';
 
 const AddEducationMaterial = ({ levelID, hideModal }) => {
   const [type, setType] = useState('text');
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const PatchEducationMaterial =async (response)=>await api.patch(
-    `/education/level/${levelID}/material?MaterialId=${response.data.id}`
+  const PatchEducationMaterial = async (response) =>
+    await api.patch(
+      `/education/level/${levelID}/material?MaterialId=${response.data.id}`
+    );
+
+  const PatchEducationMaterialMutation = useMutation(
+    PatchEducationMaterial,
+    {
+      onSuccess: () => {
+        // Invalidates cache and refetch
+        queryClient.invalidateQueries('level');
+      },
+    }
   );
-
-
-  const PatchEducationMaterialMutation = useMutation(PatchEducationMaterial, {
-    onSuccess: () => {
-      // Invalidates cache and refetch 
-      queryClient.invalidateQueries('level')
-  }
-})
   const onValueChange = (e) => {
     setType(e.target.value);
   };
@@ -30,14 +33,13 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
     const response = await api.post('/education', {
       name: `${name}`,
       type: `${type}`,
-      content: `${content}`
-    })
+      content: `${content}`,
+    });
     hideModal();
 
     console.log(response);
 
-    PatchEducationMaterialMutation.mutate(response)
-    
+    PatchEducationMaterialMutation.mutate(response);
   };
 
   return (
