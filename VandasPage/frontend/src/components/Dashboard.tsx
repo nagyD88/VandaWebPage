@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
 import Modal from './Modal';
-import "./Dashboard.css";
 
 const Dashboard = ({ children }) => {
   const [show, setShow] = useState(false);
@@ -22,7 +21,7 @@ const Dashboard = ({ children }) => {
         <Modal show={show} handleClose={hideModal} >
           {updatedChildren}
         </Modal>
-        <button id="modalbutton" type="button" onClick={showModal}>
+        <button className='float-left mt-0 p-[0.12rem]' type="button" onClick={showModal}>
           +
         </button>
       </>

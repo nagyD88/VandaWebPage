@@ -1,8 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import api from "../hooks/api";
-import { useContext } from "react";
-import DataContext from "../context/dataContext";
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import {EmailType} from "../model/EmailType"
 
@@ -11,7 +9,6 @@ const EMAIL_REGEX =
   /^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$/;
 
 const PreRegistration = () => {
-  const { colorTheme } = useContext(DataContext);
   const [email, setEmail] = useState("");
   const [emailValidation, setEmailValidation] = useState(true);
   const [registered, setRegistered] = useState(true);
@@ -82,7 +79,7 @@ const PreRegistration = () => {
 
   return (
     <>
-      <div className={`preReg ${colorTheme}`}>
+      <div className={`preReg`}>
         <form onSubmit={handleSubmit} className="preRegForm">
           <label>
             Vezeték Név:
