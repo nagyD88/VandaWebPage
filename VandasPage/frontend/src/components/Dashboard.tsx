@@ -2,8 +2,12 @@ import React from 'react';
 import { useState } from 'react';
 import Modal from './Modal';
 import "./Dashboard.css";
+import DataContext from '../context/dataContext';
+type Props={
+  children: React.ReactElement
+}
 
-const Dashboard = ({ children }) => {
+const Dashboard = ({ children }:Props) => {
   const [show, setShow] = useState(false);
 
   const showModal = () => {
@@ -13,6 +17,7 @@ const Dashboard = ({ children }) => {
   const hideModal = () => {
     setShow(false);
   };
+  
   let updatedChildren = React.Children.map(children,
     (child) => {
         return React.cloneElement(child, { hideModal: hideModal });
