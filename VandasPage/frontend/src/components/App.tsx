@@ -14,13 +14,13 @@ import Unauthorized from './Unauthorized';
 import { Route, Routes } from 'react-router-dom';
 import { DataProvider } from '../context/dataContext';
 import { AuthProvider } from '../context/AuthProvider';
-import RequireAuth from './RequireAuth';
+import RequireAuth from './protectedRoot/RequireAuth';
 import Registration from './Registration';
 import LevelChanger from './LevelChanger';
 import Level from './Level';
 import EducationChanger from './EducationChanger';
-import RequireAuthLevel from './RequireAuthLevel';
-import RequireAuthReg from './RequireAuthReg';
+import RequireAuthLevel from './protectedRoot/RequireAuthLevel';
+import RequireAuthReg from './protectedRoot/RequireAuthReg';
 import SendEmail from './SendEmail';
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
                   path="preregister"
                   element={<PreRegistration />}
                 />
-                <Route path="sendEmail" element={<SendEmail/>}/>
+                <Route path="sendEmail" element={<SendEmail />} />
               </Route>
               <Route index element={<Home />} />
               <Route path="questionnaire">
