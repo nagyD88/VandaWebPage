@@ -38,10 +38,10 @@ function App() {
           {/* we want to protect these routes */}
           <Route path="/" element={<Layout />}>
             <Route
-              element={<RequireAuth allowedRoles={[true, false]} />}
+              element={<RequireAuth allowedRoles={["admin", "user"]} />}
             >
               {/* justfor admin */}
-              <Route element={<RequireAuth allowedRoles={[true]} />}>
+              <Route element={<RequireAuth allowedRoles={["admin"]} />}>
                 <Route path="User">
                   <Route index element={<Users />} />
                   <Route path=":id" element={<User />} />
