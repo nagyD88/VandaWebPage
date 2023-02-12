@@ -52,6 +52,7 @@ const SendEmail = () => {
         <div className={`email`}>
           <form onSubmit={handleSubmit} className="bg-blue-600 w-[30rem] object-center rounded-xl shadow-2xl mt-16 pr-10">
             <select
+            className=''
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             >
@@ -70,7 +71,7 @@ const SendEmail = () => {
                 type="text"
                 required
                 value={subject}
-                className='ml-3'
+                className='ml-3 shadow-md'
                 onChange={(e) => setSubject(e.target.value)}
               />
             </label>
@@ -80,14 +81,15 @@ const SendEmail = () => {
               </label>
               <textarea
               id='message'
-              className='ml-3'
+              className='ml-8 shadow-md'
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 rows={4}
                 cols={50}
               />
             
-            <input type="submit" value="Submit" className="sub" />
+            {/* <input type="submit" value="Submit" className="sub" /> */}
+            <button type="submit">Submit</button>
           </form>
         </div>
       </>

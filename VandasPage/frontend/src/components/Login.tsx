@@ -94,10 +94,10 @@ const Login = () => {
           </p>
           <h1>Sign In</h1>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="email">e-mail:</label>
+            <label htmlFor="email" className='text-[#faebd7]'>e-mail:</label>
             <input
               type="text"
-              id="username"
+              id="email"
               ref={userRef}
               autoComplete="off"
               onChange={(e) => setUser(e.target.value)}
@@ -113,15 +113,14 @@ const Login = () => {
               value={password}
               required
             />
-            <button>Sign In</button>
+            <button className='duration-500 hover:transition-colors hover:duration-500 hover:bg-slate-400 hover:text-white'>Sign In</button>
           </form>
-          <p>
-            Need an Account?
-            <br />
+          <p className='text-white'>
+            Need an Account?</p>
             <span className="line">
-              <a href="/Register">Sign Up</a>
+              <a href="/Register" className='text-white font-semibold'>Sign Up</a>
             </span>
-          </p>
+          
         </section>
       )}
     </>

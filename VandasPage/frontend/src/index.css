@@ -14,6 +14,13 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
+
+      h1{
+        color:azure;
+        font-size:xx-large;
+        font-weight: bolder;
+        text-shadow: 2px 2px 3px black;
+      }
       
       code {
         font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -39,12 +46,10 @@
         justify-content: space-evenly;
         flex-grow: 1;
         padding-bottom: 1rem;
-        color:antiquewhite;
         text-shadow: 2px 2px 3px black;
     }
 
-    input[type="text"],
-input[type="password"],
+input
 button,
 textarea {
   font-family: 'Nunito', sans-serif;
@@ -58,9 +63,16 @@ button {
   margin-top: 1rem;
 }
 
-button {
+label{
+  color:#faebd7;
+}
+
+button, [type="button"] {
   padding: 0.5rem;
   background-color: whitesmoke;
+  color: #000;
+  border-radius: 5em;
+  width: 10rem;
 }
 
 }
