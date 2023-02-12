@@ -45,14 +45,14 @@ const SendEmail = () => {
     )}
     {!isLoading && !isError && (
       <>
-        <h2>
+        <h2 className='text-[2rem] capitalize'>
           email küldése
         </h2>
         
         <div className={`email`}>
-          <form onSubmit={handleSubmit} className="bg-blue-600 w-[30rem] object-center rounded-xl shadow-2xl mt-16 pr-10">
+          <form onSubmit={handleSubmit} className="bg-blue-600 w-[30rem] h-auto object-center rounded-xl shadow-2xl mt-16 ml-10 pr-10 pl-10 pt-10">
             <select
-            className=''
+            className='rounded'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             >
@@ -88,8 +88,7 @@ const SendEmail = () => {
                 cols={50}
               />
             
-            {/* <input type="submit" value="Submit" className="sub" /> */}
-            <button type="submit">Submit</button>
+            <button className='bg-[#f5f5f5;] ml-[7.5rem]' type="submit">Submit</button>
           </form>
         </div>
       </>
