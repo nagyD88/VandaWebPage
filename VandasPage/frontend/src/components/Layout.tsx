@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <div className="absolute text-center h-screen">
       <Header />
-      <div className="mainPart pl-64 ">
+      <div className="flex justify-center">
         <Outlet />
       </div>
       <Footer />

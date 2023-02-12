@@ -29,7 +29,7 @@ const Education = () => {
       )}
       {!isLoading && !isError && (
     <>
-      <ul className="course-list">
+      <ul className="flex justify-center gap-6 bg-neutral-100 w-full overflow-visible">
       {data?.map((level) => (
         
         <li>
