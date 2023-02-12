@@ -5,9 +5,9 @@ import Footer from "./Footer";
 
 const Layout = () => {
   return (
-    <div className="text-center">
+    <div className="absolute text-center h-screen">
       <Header />
-      <div className="mainPart">
+      <div className="mainPart pl-64 ">
         <Outlet />
       </div>
       <Footer />

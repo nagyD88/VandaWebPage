@@ -39,6 +39,8 @@
         justify-content: space-evenly;
         flex-grow: 1;
         padding-bottom: 1rem;
+        color:antiquewhite;
+        text-shadow: 2px 2px 3px black;
     }
 
     input[type="text"],
@@ -94,6 +96,10 @@ button {
 
 .video {
   width: 80%;
+}
+
+.default-text-shadow{
+  text-shadow: 2px 2px 3px gray;
 }
 
 }
