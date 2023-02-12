@@ -113,7 +113,7 @@ const Login = () => {
               value={password}
               required
             />
-            <button className='duration-500 hover:transition-colors hover:duration-500 hover:bg-slate-400 hover:text-white'>Sign In</button>
+            <button>Sign In</button>
           </form>
           <p className='text-white'>
             Need an Account?</p>

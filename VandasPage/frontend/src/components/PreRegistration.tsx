@@ -84,7 +84,7 @@ const PreRegistration = () => {
           <label>
             Vezeték Név:
             <input
-              id="lastName"
+              className="ml-2 rounded"
               type="text"
               required
               value={lastName}
@@ -95,7 +95,7 @@ const PreRegistration = () => {
           <label>
             Kereszt Név:
             <input
-              id="firstName"
+              className="ml-2 rounded"
               type="text"
               required
               value={firstName}
@@ -103,10 +103,10 @@ const PreRegistration = () => {
             />
           </label>
 
-          <label>
+          <label className="ml-10">
             e-mail:
             <input
-              id="email"
+              className="ml-2 rounded"
               type="email"
               required
               value={email}
@@ -125,7 +125,7 @@ const PreRegistration = () => {
               onChange={(e) => setAdmin(e.target.checked)}
             />
           </label>
-          <input type="submit" value="Submit" className="sub" />
+          <button type="submit" className=" bg-[#f5f5f5] ml-20">Submit</button>
         </form>
       </div>
     </>
