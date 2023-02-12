@@ -10,7 +10,6 @@ import {
     faInfoCircle,
   } from '@fortawesome/free-solid-svg-icons';
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './register.css';
 import api from '../hooks/api';
 import { useMutation, useQueryClient } from 'react-query';
   
@@ -141,12 +140,12 @@ import { useMutation, useQueryClient } from 'react-query';
                 Confirm Password:
                 <FontAwesomeIcon
                   icon={faCheck}
-                  className={validMatch && matchPwd ? 'valid' : 'hide'}
+                  className={validMatch && matchPwd ? 'valid' : 'hidden'}
                 />
                 <FontAwesomeIcon
                   icon={faTimes}
                   className={
-                    validMatch || !matchPwd ? 'hide' : 'invalid'
+                    validMatch || !matchPwd ? 'hidden' : 'invalid'
                   }
                 />
               </label>
@@ -183,7 +182,7 @@ import { useMutation, useQueryClient } from 'react-query';
               <p>
                 Already registered?
                 <br />
-                <span className="line">
+                <span className="inline-block">
                   <a href="Login">Sign In</a>
                 </span>
               </p>

@@ -1,40 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import DataContext from "../context/dataContext";
 import AuthContext from "../context/AuthProvider";
 
 const Nav = () => {
-  const { colorTheme } = useContext(DataContext);
   const { auth } = useContext(AuthContext);
   return (
-    <nav className="navbar">
-      <p>Move cursor here for the navbar to appear</p>
-      <ul className="navbar-list">
-        <li className={`navElement ${colorTheme}`}>
+    <nav className=" h-[6vh] flex flex-auto text-center group">
+      <p>Move cursor here</p>
+      <ul className="min-w-[800px] w-auto overflow-visible flex flex-auto flex-wrap justify-around bg-blue-300 translate-y-[-170%] transition-all duration-[1500ms] group-hover:translate-y-[0%]">
+        <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
           <Link to="/">Home</Link>
         </li>
         {auth.admin && (
           <>
-            <li className={`navElement ${colorTheme}`}>
+            <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
               <Link to="preregister">Előregisztráció</Link>
             </li>
-            <li className={`navElement ${colorTheme}`}>
+            <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
               <Link to="User">Felhasználók</Link>
             </li>
-            <li className={`navElement ${colorTheme}`}>
+            <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
               <Link to="Educationchanger">Oktás Változtatás</Link>
             </li>
-            <li className={`navElement ${colorTheme}`}>
+            <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
               <Link to="sendEmail">Email küldés</Link>
             </li>
           </>
         )}
 
-        <li className={`navElement ${colorTheme}`}>
+        <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
           <Link to="questionnaire">Kérdőív</Link>
         </li>
-        <li className={`navElement ${colorTheme}`}>
+        <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
           <Link to="Education">Oktató felület</Link>
         </li>
       </ul>
