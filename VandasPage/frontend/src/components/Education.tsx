@@ -28,12 +28,9 @@ const Education = () => {
           <ul className="flex justify-start gap-6 bg-neutral-100 w-fit pl-32 pr-32 overflow-visible">
             {data?.map((level) => (
               <li>
-                <>
-                  {console.log("level Id: ", level.id)}
                   <Link key={level.id} to={`/Education/${level.id}`}>
                     {level.name}
                   </Link>
-                </>
               </li>
             ))}
           </ul>

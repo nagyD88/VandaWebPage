@@ -36,7 +36,7 @@ const EducationMaterial = ({ material, canDelete}:AppProps) => {
     
   };
   return (
-    <div className="">
+    <div className="flex-column">
       <h3>{material.name}</h3>
       {auth.admin && canDelete && (<Dashboard
         children={
