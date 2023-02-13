@@ -1,17 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { LevelType } from "../model/LevelType";
-import { useQuery } from "react-query";
-import api from "../hooks/api";
+import React from 'react';
+import DataContext from '../context/dataContext';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { LevelType } from '../model/LevelType';
+import { useQuery } from 'react-query';
+import api from '../hooks/api';
+import IsLoading from './utility/isLoading';
 
 const Education = () => {
-  let url = "https://localhost:7168/api/Education/level";
+  let url = 'https://localhost:7168/api/Education/level';
 
   const getLevels = async () => {
     const response = await api.get<LevelType[]>(url);
     return response.data;
   };
-  const { isLoading, isError, error, data } = useQuery("user", getLevels);
+  const { isLoading, isError, error, data } = useQuery(
+    'user',
+    getLevels
+  );
 
   console.log("eduLevel: ", data);
 
