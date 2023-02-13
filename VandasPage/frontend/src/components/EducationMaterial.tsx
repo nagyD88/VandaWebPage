@@ -36,7 +36,7 @@ const EducationMaterial = ({ material, canDelete}:AppProps) => {
     
   };
   return (
-    <div className="education-material">
+    <div className="">
       <h3>{material.name}</h3>
       {auth.admin && canDelete && (<Dashboard
         children={

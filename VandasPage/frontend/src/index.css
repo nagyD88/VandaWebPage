@@ -109,6 +109,10 @@
     background: rgba(0, 0, 0, 0.6);
   }
 
+  .custom-shadow{
+    text-shadow: 2px 2px 3px black;
+  }
+
   .instructions {
     font-size: 0.75rem;
     border-radius: 0.5rem;
