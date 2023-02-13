@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
+using System.Drawing.Imaging;
 using VandasPage.Data;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
@@ -111,6 +113,64 @@ namespace VandasPage.Controllers
             }
             return await _context.AddMaterialToLevel(levelId, MaterialId);
 
+        }
+        [HttpPost("uploadfiles2")]
+        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+            var filePath = Path.GetTempPath();
+            foreach (var formFile in files)
+            {
+                
+                if (formFile.Length > 0)
+                {
+                    
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await formFile.CopyToAsync(memoryStream);
+                        
+                        using (var img = Image.FromStream(memoryStream))
+                        {
+                            img.Save(filePath+"\\myImage.Jpeg", ImageFormat.Jpeg);
+                        }
+                    }
+                    
+
+                }
+            }
+            
+            // Process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return Ok(new { count = files.Count, size, filePath });
+        }
+ 
+
+            
+     
+        [HttpPost("UploadFiles")]
+        public async Task<IActionResult> Post(List<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+
+            // full path to file in temp location
+            var filePath = Path.GetTempFileName();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
+            }
+
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return Ok();
         }
 
 
