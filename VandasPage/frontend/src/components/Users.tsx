@@ -30,7 +30,7 @@ const Users = () => {
       {!isLoading && !isError && (
         <>
           <div className={`design ${colorTheme}`}></div>
-          <div className=" bg-blue-600 w-80 object-center rounded-xl shadow-2xl mt-16 text-slate-100 default-text-shadow ml-40">
+          <div className=" bg-blue-600 w-80 object-center rounded-xl shadow-2xl mt-16 text-slate-100 default-text-shadow">
             <h2>Felhasználók:</h2>
             {data?.map((user: UserType) => (
               <Link key={user.id} to={`/user/${user.id}`}>

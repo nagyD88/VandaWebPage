@@ -24,7 +24,7 @@ const Education = () => {
         </p>
       )}
       {!isLoading && !isError && (
-        <div className="ml-44 mt-6">
+        <div className="mt-6">
           <ul className="flex justify-start gap-6 bg-neutral-100 w-fit pl-32 pr-32 overflow-visible">
             {data?.map((level) => (
               <li>

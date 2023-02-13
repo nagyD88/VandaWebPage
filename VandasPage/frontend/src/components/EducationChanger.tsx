@@ -82,7 +82,7 @@ const EducationChanger = () => {
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="levels">
           {(provided) => (
-            <section
+            <section className='pr-10'
               {...provided.droppableProps}
               ref={provided.innerRef}
             >

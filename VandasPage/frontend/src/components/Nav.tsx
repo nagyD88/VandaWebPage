@@ -7,8 +7,7 @@ const Nav = () => {
   const { auth } = useContext(AuthContext);
   return (
     <nav className=" h-[6vh] flex flex-auto text-center group">
-      <p>Move cursor here</p>
-      <ul className="min-w-[800px] w-auto overflow-visible flex flex-auto flex-wrap justify-around bg-blue-300 translate-y-[-170%] transition-all duration-[1500ms] group-hover:translate-y-[0%]">
+      <ul className="min-w-[800px] w-screen overflow-visible flex flex-auto flex-wrap justify-around bg-gradient-to-tl from-blue-500 font-normal default-text-shadow translate-y-[-170%] transition-all duration-[1500ms] group-hover:translate-y-[0%]">
         <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
           <Link to="/">Home</Link>
         </li>
