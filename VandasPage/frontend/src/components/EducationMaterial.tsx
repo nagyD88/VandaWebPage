@@ -36,7 +36,7 @@ const EducationMaterial = ({ material, canDelete}:AppProps) => {
     
   };
   return (
-    <div className="flex-column">
+    <div className="bg-blue-600 w-80 object-center rounded-xl shadow-2xl text-[#f5f5f5] default-text-shadow">
       <h3>{material.name}</h3>
       {auth.admin && canDelete && (<Dashboard
         children={
