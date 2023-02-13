@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import api from "../hooks/api";
+import api from "../../hooks/api";
 
 const RequireAuthReg = () => {
     

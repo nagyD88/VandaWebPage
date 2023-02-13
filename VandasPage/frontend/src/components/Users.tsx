@@ -1,33 +1,33 @@
 import React from 'react';
-import { useQuery } from "react-query"
+import { useQuery } from 'react-query';
 import { useContext } from 'react';
 import DataContext from '../context/dataContext';
 import { Link } from 'react-router-dom';
 import api from '../hooks/api';
 import { UserType } from '../model/UserType';
 import { AxiosError } from 'axios';
+import IsLoading from './utility/isLoading';
 
 const Users = () => {
   let url = '/user';
-  
+
   const getUsers = async () => {
-    const response = await api.get<UserType[]>(url)
-    return response.data
-}
-  const { isLoading, isError, error , data } = useQuery('users', getUsers )
-  
+    const response = await api.get<UserType[]>(url);
+    return response.data;
+  };
+  const { isLoading, isError, error, data } = useQuery(
+    'users',
+    getUsers
+  );
+
   const { colorTheme } = useContext(DataContext);
   console.log(isError);
-  if(error instanceof Error){
+  if (error instanceof Error) {
     console.log(error.message);
   }
   return (
-    <>
-      {isLoading && <p className="statusMsg">Loading ...</p>}
-      {!isLoading && isError && (
-        <p className="statusMsg err">{error instanceof Error && error.message}</p>
-      )}
-      {!isLoading && !isError && (
+    <IsLoading
+      children={
         <>
           <div className={`design ${colorTheme}`}></div>
           <div className={`teamContainer ${colorTheme}`}>
@@ -43,8 +43,11 @@ const Users = () => {
             ))}
           </div>
         </>
-      )}
-    </>
+      }
+      isError={isError}
+      isLoading={isLoading}
+      error={error as Error}
+    />
   );
 };
 

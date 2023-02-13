@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, Navigate, Outlet, useParams } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 
 
 

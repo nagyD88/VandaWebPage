@@ -6,10 +6,11 @@ import { Link } from 'react-router-dom';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import api from '../hooks/api';
-import AddLevel from './AddLevel';
-import Dashboard from './Dashboard';
-import AreYouSure from './AreYouSure';
+import AddLevel from './modallContent/AddLevel';
+import Dashboard from './utility/Dashboard';
+import AreYouSure from './modallContent/AreYouSure';
 import { LevelType } from '../model/LevelType';
+import DragAndDrop from './utility/DragAndDrop';
 
 
 
@@ -78,54 +79,11 @@ const EducationChanger = () => {
     {!isLoading && !isError && (
     <>
       <Dashboard children={<AddLevel hideModal={undefined}  />} /> 
-
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="levels">
-          {(provided) => (
-            <section
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {data?.map((level) => {
-                return (
-                  <Draggable
-                    key={level.id}
-                    draggableId={level.id.toString()}
-                    index={level.index}
-                  >
-                    {(provided) => (
-                      <article
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <Dashboard
-                          children={
-                            <AreYouSure
-                              levelID={level.id}
-                              handleOnClick={handleOnClick}
-                              messege={'Biztos le akarod törölni?'} 
-                              hideModal={undefined}/> // kell neki hidemodal?
-                          }
-                        />
-                        <Link
-                          key={level.id}
-                          to={`/Educationchanger/${level.id}`}
-                        >
-                          <div className="level">
-                            <p>{level.name}</p>
-                          </div>
-                        </Link>
-                      </article>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </section>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <DragAndDrop handleOnDragEnd={handleOnDragEnd} 
+      ListOfItems={data} 
+      type={'education'}
+      handleOnClick={handleOnClick}
+      />
     </>
     )}
     </>

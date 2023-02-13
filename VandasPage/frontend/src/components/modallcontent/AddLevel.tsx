@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import api from '../hooks/api';
+import api from '../../hooks/api';
 import { useMutation, useQueryClient } from 'react-query';
 
 const AddLevel = ({ hideModal }) => {
