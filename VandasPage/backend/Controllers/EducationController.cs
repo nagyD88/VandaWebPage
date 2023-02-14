@@ -114,7 +114,7 @@ namespace VandasPage.Controllers
             return await _context.AddMaterialToLevel(levelId, MaterialId);
 
         }
-        [HttpPost("uploadfiles")]
+        [HttpPost("picture")]
         public async Task<IActionResult> OnPostUploadAsync(IFormFile file)
         {
             long size = file.Length;
