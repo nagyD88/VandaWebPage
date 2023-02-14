@@ -115,42 +115,47 @@ namespace VandasPage.Controllers
 
         }
         [HttpPost("uploadfiles")]
-        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+        public async Task<IActionResult> OnPostUploadAsync(IFormFile file)
         {
-            long size = files.Sum(f => f.Length);
+            long size = file.Length;
             var filePath = Path.GetTempPath();
             var fileName = $@"{Guid.NewGuid()}.Jpeg";
-            foreach (var formFile in files)
+
+            Picture picture = new Picture
             {
-                
-                if (formFile.Length > 0)
+                Path = filePath + "\\" + fileName
+            };
+                if (file.Length > 0)
                 {
-                    
                     using (var memoryStream = new MemoryStream())
                     {
-                        await formFile.CopyToAsync(memoryStream);
+                        await file.CopyToAsync(memoryStream);
                         
                         using (var img = Image.FromStream(memoryStream))
                         {
                             img.Save(filePath+"\\"+fileName, ImageFormat.Jpeg);
                         }
                     }
-                    
-
                 }
-            }
+            Picture newPicture =await _context.CreatePicture(picture);
             
             // Process uploaded files
             
 
-            return Ok(new { count = files.Count, size, filePath });
+            return Ok(newPicture);
         }
 
-        [HttpGet("sendpicture")]
-        public IActionResult Get()
+        [HttpGet("picture/{id}")]
+        public async Task<IActionResult> Get(long id)
         {
-            Byte[] b = System.IO.File.ReadAllBytes(@"C:\\Users\\olive\\Documents\\oli.jpg");   // You can use your own method over here.         
-            return File(b, "image/jpg");
+            Picture picture =await _context.GetPictureById(id); 
+            if (picture == null) 
+            {
+                return BadRequest("wrong ID"); 
+            }
+            string path = picture.Path;
+            Byte[] b = System.IO.File.ReadAllBytes(path);   // You can use your own method over here.         
+            return File(b, "image/Jpeg");
         }
 
 

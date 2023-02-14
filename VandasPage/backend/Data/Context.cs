@@ -17,7 +17,7 @@ namespace VandasPage.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
-
+        public DbSet<Picture> Pictures { get; set; }
 
         private const string EMAIL_PATTERN = @"^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$";
 
@@ -38,6 +38,7 @@ namespace VandasPage.Data
             modelBuilder.Entity<EducationalMaterial>().ToTable("educationmaterials");
             modelBuilder.Entity<RefreshToken>().ToTable("refreshTokens");
             modelBuilder.Entity<Email>().ToTable("emails");
+            modelBuilder.Entity<Picture>().ToTable("pictures");
         }
         public Task<List<User>> GetUsers()
         {
@@ -259,8 +260,18 @@ namespace VandasPage.Data
             return await Emails.ToListAsync();
         }
         public async Task<Email> GetEmailById(long id)
- {
+        {
             return await Emails.FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public async Task<Picture> GetPictureById(long id)
+        {
+            return await Pictures.FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public async Task<Picture> CreatePicture(Picture picture)
+        {
+            var newPicture = await Pictures.AddAsync(picture);
+            await SaveChangesAsync();
+            return newPicture.Entity;
         }
     }
 }
