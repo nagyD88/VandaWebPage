@@ -144,10 +144,15 @@ namespace VandasPage.Controllers
 
             return Ok(new { count = files.Count, size, filePath });
         }
- 
 
-            
-     
+        [HttpGet("sendpicture")]
+        public IActionResult Get()
+        {
+            Byte[] b = System.IO.File.ReadAllBytes(@"E:\\Test.jpg");   // You can use your own method over here.         
+            return File(b, "image/jpeg");
+        }
+
+
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> Post(List<IFormFile> files)
         {
