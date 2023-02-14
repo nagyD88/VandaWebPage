@@ -114,11 +114,12 @@ namespace VandasPage.Controllers
             return await _context.AddMaterialToLevel(levelId, MaterialId);
 
         }
-        [HttpPost("uploadfiles2")]
+        [HttpPost("uploadfiles")]
         public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
             var filePath = Path.GetTempPath();
+            var fileName = $@"{Guid.NewGuid()}.Jpeg";
             foreach (var formFile in files)
             {
                 
@@ -131,7 +132,7 @@ namespace VandasPage.Controllers
                         
                         using (var img = Image.FromStream(memoryStream))
                         {
-                            img.Save(filePath+"\\myImage.Jpeg", ImageFormat.Jpeg);
+                            img.Save(filePath+"\\"+fileName, ImageFormat.Jpeg);
                         }
                     }
                     
@@ -140,7 +141,7 @@ namespace VandasPage.Controllers
             }
             
             // Process uploaded files
-            // Don't rely on or trust the FileName property without validation.
+            
 
             return Ok(new { count = files.Count, size, filePath });
         }
@@ -148,34 +149,8 @@ namespace VandasPage.Controllers
         [HttpGet("sendpicture")]
         public IActionResult Get()
         {
-            Byte[] b = System.IO.File.ReadAllBytes(@"E:\\Test.jpg");   // You can use your own method over here.         
-            return File(b, "image/jpeg");
-        }
-
-
-        [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post(List<IFormFile> files)
-        {
-            long size = files.Sum(f => f.Length);
-
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
-
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0)
-                {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-            }
-
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-
-            return Ok();
+            Byte[] b = System.IO.File.ReadAllBytes(@"C:\\Users\\olive\\Documents\\oli.jpg");   // You can use your own method over here.         
+            return File(b, "image/jpg");
         }
 
 
