@@ -75,15 +75,7 @@ namespace VandasPage.Controllers
             }
             return level;
         }
-        [HttpGet]
-        [Route("level/category")]
-        public async Task<ActionResult<List<Level>>> GetLevelsByCategory(string categoryName)
-        {
-            List<Level> levels = await _context.GetLevelsByCategoryName(categoryName);
-            if (levels.Count == 0) { return NotFound(); }
-            return levels;
-        }
-        //questionable that we need this or not
+        
         [HttpPut]
         [Route("level/{id}")]
         public async Task<ActionResult<Level>> UpdateLevel(long id , Level level)
