@@ -41,7 +41,7 @@
     flex-direction: column;
     justify-content: flex-start;
     padding: 1rem;
-    background-color: #646180;
+    background-color: #003f5f;
   }
 
   form {
@@ -168,5 +168,11 @@
   
   .display-none {
     display: none;
+  }
+
+  .active-link{
+    background-color: #000;
+    color: #f5f5f5;
+    
   }
 }
