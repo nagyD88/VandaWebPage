@@ -22,7 +22,7 @@
     text-shadow: 2px 2px 3px black;
   }
 
-  h2{
+  h2 {
     text-shadow: 1px 1px 1px rgb(123, 119, 119);
   }
 
@@ -109,7 +109,17 @@
     background: rgba(0, 0, 0, 0.6);
   }
 
-  .custom-shadow{
+  .modal-main {
+    position: fixed;
+    background:#656472;
+    width: 80%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .custom-shadow {
     text-shadow: 2px 2px 3px black;
   }
 
@@ -150,5 +160,13 @@
   .invalid {
     color: red;
     margin-left: 0.25rem;
+  }
+
+  .display-block {
+    display: block;
+  }
+  
+  .display-none {
+    display: none;
   }
 }
