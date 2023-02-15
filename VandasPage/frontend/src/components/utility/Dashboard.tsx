@@ -22,7 +22,7 @@ const Dashboard = ({ children }) => {
           {updatedChildren}
         </Modal>
         <button className='float-left mt-0 p-[0.12rem]' type="button" onClick={showModal}>
-          +
+          -
         </button>
       </>
     );
