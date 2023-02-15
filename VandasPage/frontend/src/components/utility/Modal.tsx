@@ -1,5 +1,3 @@
-import './Modal.css';
-import { useState } from 'react';
 import React from 'react';
 
 const Modal = ({ handleClose, show, children }) => {

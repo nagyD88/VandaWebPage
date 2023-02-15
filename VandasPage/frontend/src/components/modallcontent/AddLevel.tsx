@@ -30,7 +30,7 @@ const AddLevel = ({ hideModal }) => {
   return (
     <>
       <form onSubmit={handleSubmit} className="siStart">
-        <label>
+        <label className=''>
             név:
             <input
               id="Name"
