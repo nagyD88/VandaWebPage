@@ -109,8 +109,15 @@ namespace VandasPage.Controllers
             }
             return await _context.AddMaterialToLevel(levelId, MaterialId);
         }
-
-        private async Task<IActionResult> CreatePictureAsync(IFormFile file)
+        [HttpPost]
+        [Route("picture")]
+        public async Task<EducationalMaterial> CreateMaterialWithPicture(EducationalMaterial educationalMaterial, IFormFile file)
+        {
+            Picture picture = await CreatePictureAsync(file);
+            educationalMaterial.Picture = picture;
+            return await _context.CreateEducationMaterial(educationalMaterial);
+        }
+        private async Task<Picture> CreatePictureAsync(IFormFile file)
         {
             long size = file.Length;
             var filePath = Path.GetTempPath();
@@ -134,7 +141,7 @@ namespace VandasPage.Controllers
                 }
             Picture newPicture =await _context.CreatePicture(picture);      
             // Process uploaded files
-            return Ok(newPicture);
+            return newPicture;
         }
 
         [HttpGet("picture/{id}")]
