@@ -111,10 +111,15 @@ namespace VandasPage.Controllers
         }
         [HttpPost]
         [Route("picture")]
-        public async Task<EducationalMaterial> CreateMaterialWithPicture(EducationalMaterial educationalMaterial, IFormFile file)
+        public async Task<EducationalMaterial> CreateMaterialWithPicture(EduMaterialWithPictureDTO eduMaterial)
         {
-            Picture picture = await CreatePictureAsync(file);
-            educationalMaterial.Picture = picture;
+            Picture picture = await CreatePictureAsync(eduMaterial.File);
+            EducationalMaterial educationalMaterial = new EducationalMaterial()
+            {
+                Picture = picture,
+                Name = eduMaterial.Name,
+                Type = eduMaterial.Type
+            };
             return await _context.CreateEducationMaterial(educationalMaterial);
         }
         private async Task<Picture> CreatePictureAsync(IFormFile file)
