@@ -1,13 +1,11 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 
 const Nav = () => {
   const { auth } = useContext(AuthContext);
 
-  // This styling will be applied to a <NavLink> when the
-  // route that it links to is currently selected.
   let activeStyle = {
     backgroundColor: "gray"
   };
