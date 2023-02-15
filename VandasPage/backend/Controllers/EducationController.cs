@@ -18,6 +18,7 @@ namespace VandasPage.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public async Task<List<EducationalMaterial>> GetAllEducationMaterials()
         {
@@ -28,6 +29,7 @@ namespace VandasPage.Controllers
         {
             return await _context.CreateEducationMaterial(educationalMaterial);
         }
+
         [HttpGet]
         [Route ("{id}")]
         public async Task<ActionResult<EducationalMaterial>> GetEducationMaterialById(long id)
@@ -39,6 +41,7 @@ namespace VandasPage.Controllers
             }
             return eductaionMaterial;
         }
+
         [HttpDelete]
         [Route ("{id}")]
         public async Task<ActionResult<EducationalMaterial>> DeleteEducationMaterial(long id)
@@ -64,6 +67,7 @@ namespace VandasPage.Controllers
         {
             return await _context.CreateNewLevel(level);
         }
+
         [HttpGet]
         [Route("level/{id}")]
         public async Task<ActionResult<Level>>GetLevelById(long id)
@@ -104,10 +108,9 @@ namespace VandasPage.Controllers
                 return BadRequest("this material alredy conected to this level");
             }
             return await _context.AddMaterialToLevel(levelId, MaterialId);
-
         }
-        [HttpPost("picture")]
-        public async Task<IActionResult> OnPostUploadAsync(IFormFile file)
+
+        private async Task<IActionResult> CreatePictureAsync(IFormFile file)
         {
             long size = file.Length;
             var filePath = Path.GetTempPath();
@@ -129,16 +132,13 @@ namespace VandasPage.Controllers
                         }
                     }
                 }
-            Picture newPicture =await _context.CreatePicture(picture);
-            
+            Picture newPicture =await _context.CreatePicture(picture);      
             // Process uploaded files
-            
-
             return Ok(newPicture);
         }
 
         [HttpGet("picture/{id}")]
-        public async Task<IActionResult> Get(long id)
+        public async Task<IActionResult> GetPicture(long id)
         {
             Picture picture =await _context.GetPictureById(id); 
             if (picture == null) 
@@ -146,7 +146,7 @@ namespace VandasPage.Controllers
                 return BadRequest("wrong ID"); 
             }
             string path = picture.Path;
-            Byte[] b = System.IO.File.ReadAllBytes(path);   // You can use your own method over here.         
+            Byte[] b = System.IO.File.ReadAllBytes(path);        
             return File(b, "image/Jpeg");
         }
 
@@ -166,8 +166,8 @@ namespace VandasPage.Controllers
                 return BadRequest("this material not conected to this level");
             }
             return await _context.RemoveMaterialFromLevel(levelId, MaterialId);
-
         }
+
         [HttpPatch]
         [Route("level/materials/changeorder")]
         public async Task<ActionResult<List<EducationalMaterial>>> ChangeEducationMaterialOrder(List<EducationalMaterial> educationalMaterials)
