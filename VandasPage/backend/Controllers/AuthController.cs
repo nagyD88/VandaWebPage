@@ -25,12 +25,7 @@ namespace VandasPage.Controllers
             _context = context;
         }
 
-        [HttpGet, Authorize]
-        public ActionResult<string> GetMe()
-        {
-            var userName = _userService.GetMyName();
-            return Ok(userName);
-        }
+
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserRegDTO request)
