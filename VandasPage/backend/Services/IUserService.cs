@@ -1,7 +1,9 @@
-﻿namespace VandasPage.Services
+﻿using VandasPage.Models;
+
+namespace VandasPage.Services
 {
     public interface IUserService
     {
-        string GetMyName();
+        Task<List<User>> GetUsers();
     }
 }

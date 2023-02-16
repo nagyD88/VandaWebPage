@@ -1,23 +1,21 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using VandasPage.Data;
+using VandasPage.Models;
+
 namespace VandasPage.Services
 {
     public class UserService : IUserService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly Context context;
 
-        public UserService(IHttpContextAccessor httpContextAccessor)
+        public UserService(Context _context)
         {
-            _httpContextAccessor = httpContextAccessor;
+            context = _context;
         }
-
-        public string GetMyName()
+        public Task<List<User>> GetUsers()
         {
-            var result = string.Empty;
-            if (_httpContextAccessor.HttpContext != null)
-            {
-                result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
-            }
-            return result;
+            return context.Users.Include(user => user.Levels).ToListAsync();
         }
     }
 }
