@@ -111,18 +111,7 @@ namespace VandasPage.Controllers
         }
         [HttpPost]
         [Route("picture")]
-        public async Task<EducationalMaterial> CreateMaterialWithPicture(EduMaterialWithPictureDTO eduMaterial)
-        {
-            Picture picture = await CreatePictureAsync(eduMaterial.File);
-            EducationalMaterial educationalMaterial = new EducationalMaterial()
-            {
-                Picture = picture,
-                Name = eduMaterial.Name,
-                Type = eduMaterial.Type
-            };
-            return await _context.CreateEducationMaterial(educationalMaterial);
-        }
-        private async Task<Picture> CreatePictureAsync(IFormFile file)
+        public async Task<Picture> CreatePictureAsync(IFormFile file)
         {
             long size = file.Length;
             var filePath = Path.GetTempPath();
@@ -132,22 +121,23 @@ namespace VandasPage.Controllers
             {
                 Path = filePath + "\\" + fileName
             };
-                if (file.Length > 0)
+            if (file.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
                 {
-                    using (var memoryStream = new MemoryStream())
+                    await file.CopyToAsync(memoryStream);
+
+                    using (FileStream fileStream = new FileStream(filePath + "\\" + fileName, FileMode.Create, FileAccess.Write)) 
                     {
-                        await file.CopyToAsync(memoryStream);
-                        
-                        using (var img = Image.FromStream(memoryStream))
-                        {
-                            img.Save(filePath+"\\"+fileName, ImageFormat.Jpeg);
-                        }
+                        await file.CopyToAsync(fileStream);
                     }
                 }
+            }
             Picture newPicture =await _context.CreatePicture(picture);      
             // Process uploaded files
             return newPicture;
         }
+
 
         [HttpGet("picture/{id}")]
         public async Task<IActionResult> GetPicture(long id)
@@ -161,7 +151,6 @@ namespace VandasPage.Controllers
             Byte[] b = System.IO.File.ReadAllBytes(path);        
             return File(b, "image/Jpeg");
         }
-
 
         [HttpPatch]
         [Route("level/{levelId}/material/remove")]
