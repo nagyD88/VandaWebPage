@@ -1,7 +1,10 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using MimeKit.Text;
+using VandasPage.Data;
+using VandasPage.Models;
 using VandasPage.Models.DTOs;
 
 
@@ -10,10 +13,12 @@ namespace VandasPage.Services.EmailService
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;
+        private readonly Context context;
 
-        public EmailService(IConfiguration config)
+        public EmailService(IConfiguration config, Context context)
         {
             _config = config;
+            this.context = context;
         }
 
         public void SendEmail(EmailDTO request)
@@ -29,6 +34,15 @@ namespace VandasPage.Services.EmailService
             smtp.Authenticate(_config.GetSection("EmailUsername").Value, _config.GetSection("EmailPassword").Value);
             smtp.Send(email);
             smtp.Disconnect(true);
+        }
+
+        public async Task<Email> GetEmailById(long id)
+        {
+            return await context.Emails.FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public async Task<List<Email>> GetAllEmails()
+        {
+            return await context.Emails.ToListAsync();
         }
     }
 }

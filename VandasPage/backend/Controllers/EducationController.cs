@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using VandasPage.Data;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
+using VandasPage.Services;
 
 namespace VandasPage.Controllers
 {
@@ -13,28 +14,30 @@ namespace VandasPage.Controllers
     public class EducationController : ControllerBase
     {
         private readonly Context _context;
+        private readonly IEducationService educationService;
 
-        public EducationController(Context context)
+        public EducationController(Context context, IEducationService educationService)
         {
             _context = context;
+            this.educationService = educationService;
         }
 
         [HttpGet]
         public async Task<List<EducationalMaterial>> GetAllEducationMaterials()
         {
-            return await _context.GetEducationMaterials();
+            return await educationService.GetEducationMaterials();
         }
         [HttpPost]
         public async Task<EducationalMaterial> CreateEducatoinMatrial(EducationalMaterial educationalMaterial)
         {
-            return await _context.CreateEducationMaterial(educationalMaterial);
+            return await educationService.CreateEducationMaterial(educationalMaterial);
         }
 
         [HttpGet]
         [Route ("{id}")]
         public async Task<ActionResult<EducationalMaterial>> GetEducationMaterialById(long id)
         {
-            EducationalMaterial eductaionMaterial= await _context.GetEducationMaterialById(id);
+            EducationalMaterial eductaionMaterial= await educationService.GetEducationMaterialById(id);
             if (eductaionMaterial == null)
             {
                 return NotFound();
@@ -46,7 +49,7 @@ namespace VandasPage.Controllers
         [Route ("{id}")]
         public async Task<ActionResult<EducationalMaterial>> DeleteEducationMaterial(long id)
         {
-            EducationalMaterial educationMaterial = await _context.DeleteEducationMaterialById(id);
+            EducationalMaterial educationMaterial = await educationService.DeleteEducationMaterialById(id);
             if (educationMaterial == null)
             {
                 return NotFound();
@@ -58,21 +61,21 @@ namespace VandasPage.Controllers
         [Route ("level")]
         public async Task<List<Level>> GetLevels()
         {
-            return await _context.GetLevels();
+            return await educationService.GetLevels();
         }
 
         [HttpPost]
         [Route("level")]
         public async Task<Level> CreateLevel(Level level)
         {
-            return await _context.CreateNewLevel(level);
+            return await educationService.CreateNewLevel(level);
         }
 
         [HttpGet]
         [Route("level/{id}")]
         public async Task<ActionResult<Level>>GetLevelById(long id)
         {
-            Level level = await _context.GetLevelById(id);
+            Level level = await educationService.GetLevelById(id);
             if (level == null)
             {
                 return NotFound();
@@ -84,21 +87,21 @@ namespace VandasPage.Controllers
         [Route("level/{id}")]
         public async Task<ActionResult<Level>> UpdateLevel(long id , Level level)
         {
-            Level levelToUpdate = await _context.GetLevelById(id);
+            Level levelToUpdate = await educationService.GetLevelById(id);
             if (levelToUpdate == null|| level.Id!=id)
             {
                 return NotFound("wrong ID");
             }
-            if (_context.UpdateLevel(level) == null) { return NotFound(); }
-            return Ok(_context.UpdateLevel(level));
+            if (educationService.UpdateLevel(level) == null) { return NotFound(); }
+            return Ok(educationService.UpdateLevel(level));
         }
 
         [HttpPatch]
         [Route("level/{levelId}/material")]
         public async Task<ActionResult<Level>> AddnewMaterialToLevel(long levelId, long MaterialId)
         {
-            Level levelToUpdate = await _context.GetLevelById(levelId);
-            EducationalMaterial material = await _context.GetEducationMaterialById(MaterialId);
+            Level levelToUpdate = await educationService.GetLevelById(levelId);
+            EducationalMaterial material = await educationService.GetEducationMaterialById(MaterialId);
             if (levelToUpdate == null|| material == null)
             {
                 return NotFound("wrong ID");
@@ -107,7 +110,7 @@ namespace VandasPage.Controllers
             {
                 return BadRequest("this material alredy conected to this level");
             }
-            return await _context.AddMaterialToLevel(levelId, MaterialId);
+            return await educationService.AddMaterialToLevel(levelId, MaterialId);
         }
         [HttpPost]
         [Route("picture")]
@@ -133,7 +136,7 @@ namespace VandasPage.Controllers
                     }
                 }
             }
-            Picture newPicture =await _context.CreatePicture(picture);      
+            Picture newPicture =await educationService.CreatePicture(picture);      
             // Process uploaded files
             return newPicture;
         }
@@ -142,7 +145,7 @@ namespace VandasPage.Controllers
         [HttpGet("picture/{id}")]
         public async Task<IActionResult> GetPicture(long id)
         {
-            Picture picture =await _context.GetPictureById(id); 
+            Picture picture =await educationService.GetPictureById(id); 
             if (picture == null) 
             {
                 return BadRequest("wrong ID"); 
@@ -156,8 +159,8 @@ namespace VandasPage.Controllers
         [Route("level/{levelId}/material/remove")]
         public async Task<ActionResult<Level>> RemoveMaterialFromLevel(long levelId, long MaterialId)
         {
-            Level levelToUpdate = await _context.GetLevelById(levelId);
-            EducationalMaterial material = await _context.GetEducationMaterialById(MaterialId);
+            Level levelToUpdate = await educationService.GetLevelById(levelId);
+            EducationalMaterial material = await educationService.GetEducationMaterialById(MaterialId);
             if (levelToUpdate == null || material == null)
             {
                 return NotFound("wrong ID");
@@ -166,7 +169,7 @@ namespace VandasPage.Controllers
             {
                 return BadRequest("this material not conected to this level");
             }
-            return await _context.RemoveMaterialFromLevel(levelId, MaterialId);
+            return await educationService.RemoveMaterialFromLevel(levelId, MaterialId);
         }
 
         [HttpPatch]
@@ -174,7 +177,7 @@ namespace VandasPage.Controllers
         public async Task<ActionResult<List<EducationalMaterial>>> ChangeEducationMaterialOrder(List<EducationalMaterial> educationalMaterials)
         {
             if (!educationalMaterials.Any()) { return BadRequest("There is no education material"); }
-            return await _context.ChangeEducationMaterialOrder(educationalMaterials);
+            return await educationService.ChangeEducationMaterialOrder(educationalMaterials);
         }
 
         [HttpPatch]
@@ -182,7 +185,7 @@ namespace VandasPage.Controllers
         public async Task<ActionResult<List<Level>>> ChangeLevelOrder(List<LevelChangeOrderDTO> levels)
         {
             if (!levels.Any()) { return BadRequest("There is no level"); }
-            return await _context.ChangeLevelOrder(levels);
+            return await educationService.ChangeLevelOrder(levels);
         }
 
 
@@ -190,7 +193,7 @@ namespace VandasPage.Controllers
         [Route("level/{id}")]
         public async Task<ActionResult<Level>> DeleteLevel(long id)
         {
-            Level levelToDelete = await _context.GetLevelById(id);
+            Level levelToDelete = await educationService.GetLevelById(id);
             if (levelToDelete == null)
             {
                 return NotFound();
@@ -199,7 +202,7 @@ namespace VandasPage.Controllers
             {
                 return BadRequest("first you have to delete the education materials");
             }
-            Level level = await _context.DeleteLevelById(id);
+            Level level = await educationService.DeleteLevelById(id);
             
             return level;
         }
