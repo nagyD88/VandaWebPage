@@ -2,6 +2,7 @@
 using VandasPage.Data;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
+using VandasPage.Services;
 
 namespace VandasPage.Controllers
 {
@@ -11,15 +12,17 @@ namespace VandasPage.Controllers
     {
 
         private readonly Context _context;
+        private readonly IUserService userService;
 
-        public UserController(Context context)
+        public UserController(Context context, IUserService userService)
         {
             _context = context;
+            this.userService = userService;
         }
         [HttpGet]
         public async Task<List<User>> GetAllUsers()
         {
-            return await _context.GetUsers();
+            return await userService.GetUsers();
         }
         [HttpGet]
         [Route("{id}")]
