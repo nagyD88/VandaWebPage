@@ -21,5 +21,6 @@ namespace VandasPage.Services
         Task<User> AddlevelToUser(long userId, long levelId);
         Task<Picture> GetPictureById(long id);
         Task<Picture> CreatePicture(Picture picture);
+        Task<User> UpdateUser(UserUpdateDTO user);
     }
 }

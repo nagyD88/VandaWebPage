@@ -82,7 +82,7 @@ namespace VandasPage.Controllers
             {
                 return NotFound();
             }
-            return await userService.UpdateUser(user);
+            return await educationService.UpdateUser(user);
         }
 
         [HttpDelete]

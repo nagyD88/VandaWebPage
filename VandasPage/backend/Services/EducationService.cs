@@ -135,5 +135,26 @@ namespace VandasPage.Services
             await context.SaveChangesAsync();
             return newPicture.Entity;
         }
+        public async Task<User> UpdateUser(UserUpdateDTO user)
+        {
+            var userToUpdate = context.Users.FirstOrDefault(x => x.Id == user.Id);
+            if (userToUpdate == null)
+            {
+                return null;
+            }
+            userToUpdate.FirstName = user.FirstName;
+            userToUpdate.LastName = user.LastName;
+            userToUpdate.Email = user.Email;
+            userToUpdate.MBTI = user.MBTI;
+            userToUpdate.Communication = user.Communication;
+            if (user.levelId != null)
+            {
+                Level level = await GetLevelById((long)user.levelId);
+                userToUpdate.Levels.Add(level);
+            }
+            var updatedUser = context.Users.Update(userToUpdate);
+            await context.SaveChangesAsync();
+            return updatedUser.Entity;
+        }
     }
 }

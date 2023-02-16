@@ -12,7 +12,6 @@ namespace VandasPage.Services
         bool EmailValidation(string email);
         Task<User> constructPassword(User user);
         Task<bool> isEmailAndIdMatching(string email, long id);
-        Task<User> UpdateUser(UserUpdateDTO user);
         Task<User> DeleteUser(int id);
     }
 }

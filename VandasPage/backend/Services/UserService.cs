@@ -10,11 +10,13 @@ namespace VandasPage.Services
     public class UserService : IUserService
     {
         private readonly Context context;
+        
         private const string EMAIL_PATTERN = @"^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-/=?^_`{|]{0,63}@[a-zA-Z0-9-.]{0,253}.(com|net|org|hu)$";
 
         public UserService(Context _context)
         {
             context = _context;
+            
         }
         public Task<List<User>> GetUsers()
         {
@@ -77,27 +79,6 @@ namespace VandasPage.Services
             return user.Email == email;
         }
 
-        public async Task<User> UpdateUser(UserUpdateDTO user)
-        {
-            var userToUpdate = context.Users.FirstOrDefault(x => x.Id == user.Id);
-            if (userToUpdate == null)
-            {
-                return null;
-            }
-            userToUpdate.FirstName = user.FirstName;
-            userToUpdate.LastName = user.LastName;
-            userToUpdate.Email = user.Email;
-            userToUpdate.MBTI = user.MBTI;
-            userToUpdate.Communication = user.Communication;
-            if (user.levelId != null)
-            {
-                Level level = await GetLevelById((long)user.levelId);
-                userToUpdate.Levels.Add(level);
-            }
-            var updatedUser = context.Users.Update(userToUpdate);
-            await context.SaveChangesAsync();
-            return updatedUser.Entity;
-        }
         public async Task<User> DeleteUser(int id)
         {
             var userToDelete = context.Users.FirstOrDefault(x => x.Id == id);
