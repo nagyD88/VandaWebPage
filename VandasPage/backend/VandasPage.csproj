@@ -18,7 +18,4 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
 	  <InternalsVisibleTo Include="TestProjeckt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pictures\" />
-  </ItemGroup>
 </Project>
