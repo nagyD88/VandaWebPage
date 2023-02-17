@@ -23,12 +23,21 @@ const Level = () => {
     <IsLoading
       children={
         <>
-          <div id="education-user-container" className="flex flex-row justify-start align-middle gap-40">
-            <div id="education-user-sidebar-container" className="flex flex-col">
+          <div
+            id="education-user-container"
+            className="flex flex-row justify-start gap-16 w-screen"
+          >
+            <div
+              id="education-user-sidebar-container"
+              className="flex flex-col"
+            >
               <EducationUser />
             </div>
 
-            <div id="education-user-material-container">
+            <div
+              id="education-user-material-container"
+              className="bg-[#003f5f] grow-[2]"
+            >
               <h2>{data?.name}</h2>
               {data?.educationalMaterials?.map((material) => (
                 <EducationMaterial
