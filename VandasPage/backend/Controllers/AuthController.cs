@@ -25,19 +25,14 @@ namespace VandasPage.Controllers
             _context = context;
         }
 
-        [HttpGet, Authorize]
-        public ActionResult<string> GetMe()
-        {
-            var userName = _userService.GetMyName();
-            return Ok(userName);
-        }
+
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserRegDTO request)
         {
             _authService.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            User user = await _context.GetUserById(request.Id);
+            User user = await _userService.GetUserById(request.Id);
 
             if (user == null)
             {
@@ -49,14 +44,14 @@ namespace VandasPage.Controllers
             }
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            User updatedUser =await _context.constructPassword(user);
+            User updatedUser =await _userService.constructPassword(user);
             return Ok(updatedUser);
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserLogDTO request)
         {
-            User user = await _context.GetUserByEmail(request.Email);
+            User user = await _userService.GetUserByEmail(request.Email);
 
             if (user == null)
             {
@@ -79,7 +74,7 @@ namespace VandasPage.Controllers
         [HttpPost("refresh-token")]
         public async Task<ActionResult<string>> RefreshToken(long Id)
         {
-            User user = await _context.GetUserById(Id);
+            User user = await _userService.GetUserById(Id);
 
             if (user == null)
             {

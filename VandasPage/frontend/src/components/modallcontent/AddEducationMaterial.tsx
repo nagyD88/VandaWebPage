@@ -7,6 +7,7 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
   const [type, setType] = useState('text');
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
+  const [file, setFile]=useState<File>();
   const queryClient = useQueryClient();
 
   const PatchEducationMaterial = async (response) =>
@@ -28,19 +29,39 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
   };
 
   const handleSubmit = async (e) => {
+    const config = {
+      headers: {  'content-type': 'multipart/form-data' },
+    };
     e.preventDefault();
+    if (typeof file === undefined){
+      const response = await api.post('/education', {
+        name: `${name}`,
+        type: `${type}`,
+        content: `${content}`
+      });
+      console.log(response);
+      PatchEducationMaterialMutation.mutate(response);
+    }else{
+      
+        const formData = new FormData();
+        formData.append("image", file!);
+    
+      const response =await api.post('/education/picture',
+       formData
+      )
+      console.log("respons: ", response);
+      PatchEducationMaterialMutation.mutate(response);
+    }
 
-    const response = await api.post('/education', {
-      name: `${name}`,
-      type: `${type}`,
-      content: `${content}`,
-    });
     hideModal();
-
-    console.log(response);
-
-    PatchEducationMaterialMutation.mutate(response);
   };
+
+  const fileHandler=(files:FileList|null)=>{
+    if (files){
+    let fileArrey = Array.from(files);
+    setFile(fileArrey[0])
+    }
+  }
 
   return (
     <>
@@ -91,17 +112,25 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
               onChange={(e) => setName(e.target.value)}
             />
           </label>
-
+          {type==="picture" && 
+          <input 
+          id="upload"
+          type="file"
+          accept="image/png, image/jpeg"
+          onChange={(e)=>fileHandler(e.target.files)}
+          />
+          }
+          {file !instanceof File &&
           <label>
             tartalom:
             <input
               id="Name"
               type="text"
-              required
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
           </label>
+}
         </div>
         <input type="submit" value="feltölt" className="sub" />
       </form>

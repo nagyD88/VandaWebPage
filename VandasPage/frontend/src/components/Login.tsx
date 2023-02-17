@@ -8,7 +8,7 @@ import { LevelType } from '../model/LevelType';
 
 
 const Login = () => {
-  const { setAuth, auth } = useAuth();
+  const { setAuth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
