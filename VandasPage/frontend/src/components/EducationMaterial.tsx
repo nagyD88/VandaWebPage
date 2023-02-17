@@ -28,7 +28,7 @@ const EducationMaterial = ({ material, canDelete }: AppProps) => {
     {
       onSuccess: () => {
         // Invalidates cache and refetch
-        queryClient.invalidateQueries('level');
+        queryClient.invalidateQueries('material');
       },
     }
   );
