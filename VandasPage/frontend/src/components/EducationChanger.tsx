@@ -11,6 +11,7 @@ import Dashboard from './utility/Dashboard';
 import AreYouSure from './modallContent/AreYouSure';
 import { LevelType } from '../model/LevelType';
 import DragAndDrop from './utility/DragAndDrop';
+import IsLoading from './utility/isLoading';
 
 
 
@@ -72,11 +73,8 @@ const EducationChanger = () => {
 
 
   return (
-    <>{isLoading && <p className="statusMsg">Loading ...</p>}
-    {!isLoading && isError && (
-      <p className="statusMsg err">{error instanceof Error && error.message}</p>
-    )}
-    {!isLoading && !isError && (
+    <IsLoading
+      children={
     <>
       <Dashboard children={<AddLevel hideModal={undefined}  />} /> 
       <DragAndDrop handleOnDragEnd={handleOnDragEnd} 
@@ -85,8 +83,11 @@ const EducationChanger = () => {
       handleOnClick={handleOnClick}
       />
     </>
-    )}
-    </>
+      }
+      isError={isError}
+      isLoading={isLoading}
+      error={error as Error}
+    />
   );
 };
 
