@@ -19,7 +19,7 @@ const EducationUser = () => {
   console.log("eduLevel: ", data);
 
   return (
-    <div id='sidebar' className='ml-auto'>
+    <div id='sidebar' className=''>
       {isLoading && <p className="statusMsg">Loading ...</p>}
       {!isLoading && isError && (
         <p className="statusMsg err">
@@ -28,7 +28,7 @@ const EducationUser = () => {
       )}
       {!isLoading && !isError && (
         <div className="mt-20 mr-10">
-          <ul className="flex flex-col justify-start gap-1 bg-neutral-100 w-fit pl-32 pr-32 overflow-visible">
+          <ul className="flex flex-col justify-start gap-1 bg-[#003f5f] text-white w-fit pl-32 pr-32 overflow-visible">
             {data?.map((level) => (
               <li>
                   <Link key={level.id} to={`/EducationUser/${level.id}`}>
@@ -37,7 +37,7 @@ const EducationUser = () => {
               </li>
             ))}
           </ul>
-          <button id='new-level'>New level</button>
+          
         </div>
       )}
     </div>
