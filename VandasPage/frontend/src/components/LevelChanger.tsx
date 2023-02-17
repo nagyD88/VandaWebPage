@@ -1,13 +1,13 @@
-import React from 'react';
-import { useParams } from 'react-router';
-import AddEducationMaterial from './modallContent/AddEducationMaterial';
-import Dashboard from './utility/Dashboard';
-import api from '../hooks/api';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import EducationAdmin from './EducationAdmin';
-import { LevelType } from '../model/LevelType';
-import IsLoading from './utility/isLoading';
-import DragAndDrop from './utility/DragAndDrop';
+import React from "react";
+import { useParams } from "react-router";
+import AddEducationMaterial from "./modallContent/AddEducationMaterial";
+import Dashboard from "./utility/Dashboard";
+import api from "../hooks/api";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import EducationAdmin from "./EducationAdmin";
+import { LevelType } from "../model/LevelType";
+import IsLoading from "./utility/isLoading";
+import DragAndDrop from "./utility/DragAndDrop";
 
 const LevelChanger = () => {
   const queryClient = useQueryClient();
@@ -15,24 +15,19 @@ const LevelChanger = () => {
   const url = `/education/level/${id}`;
 
   const getLevel = async () => {
-    const response = await api.get<LevelType>(
-      `/education/level/${id}`
-    );
+    const response = await api.get<LevelType>(`/education/level/${id}`);
     return response.data;
   };
 
-  const { isLoading, isError, error, data } = useQuery(
-    'level',
-    getLevel
-  );
+  const { isLoading, isError, error, data } = useQuery("level", getLevel);
 
   const config = {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   };
 
   const updateOrder = async (levelsJSON) =>
     await api.patch(
-      '/Education/level/materials/changeorder',
+      "/Education/level/materials/changeorder",
       levelsJSON,
       config
     );
@@ -40,7 +35,7 @@ const LevelChanger = () => {
   const updateEduMaterialOrderMutation = useMutation(updateOrder, {
     onSuccess: () => {
       // Invalidates cache and refetch
-      queryClient.invalidateQueries('level');
+      queryClient.invalidateQueries("level");
     },
   });
 
@@ -58,21 +53,29 @@ const LevelChanger = () => {
     <IsLoading
       children={
         <>
-          <Dashboard
-            children={
-              <AddEducationMaterial levelID={id} hideModal={''} />
-            }
-          />
-          <div id='education-admin-container'>
-            <EducationAdmin />
-          </div>
-          <h2>{data?.name}</h2>
+          <div
+            id="education-admin-container"
+            className="flex flex-row justify-start gap-16 w-screen"
+          >
+            <div
+              id="education-admin-sidebar-container"
+              className="flex flex-col"
+            >
+              <EducationAdmin />
+              <Dashboard
+                children={<AddEducationMaterial levelID={id} hideModal={""} />}
+              />
+            </div>
 
-          <DragAndDrop
-            handleOnDragEnd={handleOnDragEnd}
-            ListOfItems={data?.educationalMaterials}
-            type={'level'}
-          />
+            <div id="education-user-material-container" className="grow-[2]">
+              <h2>{data?.name}</h2>
+              <DragAndDrop
+                handleOnDragEnd={handleOnDragEnd}
+                ListOfItems={data?.educationalMaterials}
+                type={"level"}
+              />
+            </div>
+          </div>
         </>
       }
       isError={isError}
