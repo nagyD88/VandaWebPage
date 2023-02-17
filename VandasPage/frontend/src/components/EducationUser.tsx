@@ -4,7 +4,7 @@ import { LevelType } from '../model/LevelType';
 import { useQuery } from 'react-query';
 import api from '../hooks/api';
 
-const Education = () => {
+const EducationUser = () => {
   let url = 'https://localhost:7168/api/Education/level';
 
   const getLevels = async () => {
@@ -19,7 +19,7 @@ const Education = () => {
   console.log("eduLevel: ", data);
 
   return (
-    <>
+    <div id='sidebar' className='ml-auto'>
       {isLoading && <p className="statusMsg">Loading ...</p>}
       {!isLoading && isError && (
         <p className="statusMsg err">
@@ -27,20 +27,21 @@ const Education = () => {
         </p>
       )}
       {!isLoading && !isError && (
-        <div className="mt-6">
-          <ul className="flex justify-start gap-6 bg-neutral-100 w-fit pl-32 pr-32 overflow-visible">
+        <div className="mt-20 mr-10">
+          <ul className="flex flex-col justify-start gap-1 bg-neutral-100 w-fit pl-32 pr-32 overflow-visible">
             {data?.map((level) => (
               <li>
-                  <Link key={level.id} to={`/Education/${level.id}`}>
+                  <Link key={level.id} to={`/EducationUser/${level.id}`}>
                     {level.name}
                   </Link>
               </li>
             ))}
           </ul>
+          <button id='new-level'>New level</button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default Education;
+export default EducationUser;

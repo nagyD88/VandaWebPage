@@ -1,18 +1,12 @@
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import dataContext from "../context/dataContext";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { DragDropContext, Draggable } from "react-beautiful-dnd";
-import { StrictModeDroppable as Droppable } from "../utils/StrictModeDroppable";
 import api from "../hooks/api";
 import AddLevel from "./modallContent/AddLevel";
 import Dashboard from "./utility/Dashboard";
-import AreYouSure from "./modallContent/AreYouSure";
 import { LevelType } from "../model/LevelType";
 import DragAndDrop from "./utility/DragAndDrop";
 
-const EducationChanger = () => {
+const EducationAdmin = () => {
   let url = `/education/level`;
 
   const getLevels = async () => {
@@ -24,7 +18,6 @@ const EducationChanger = () => {
 
   const { isLoading, isError, error, data } = useQuery("levels", getLevels);
 
-  const { colorTheme } = useContext(dataContext);
   const config = {
     headers: { "Content-Type": "application/json" },
   };
@@ -74,11 +67,7 @@ const EducationChanger = () => {
       )}
       {!isLoading && !isError && (
         <>
-          <ul>
-            <button className="btn">New course</button>
-            <button className="btn">New lesson</button>
-          </ul>
-
+        
           <Dashboard children={<AddLevel hideModal={undefined} />} />
           <DragAndDrop
             handleOnDragEnd={handleOnDragEnd}
@@ -92,4 +81,4 @@ const EducationChanger = () => {
   );
 };
 
-export default EducationChanger;
+export default EducationAdmin;

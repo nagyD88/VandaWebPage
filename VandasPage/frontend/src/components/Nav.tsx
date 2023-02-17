@@ -49,7 +49,7 @@ const Nav = () => {
               className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
             >
               <NavLink
-                to="Educationchanger"
+                to="EducationAdmin"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 Oktás Változtatás
@@ -82,7 +82,7 @@ const Nav = () => {
           className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
         >
           <NavLink
-            to="Education"
+            to="EducationUser"
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Oktató felület

@@ -6,7 +6,7 @@ import Users from './Users';
 import User from './User';
 import Questionary from './Questionary';
 import Questionarys from './Questionarys';
-import Education from './Education';
+import EducationUser from "./EducationUser";
 import PreRegistration from './PreRegistration';
 import Login from './Login';
 import Missing from './Missing';
@@ -18,12 +18,13 @@ import RequireAuth from './protectedRoot/RequireAuth';
 import Registration from './Registration';
 import LevelChanger from './LevelChanger';
 import Level from './Level';
-import EducationChanger from './EducationChanger';
+import EducationAdmin from './EducationAdmin';
 import RequireAuthLevel from './protectedRoot/RequireAuthLevel';
 import RequireAuthReg from './protectedRoot/RequireAuthReg';
 import SendEmail from './SendEmail';
 
 function App() {
+
   return (
     <AuthProvider>
       <DataProvider>
@@ -57,14 +58,14 @@ function App() {
                 <Route index element={<Questionarys />} />
                 <Route path=":id" element={<Questionary />} />
               </Route>
-              <Route path="Education">
-                <Route index element={<Education />} />
+              <Route path="EducationUser">
+                <Route index element={<EducationUser />} />
                 <Route element={<RequireAuthLevel />}>
                   <Route path=":id" element={<Level />} />
                 </Route>
               </Route>
-              <Route path="Educationchanger">
-                <Route index element={<EducationChanger />} />
+              <Route path="EducationAdmin">
+                <Route index element={<EducationAdmin />} />
                 <Route path=":id" element={<LevelChanger />} />
               </Route>
             </Route>

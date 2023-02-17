@@ -49,7 +49,7 @@ const DragAndDrop = ({ handleOnDragEnd, ListOfItems, type, handleOnClick}: Props
                           <Link
                             key={item.id}
                             className='text-white'
-                            to={`/Educationchanger/${item.id}`}
+                            to={`/EducationAdmin/${item.id}`}
                           >
                             <div className="level">
                               <p>{item.name}</p>
