@@ -76,7 +76,7 @@ const PreRegistration = () => {
 
   return (
     <>
-      <div className=" bg-blue-600 w-80 object-center rounded-xl shadow-2xl mt-16">
+      <div className=" bg-[#003f5f] w-80 object-center rounded-xl shadow-2xl mt-16">
         <form onSubmit={handleSubmit} className="">
           <label>
             Vezeték Név:
