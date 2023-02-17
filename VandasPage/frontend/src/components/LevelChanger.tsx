@@ -1,17 +1,10 @@
 import React from 'react';
-import EducationMaterial from './EducationMaterial';
-import DataContext from '../context/dataContext';
 import { useParams } from 'react-router';
 import AddEducationMaterial from './modallContent/AddEducationMaterial';
-import AuthContext from '../context/AuthProvider';
 import Dashboard from './utility/Dashboard';
-import { useContext } from 'react';
 import api from '../hooks/api';
-import { DragDropContext, Draggable } from 'react-beautiful-dnd';
-import { StrictModeDroppable as Droppable } from '../utils/StrictModeDroppable';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import EducationChanger from './EducationChanger';
-import { EducationMaterialtype } from '../model/EducationMaterialType';
+import EducationAdmin from './EducationAdmin';
 import { LevelType } from '../model/LevelType';
 import IsLoading from './utility/isLoading';
 import DragAndDrop from './utility/DragAndDrop';
@@ -32,10 +25,6 @@ const LevelChanger = () => {
     'level',
     getLevel
   );
-
-  const { colorTheme } = useContext(DataContext);
-
-  const { auth } = useContext(AuthContext);
 
   const config = {
     headers: { 'Content-Type': 'application/json' },
@@ -74,8 +63,8 @@ const LevelChanger = () => {
               <AddEducationMaterial levelID={id} hideModal={''} />
             }
           />
-          <div>
-            <EducationChanger />
+          <div id='education-admin-container'>
+            <EducationAdmin />
           </div>
           <h2>{data?.name}</h2>
 

@@ -8,7 +8,7 @@ const Layout = () => {
   return (
     <div className="absolute text-center h-screen">
       <Header />
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="flex flex-col justify-center items-center">
         <Outlet />
       </div>
