@@ -33,13 +33,13 @@ namespace VandasPage.Controllers
         [HttpGet]
         public async Task<List<Email>> GetAllEmails()
         {
-            return await _context.GetAllEmails();
+            return await _emailService.GetAllEmails();
         }
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<Email>> GetEmailById(long id)
         {
-            Email email = await _context.GetEmailById(id);
+            Email email = await _emailService.GetEmailById(id);
 
             if (email == null)
             {

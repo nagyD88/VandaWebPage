@@ -2,6 +2,7 @@
 using VandasPage.Data;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
+using VandasPage.Services;
 
 namespace VandasPage.Controllers
 {
@@ -11,21 +12,26 @@ namespace VandasPage.Controllers
     {
 
         private readonly Context _context;
+        private readonly IUserService userService;
 
-        public UserController(Context context)
+        private readonly IEducationService educationService;
+
+        public UserController(Context context, IUserService userService, IEducationService educationService)
         {
             _context = context;
+            this.userService = userService;
+            this.educationService = educationService;
         }
         [HttpGet]
         public async Task<List<User>> GetAllUsers()
         {
-            return await _context.GetUsers();
+            return await userService.GetUsers();
         }
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<User>> GetUserById(long id)
         {
-            User user = await _context.GetUserById(id);
+            User user = await userService.GetUserById(id);
 
             if (user == null)
             {
@@ -40,13 +46,13 @@ namespace VandasPage.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> CreateNewUser(UserPreRegistrationDTO user)
         {
-            bool isValid = _context.EmailValidation(user.Email);
+            bool isValid = userService.EmailValidation(user.Email);
             if (!isValid)
             {
                 return BadRequest("Invalid email address");
             }
 
-            User newUser = await _context.CreateNewUser(user);
+            User newUser = await userService.CreateNewUser(user);
             if (newUser == null)
             {
                 return BadRequest("This email is already registered");
@@ -66,24 +72,24 @@ namespace VandasPage.Controllers
                 return false;
             }
 
-            return await _context.isEmailAndIdMatching(email, id);
+            return await userService.isEmailAndIdMatching(email, id);
         }
 
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(UserUpdateDTO user)
         {
-            if (await _context.GetUserById(user.Id) == null)
+            if (await userService.GetUserById(user.Id) == null)
             {
                 return NotFound();
             }
-            return await _context.UpdateUser(user);
+            return await educationService.UpdateUser(user);
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
-            var userDeleted = await _context.DeleteUser(id);
+            var userDeleted = await userService.DeleteUser(id);
             if (userDeleted == null)
             {
                 return NotFound();
@@ -95,17 +101,17 @@ namespace VandasPage.Controllers
         [Route("{userId}/addlevel")]
         public async Task<ActionResult<User>> AddlevelToUser(long userId, long levelId)
         {
-            var user = await _context.GetUserById(userId);
+            var user = await userService.GetUserById(userId);
             if (user == null)
             {
                 return NotFound("No User found!");
             }
-            var level = await _context.GetLevelById(levelId);
+            var level = await educationService.GetLevelById(levelId);
             if (level == null)
             {
                 return NotFound("NO level found");
             }
-            var userUpdated = await _context.AddlevelToUser(userId, levelId);
+            var userUpdated = await educationService.AddlevelToUser(userId, levelId);
             return userUpdated;
         }
     }
