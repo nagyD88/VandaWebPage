@@ -12,7 +12,7 @@ const EducationUser = () => {
     return response.data;
   };
   const { isLoading, isError, error, data } = useQuery(
-    'user',
+    'levels',
     getLevels
   );
 

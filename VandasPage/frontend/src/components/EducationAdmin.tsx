@@ -5,6 +5,7 @@ import AddLevel from "./modallContent/AddLevel";
 import Dashboard from "./utility/Dashboard";
 import { LevelType } from "../model/LevelType";
 import DragAndDrop from "./utility/DragAndDrop";
+import IsLoading from "./utility/isLoading";
 
 const EducationAdmin = () => {
   let url = `/education/level`;
@@ -58,27 +59,21 @@ const EducationAdmin = () => {
   };
 
   return (
+    <IsLoading
+      children={
     <>
-      {isLoading && <p className="statusMsg">Loading ...</p>}
-      {!isLoading && isError && (
-        <p className="statusMsg err">
-          {error instanceof Error && error.message}
-        </p>
-      )}
-      {!isLoading && !isError && (
-        <>
-        
-          <Dashboard children={<AddLevel hideModal={undefined} />} />
-          <DragAndDrop
-            handleOnDragEnd={handleOnDragEnd}
-            ListOfItems={data}
-            type={"education"}
-            handleOnClick={handleOnClick}
-          />
-        </>
-      )}
+      <Dashboard children={<AddLevel hideModal={undefined}  />} /> 
+      <DragAndDrop handleOnDragEnd={handleOnDragEnd} 
+      ListOfItems={data} 
+      type={'education'}
+      handleOnClick={handleOnClick}
+      />
     </>
+      }
+      isError={isError}
+      isLoading={isLoading}
+      error={error as Error}
+    />
   );
 };
-
 export default EducationAdmin;
