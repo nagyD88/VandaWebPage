@@ -2,12 +2,10 @@ import React from "react";
 import { useState } from "react";
 import api from "../../hooks/api";
 import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
 
 const AddEducationMaterial = ({ levelID, hideModal }) => {
   const [type, setType] = useState("text");
   const [name, setName] = useState("");
-  const [content, setContent] = useState("");
   const [file, setFile] = useState<File>();
   const queryClient = useQueryClient();
 
@@ -24,50 +22,28 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
   });
   const onValueChange = (e) => {
     setType(e.target.value);
-    setFile(undefined)
+    setFile(undefined);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const config = {
-  //     headers: { "content-type": "multipart/form-data" },
-  //   };
-
-  //   if (typeof file === undefined) {
-  //     const response = await api.post("/education", {
-  //       name: `${name}`,
-  //       type: `${type}`,
-  //       content: `${content}`,
-  //     });
-  //     console.log(response);
-  //     PatchEducationMaterialMutation.mutate(response);
-  //   } else {
-  //     const formData = new FormData();
-  //     formData.append("image", file!);
-
-  //     const response = await api.post("/education/picture", formData);
-  //     console.log("respons: ", response);
-  //     PatchEducationMaterialMutation.mutate(response);
-  //   }
-
-  //   hideModal();
-  // };
-
   const handleSubmit = async (e) => {
-    e.PreventDefault();
+    e.preventDefault();
     try {
-      // const res = await axios.post(`/education/${}`);
-      // console.log(res);
-      console.log(file)
+      const data = new FormData();
+      data.append("file", new Blob([file!], { type: file?.type }));
+      const res = await api.post(`/Education/${type}`, data);
+      console.log(res);
+      PatchEducationMaterialMutation.mutate(res);
     } catch (err) {
       console.error(err.message);
+    } finally {
+      hideModal();
     }
   };
 
   const fileHandler = (files: FileList | null) => {
     if (files) {
-      const chosenFile = files.item(0)
-      console.log(chosenFile)
+      const chosenFile = files.item(0);
+      console.log(chosenFile);
       setFile(chosenFile!);
     }
   };
@@ -135,7 +111,7 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
             <input
               id="upload-text"
               type="file"
-              accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              accept=".doc,.docx,.xml, .txt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/css,text/html"
               onChange={(e) => fileHandler(e.target.files)}
             />
           )}
@@ -148,20 +124,14 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
               onChange={(e) => fileHandler(e.target.files)}
             />
           )}
-          {/* {file! instanceof File && (
-            <label hidden>
-              tartalom:
-              <input
-              hidden
-                id="Name"
-                type="text"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-            </label>
-          )} */}
         </div>
-        {!file ? <button type="submit" hidden>Hidden</button> : <button type="submit">Upload</button>}
+        {!file ? (
+          <button type="submit" hidden>
+            Hidden
+          </button>
+        ) : (
+          <button type="submit">Upload</button>
+        )}
       </form>
     </>
   );
