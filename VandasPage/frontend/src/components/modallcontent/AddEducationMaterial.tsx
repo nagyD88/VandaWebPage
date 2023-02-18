@@ -1,13 +1,14 @@
-import React from 'react';
-import { useState } from 'react';
-import api from '../../hooks/api';
-import { useMutation, useQueryClient } from 'react-query';
+import React from "react";
+import { useState } from "react";
+import api from "../../hooks/api";
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
 
 const AddEducationMaterial = ({ levelID, hideModal }) => {
-  const [type, setType] = useState('text');
-  const [name, setName] = useState('');
-  const [content, setContent] = useState('');
-  const [file, setFile]=useState<File>();
+  const [type, setType] = useState("text");
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
+  const [file, setFile] = useState<File>();
   const queryClient = useQueryClient();
 
   const PatchEducationMaterial = async (response) =>
@@ -15,53 +16,61 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
       `/education/level/${levelID}/material?MaterialId=${response.data.id}`
     );
 
-  const PatchEducationMaterialMutation = useMutation(
-    PatchEducationMaterial,
-    {
-      onSuccess: () => {
-        // Invalidates cache and refetch
-        queryClient.invalidateQueries('level');
-      },
-    }
-  );
+  const PatchEducationMaterialMutation = useMutation(PatchEducationMaterial, {
+    onSuccess: () => {
+      // Invalidates cache and refetch
+      queryClient.invalidateQueries("level");
+    },
+  });
   const onValueChange = (e) => {
     setType(e.target.value);
+    setFile(undefined)
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const config = {
+  //     headers: { "content-type": "multipart/form-data" },
+  //   };
+
+  //   if (typeof file === undefined) {
+  //     const response = await api.post("/education", {
+  //       name: `${name}`,
+  //       type: `${type}`,
+  //       content: `${content}`,
+  //     });
+  //     console.log(response);
+  //     PatchEducationMaterialMutation.mutate(response);
+  //   } else {
+  //     const formData = new FormData();
+  //     formData.append("image", file!);
+
+  //     const response = await api.post("/education/picture", formData);
+  //     console.log("respons: ", response);
+  //     PatchEducationMaterialMutation.mutate(response);
+  //   }
+
+  //   hideModal();
+  // };
 
   const handleSubmit = async (e) => {
-    const config = {
-      headers: {  'content-type': 'multipart/form-data' },
-    };
-    e.preventDefault();
-    if (typeof file === undefined){
-      const response = await api.post('/education', {
-        name: `${name}`,
-        type: `${type}`,
-        content: `${content}`
-      });
-      console.log(response);
-      PatchEducationMaterialMutation.mutate(response);
-    }else{
-      
-        const formData = new FormData();
-        formData.append("image", file!);
-    
-      const response =await api.post('/education/picture',
-       formData
-      )
-      console.log("respons: ", response);
-      PatchEducationMaterialMutation.mutate(response);
+    e.PreventDefault();
+    try {
+      // const res = await axios.post(`/education/${}`);
+      // console.log(res);
+      console.log(file)
+    } catch (err) {
+      console.error(err.message);
     }
-
-    hideModal();
   };
 
-  const fileHandler=(files:FileList|null)=>{
-    if (files){
-    let fileArrey = Array.from(files);
-    setFile(fileArrey[0])
+  const fileHandler = (files: FileList | null) => {
+    if (files) {
+      const chosenFile = files.item(0)
+      console.log(chosenFile)
+      setFile(chosenFile!);
     }
-  }
+  };
 
   return (
     <>
@@ -70,10 +79,10 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
           <label>
             szöveg:
             <input
-              name="type"
+              name="fileType"
               type="radio"
               value="text"
-              checked={type === 'text'}
+              checked={type === "text"}
               onChange={onValueChange}
             />
           </label>
@@ -82,10 +91,10 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
           <label>
             kép:
             <input
-              name="type"
+              name="fileType"
               type="radio"
               value="picture"
-              checked={type === 'picture'}
+              checked={type === "picture"}
               onChange={onValueChange}
             />
           </label>
@@ -94,10 +103,10 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
           <label>
             videó:
             <input
-              name="type"
+              name="fileType"
               type="radio"
               value="video"
-              checked={type === 'video'}
+              checked={type === "video"}
               onChange={onValueChange}
             />
           </label>
@@ -105,6 +114,7 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
           <label>
             cím:
             <input
+              className="text-black"
               id="Name"
               type="text"
               required
@@ -112,27 +122,46 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
               onChange={(e) => setName(e.target.value)}
             />
           </label>
-          {type==="picture" && 
-          <input 
-          id="upload"
-          type="file"
-          accept="image/png, image/jpeg"
-          onChange={(e)=>fileHandler(e.target.files)}
-          />
-          }
-          {file !instanceof File &&
-          <label>
-            tartalom:
+          {type === "picture" && (
             <input
-              id="Name"
-              type="text"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              id="upload-picture"
+              type="file"
+              accept="image/*"
+              onChange={(e) => fileHandler(e.target.files)}
             />
-          </label>
-}
+          )}
+
+          {type === "text" && (
+            <input
+              id="upload-text"
+              type="file"
+              accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              onChange={(e) => fileHandler(e.target.files)}
+            />
+          )}
+
+          {type === "video" && (
+            <input
+              id="upload-video"
+              type="file"
+              accept="video/*"
+              onChange={(e) => fileHandler(e.target.files)}
+            />
+          )}
+          {/* {file! instanceof File && (
+            <label hidden>
+              tartalom:
+              <input
+              hidden
+                id="Name"
+                type="text"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </label>
+          )} */}
         </div>
-        <input type="submit" value="feltölt" className="sub" />
+        {!file ? <button type="submit" hidden>Hidden</button> : <button type="submit">Upload</button>}
       </form>
     </>
   );
