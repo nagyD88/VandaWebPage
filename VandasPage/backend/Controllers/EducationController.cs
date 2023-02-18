@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
-using System.Drawing.Imaging;
 using VandasPage.Data;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
@@ -117,6 +115,7 @@ namespace VandasPage.Controllers
         public async Task<Picture> CreatePictureAsync(IFormFile file)
         {
             long size = file.Length;
+            
             var filePath = Path.GetTempPath();
             var fileName = $@"{Guid.NewGuid()}.Jpeg";
 
