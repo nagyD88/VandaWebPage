@@ -52,7 +52,7 @@ const EducationMaterial = ({ material, canDelete }: AppProps) => {
         />
       )}
       {material.type == 'text' && (
-        <article>{material.content}</article>
+        <article >{material.content}</article>
       )}
       {material.type == 'picture' && (
         <img src={material.content} alt={material.name} ></img>

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
-using System.Drawing.Imaging;
-using VandasPage.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
 using VandasPage.Services;
@@ -13,12 +9,11 @@ namespace VandasPage.Controllers
     [ApiController]
     public class EducationController : ControllerBase
     {
-        private readonly Context _context;
+        
         private readonly IEducationService educationService;
 
-        public EducationController(Context context, IEducationService educationService)
+        public EducationController( IEducationService educationService)
         {
-            _context = context;
             this.educationService = educationService;
         }
 
