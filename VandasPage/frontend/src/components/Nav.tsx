@@ -1,39 +1,97 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 
 const Nav = () => {
   const { auth } = useContext(AuthContext);
+
+  let activeStyle = {
+    backgroundColor: "gray"
+  };
+
   return (
     <nav className=" h-[6vh] flex flex-auto text-center group">
-      <p>Move cursor here</p>
-      <ul className="min-w-[800px] w-auto overflow-visible flex flex-auto flex-wrap justify-around bg-blue-300 translate-y-[-170%] transition-all duration-[1500ms] group-hover:translate-y-[0%]">
-        <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
-          <Link to="/">Home</Link>
+      <ul className="min-w-[800px] w-screen overflow-visible flex flex-auto flex-wrap justify-around bg-[#003f5f] font-normal text-slate-200 default-text-shadow">
+        <li
+          className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
+        >
+          <NavLink
+            to="/"
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            Home
+          </NavLink>
         </li>
         {auth.admin && (
           <>
-            <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
-              <Link to="preregister">Előregisztráció</Link>
+            <li
+              className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500`}
+            >
+              <NavLink
+                to="preregister"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Előregisztráció
+              </NavLink>
             </li>
-            <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
-              <Link to="User">Felhasználók</Link>
+            <li
+              className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
+            >
+              <NavLink
+                to="User"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Felhasználók
+              </NavLink>
             </li>
-            <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
-              <Link to="Educationchanger">Oktás Változtatás</Link>
+            <li
+              className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
+            >
+              <NavLink
+                to="EducationAdmin"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Oktás Változtatás
+              </NavLink>
             </li>
-            <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
-              <Link to="sendEmail">Email küldés</Link>
+            <li
+              className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
+            >
+              <NavLink
+                to="sendEmail"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Email küldés
+              </NavLink>
             </li>
           </>
         )}
 
-        <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
-          <Link to="questionnaire">Kérdőív</Link>
+        <li
+          className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
+        >
+          <NavLink
+            to="questionnaire"
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            Kérdőív
+          </NavLink>
         </li>
-        <li className={`p-1.5 cursor-pointer hover:bg-[#eae8e8] active:bg-gray-500 `}>
-          <Link to="Education">Oktató felület</Link>
+        <li
+          className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
+        >
+          <NavLink
+            to="EducationUser"
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            Oktató felület
+          </NavLink>
+        </li>
+        <li
+          className={`p-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
+        >
+          <NavLink to="/logout">Logout</NavLink>
         </li>
       </ul>
     </nav>

@@ -37,7 +37,7 @@ const EducationMaterial = ({ material, canDelete }: AppProps) => {
     deleteEducationMaterialMutation.mutate();
   };
   return (
-    <div className="education-material">
+    <div className=" w-80 object-center text-[#f5f5f5] default-text-shadow">
       <h3>{material.name}</h3>
       {auth.admin && canDelete && (
         <Dashboard
@@ -55,20 +55,22 @@ const EducationMaterial = ({ material, canDelete }: AppProps) => {
         <article>{material.content}</article>
       )}
       {material.type == 'picture' && (
-        <img src={material.content}></img>
+        <img src={material.content} alt={material.name} ></img>
       )}
       {material.type == 'video' && (
         <div className="video">
-          <div className="ratio ratio-16x9">
+          {/* <div className="video-content"> */}
             <iframe
               src={
                 'https://www.youtube.com/embed/' +
                 getId(material.content)
               }
               title="YouTube video"
+              height="100%"
+              width="100%"
               allowFullScreen
             ></iframe>
-          </div>
+          {/* </div> */}
         </div>
       )}
     </div>

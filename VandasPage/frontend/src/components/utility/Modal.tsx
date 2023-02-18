@@ -1,5 +1,3 @@
-import './Modal.css';
-import { useState } from 'react';
 import React from 'react';
 
 const Modal = ({ handleClose, show, children }) => {
@@ -8,7 +6,7 @@ const Modal = ({ handleClose, show, children }) => {
 
   return (
     <div className={showHideClassName}>
-      <section className="modal-main">
+      <section className="modal-main flex flex-col justify-start items-center">
         {children}
         <button className='regbutton' type="button" onClick={handleClose}>
           mégse

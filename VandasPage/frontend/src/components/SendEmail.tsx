@@ -44,10 +44,10 @@ const SendEmail = () => {
     <IsLoading
       children={
         <>
-          <h2>email küldése</h2>
+          <h2 className='text-[2rem] capitalize'>email küldése</h2>
 
           <div className={`email`}>
-            <form onSubmit={handleSubmit} className="siStart">
+            <form onSubmit={handleSubmit} className="bg-[#003f5f] w-[30rem] h-auto object-center rounded-xl shadow-2xl mt-16 ml-10 pr-10  pl-10 pt-10">
               <select
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -65,6 +65,7 @@ const SendEmail = () => {
                 Tárgy
                 <input
                   id="subject"
+                  className='ml-3 shadow-md'
                   type="text"
                   required
                   value={subject}
@@ -76,12 +77,13 @@ const SendEmail = () => {
                 üzenet:
                 <textarea
                   value={body}
+                  className='pl-4 shadow-md'
                   onChange={(e) => setBody(e.target.value)}
                   rows={4}
-                  cols={50}
+                  cols={45}
                 />
               </label>
-              <input type="submit" value="Submit" className="sub" />
+              <button type="submit" className="bg-[#f5f5f5;] ml-[7.5rem]">Submit</button>
             </form>
           </div>
         </>

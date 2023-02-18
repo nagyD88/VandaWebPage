@@ -1,14 +1,11 @@
-import React, { useContext } from 'react';
-import EducationMaterial from './EducationMaterial';
-import DataContext from '../context/dataContext';
-
-import { useParams } from 'react-router';
-import AuthContext from '../context/AuthProvider';
-import Education from './Education';
-import { useQuery } from 'react-query';
-import { LevelType } from '../model/LevelType';
-import api from '../hooks/api';
-import IsLoading from './utility/isLoading';
+import React from "react";
+import EducationMaterial from "./EducationMaterial";
+import { useParams } from "react-router";
+import EducationUser from "./EducationUser";
+import { useQuery } from "react-query";
+import { LevelType } from "../model/LevelType";
+import api from "../hooks/api";
+import IsLoading from "./utility/isLoading";
 
 const Level = () => {
   const { id } = useParams();
@@ -19,30 +16,39 @@ const Level = () => {
     return response.data;
   };
 
-  const { isLoading, isError, error, data } = useQuery(
-    'level',
-    getLevel
-  );
-  const { colorTheme } = useContext(DataContext);
-  const { auth } = useContext(AuthContext);
+  const { isLoading, isError, error, data } = useQuery("level", getLevel);
   console.log(data);
   console.log(url);
   return (
     <IsLoading
       children={
         <>
-          <div>
-            <Education />
-          </div>
+          <div
+            id="education-user-container"
+            className="flex flex-row justify-start gap-12 w-screen"
+          >
+            <div
+              id="education-user-sidebar-container grow-[1]"
+              className="flex flex-col"
+            >
+              <EducationUser />
+            </div>
 
-          <h2>{data?.name}</h2>
-          {data?.educationalMaterials?.map((material) => (
-            <EducationMaterial
-              key={material.id}
-              material={material}
-              canDelete={false}
-            />
-          ))}
+            <div
+              id="education-user-material-container"
+              className="bg-[#003f5f] grow-[2] mt-8 flex flex-col justify-center items-center overflow-auto"
+            >
+              <h2 className="text-white text-[2rem] default-text-shadow mb-4">{data?.name}</h2>
+              {data?.educationalMaterials?.map((material) => (
+                <EducationMaterial
+                  key={material.id}
+                  material={material}
+                  canDelete={false}
+                  
+                />
+              ))}
+            </div>
+          </div>
         </>
       }
       isError={isError}
