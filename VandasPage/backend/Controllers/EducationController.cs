@@ -11,12 +11,10 @@ namespace VandasPage.Controllers
     [ApiController]
     public class EducationController : ControllerBase
     {
-        private readonly Context _context;
         private readonly IEducationService educationService;
 
         public EducationController(Context context, IEducationService educationService)
         {
-            _context = context;
             this.educationService = educationService;
         }
 
