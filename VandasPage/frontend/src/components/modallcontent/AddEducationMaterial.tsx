@@ -28,13 +28,17 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const extIndex = file?.name.lastIndexOf(".")
+      const fileExtension = file?.name.slice(extIndex)
       const data = new FormData();
       data.append("file", new Blob([file!], { type: file?.type }));
-      const res = await api.post(`/Education/${type}`, data);
+      data.append("extension", fileExtension!)
+      data.append("uploadType", type)
+      const res = await api.post(`/Education/upload`, data);
       console.log(res);
       PatchEducationMaterialMutation.mutate(res);
     } catch (err) {
-      console.error(err.message);
+      console.error(err);
     } finally {
       hideModal();
     }
@@ -43,7 +47,7 @@ const AddEducationMaterial = ({ levelID, hideModal }) => {
   const fileHandler = (files: FileList | null) => {
     if (files) {
       const chosenFile = files.item(0);
-      console.log(chosenFile);
+      console.log(chosenFile?.type);
       setFile(chosenFile!);
     }
   };

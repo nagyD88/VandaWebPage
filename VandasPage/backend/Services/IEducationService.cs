@@ -20,7 +20,11 @@ namespace VandasPage.Services
         Task<List<Level>> ChangeLevelOrder(List<LevelChangeOrderDTO> levels);
         Task<User> AddlevelToUser(long userId, long levelId);
         Task<Picture> GetPictureById(long id);
+        Task<Video> GetVideoById(long id);
+        Task<Text> GetTextById(long id);
         Task<Picture> CreatePicture(Picture picture);
+        Task<Text> CreateText(Text text);
+        Task<Video> CreateVideo(Video video);
         Task<User> UpdateUser(UserUpdateDTO user);
     }
 }

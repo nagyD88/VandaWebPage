@@ -129,11 +129,35 @@ namespace VandasPage.Services
         {
             return await context.Pictures.FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<Video> GetVideoById(long id)
+        {
+            return await context.Videos.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Text> GetTextById(long id)
+        {
+            return await context.Texts.FirstOrDefaultAsync(x => x.Id == id);
+        }
         public async Task<Picture> CreatePicture(Picture picture)
         {
             var newPicture = await context.Pictures.AddAsync(picture);
             await context.SaveChangesAsync();
             return newPicture.Entity;
+        }
+
+        public async Task<Text> CreateText(Text text)
+        {
+            var newText = await context.Texts.AddAsync(text);
+            await context.SaveChangesAsync();
+            return newText.Entity;
+        }
+
+        public async Task<Video> CreateVideo(Video video)
+        {
+            var newVideo = await context.Videos.AddAsync(video);
+            await context.SaveChangesAsync();
+            return newVideo.Entity;
         }
         public async Task<User> UpdateUser(UserUpdateDTO user)
         {
@@ -156,5 +180,7 @@ namespace VandasPage.Services
             await context.SaveChangesAsync();
             return updatedUser.Entity;
         }
+
+        
     }
 }
