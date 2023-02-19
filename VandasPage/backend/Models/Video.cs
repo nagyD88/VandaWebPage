@@ -2,7 +2,7 @@
 
 namespace VandasPage.Models
 {
-    public class Picture
+    public class Video
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; init; }

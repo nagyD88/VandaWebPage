@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Text.RegularExpressions;
 using VandasPage.Models;
-using VandasPage.Models.DTOs;
-using System.Security.Cryptography;
 
 namespace VandasPage.Data
 {
@@ -18,30 +14,30 @@ namespace VandasPage.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
         public DbSet<Picture> Pictures { get; set; }
+        public DbSet<Video> Videos { get; set; }
+        public DbSet<Text> Texts { get; set; }
         public DbSet<Level> Levels { get; set; }
 
         public DbSet<EducationalMaterial> EducationMaterials { get; set; }
         public DbSet<Email> Emails { get; set; }
 
         
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<User>().ToTable("users");
-            modelBuilder.Entity<User>().HasOne(a => a.RefreshToken).WithOne(a => a.User).HasForeignKey<RefreshToken>(x => x.UserId);
-            modelBuilder.Entity<Question>().ToTable("questions");
-            modelBuilder.Entity<Questionnaire>().ToTable("questionnaires");
-            modelBuilder.Entity<MeetingLog>().ToTable("meetinglogs");
-            modelBuilder.Entity<Level>().ToTable("levels");
-            modelBuilder.Entity<EducationalMaterial>().ToTable("educationmaterials");
-            modelBuilder.Entity<RefreshToken>().ToTable("refreshTokens");
-            modelBuilder.Entity<Email>().ToTable("emails");
-            modelBuilder.Entity<Picture>().ToTable("pictures");
+            builder.Entity<User>().ToTable("users");
+            builder.Entity<User>().HasOne(a => a.RefreshToken).WithOne(a => a.User).HasForeignKey<RefreshToken>(x => x.UserId);
+            builder.Entity<Question>().ToTable("questions");
+            builder.Entity<Questionnaire>().ToTable("questionnaires");
+            builder.Entity<MeetingLog>().ToTable("meetinglogs");
+            builder.Entity<Level>().ToTable("levels");
+            builder.Entity<EducationalMaterial>().ToTable("educationmaterials");
+            builder.Entity<RefreshToken>().ToTable("refreshTokens");
+            builder.Entity<Email>().ToTable("emails");
+            builder.Entity<Picture>().ToTable("pictures");
+            builder.Entity<Video>().ToTable("videos");
+            builder.Entity<Text>().ToTable("texts");
         }
 
-        public async Task<List<Email>> GetAllEmails()
-        {
-            return await Emails.ToListAsync();
-        }
     }
 }
 

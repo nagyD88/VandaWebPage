@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
-using System.Drawing.Imaging;
+﻿using Microsoft.AspNetCore.Mvc;
 using VandasPage.Data;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
@@ -13,12 +10,10 @@ namespace VandasPage.Controllers
     [ApiController]
     public class EducationController : ControllerBase
     {
-        private readonly Context _context;
         private readonly IEducationService educationService;
 
         public EducationController(Context context, IEducationService educationService)
         {
-            _context = context;
             this.educationService = educationService;
         }
 
@@ -34,10 +29,10 @@ namespace VandasPage.Controllers
         }
 
         [HttpGet]
-        [Route ("{id}")]
+        [Route("{id}")]
         public async Task<ActionResult<EducationalMaterial>> GetEducationMaterialById(long id)
         {
-            EducationalMaterial eductaionMaterial= await educationService.GetEducationMaterialById(id);
+            EducationalMaterial eductaionMaterial = await educationService.GetEducationMaterialById(id);
             if (eductaionMaterial == null)
             {
                 return NotFound();
@@ -46,7 +41,7 @@ namespace VandasPage.Controllers
         }
 
         [HttpDelete]
-        [Route ("{id}")]
+        [Route("{id}")]
         public async Task<ActionResult<EducationalMaterial>> DeleteEducationMaterial(long id)
         {
             EducationalMaterial educationMaterial = await educationService.DeleteEducationMaterialById(id);
@@ -58,7 +53,7 @@ namespace VandasPage.Controllers
         }
 
         [HttpGet]
-        [Route ("level")]
+        [Route("level")]
         public async Task<List<Level>> GetLevels()
         {
             return await educationService.GetLevels();
@@ -73,7 +68,7 @@ namespace VandasPage.Controllers
 
         [HttpGet]
         [Route("level/{id}")]
-        public async Task<ActionResult<Level>>GetLevelById(long id)
+        public async Task<ActionResult<Level>> GetLevelById(long id)
         {
             Level level = await educationService.GetLevelById(id);
             if (level == null)
@@ -82,13 +77,13 @@ namespace VandasPage.Controllers
             }
             return level;
         }
-        
+
         [HttpPut]
         [Route("level/{id}")]
-        public async Task<ActionResult<Level>> UpdateLevel(long id , Level level)
+        public async Task<ActionResult<Level>> UpdateLevel(long id, Level level)
         {
             Level levelToUpdate = await educationService.GetLevelById(id);
-            if (levelToUpdate == null|| level.Id!=id)
+            if (levelToUpdate == null || level.Id != id)
             {
                 return NotFound("wrong ID");
             }
@@ -102,7 +97,7 @@ namespace VandasPage.Controllers
         {
             Level levelToUpdate = await educationService.GetLevelById(levelId);
             EducationalMaterial material = await educationService.GetEducationMaterialById(MaterialId);
-            if (levelToUpdate == null|| material == null)
+            if (levelToUpdate == null || material == null)
             {
                 return NotFound("wrong ID");
             }
@@ -112,47 +107,97 @@ namespace VandasPage.Controllers
             }
             return await educationService.AddMaterialToLevel(levelId, MaterialId);
         }
-        [HttpPost]
-        [Route("picture")]
-        public async Task<Picture> CreatePictureAsync(IFormFile file)
-        {
-            long size = file.Length;
-            var filePath = Path.GetTempPath();
-            var fileName = $@"{Guid.NewGuid()}.Jpeg";
 
-            Picture picture = new Picture
-            {
-                Path = filePath + "\\" + fileName
-            };
-            if (file.Length > 0)
+        [HttpPost("upload")]
+        
+        public async Task<IActionResult> UploadFile(IFormCollection data, IFormFile file)
+        {
+            string extension = data["extension"];
+            long size = file.Length;
+            string filePath = Path.GetTempPath();
+            string fileName = $@"{Guid.NewGuid()}{extension}";
+            string fileType = data["uploadType"];
+            string MIME = file.ContentType.ToString();
+
+            if (size > 0)
             {
                 using (var memoryStream = new MemoryStream())
                 {
                     await file.CopyToAsync(memoryStream);
-
-                    using (FileStream fileStream = new FileStream(filePath + "\\" + fileName, FileMode.Create, FileAccess.Write)) 
+                    using (FileStream fileStream = new(filePath + "\\" + fileName, FileMode.Create, FileAccess.Write))
                     {
                         await file.CopyToAsync(fileStream);
                     }
                 }
             }
-            Picture newPicture =await educationService.CreatePicture(picture);      
-            // Process uploaded files
-            return newPicture;
+
+            switch (fileType)
+            {
+                case "text":
+                    Text text= new()
+                    {
+                        Path = filePath + "\\" + fileName,
+                        ContentType= MIME
+                    };
+                    await educationService.CreateText(text);
+                    break;
+                case "picture":
+                    Picture picture = new()
+                    {
+                        Path = filePath + "\\" + fileName,
+                        ContentType = MIME
+                    };
+                    await educationService.CreatePicture(picture);
+                    break;
+                case "video":
+                    Video video = new()
+                    {
+                        Path = filePath + "\\" + fileName,
+                        ContentType = MIME
+                    };
+                    await educationService.CreateVideo(video);
+                    break;
+            }
+            return Ok();
         }
 
 
         [HttpGet("picture/{id}")]
         public async Task<IActionResult> GetPicture(long id)
         {
-            Picture picture =await educationService.GetPictureById(id); 
-            if (picture == null) 
+            Picture picture = await educationService.GetPictureById(id);
+            if (picture == null)
             {
-                return BadRequest("wrong ID"); 
+                return BadRequest("wrong ID");
             }
             string path = picture.Path;
-            Byte[] b = System.IO.File.ReadAllBytes(path);        
-            return File(b, "image/Jpeg");
+            Byte[] b = System.IO.File.ReadAllBytes(path);
+            return File(b, picture.ContentType);
+        }
+        [HttpGet("video/{id}")]
+        public async Task<IActionResult> GetVideo(long id)
+        {
+            Video video = await educationService.GetVideoById(id);
+            if (video == null)
+            {
+                return BadRequest("wrong ID");
+            }
+            string path = video.Path;
+            Byte[] b = System.IO.File.ReadAllBytes(path);
+            return File(b, video.ContentType);
+        }
+
+        [HttpGet("text/{id}")]
+        public async Task<IActionResult> GetText(long id)
+        {
+            Text text = await educationService.GetTextById(id);
+            if (text == null)
+            {
+                return BadRequest("wrong ID");
+            }
+            string path = text.Path;
+            Byte[] b = System.IO.File.ReadAllBytes(path);
+            return File(b, text.ContentType);
         }
 
         [HttpPatch]
@@ -203,7 +248,7 @@ namespace VandasPage.Controllers
                 return BadRequest("first you have to delete the education materials");
             }
             Level level = await educationService.DeleteLevelById(id);
-            
+
             return level;
         }
     }

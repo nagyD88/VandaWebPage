@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using VandasPage.Services;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
@@ -14,7 +13,6 @@ namespace VandasPage.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly Context _context;
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
 
@@ -22,7 +20,6 @@ namespace VandasPage.Controllers
         {
             _userService = userService;
             _authService = authService;
-            _context = context;
         }
 
 

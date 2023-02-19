@@ -11,14 +11,12 @@ namespace VandasPage.Controllers
     public class UserController : Controller
     {
 
-        private readonly Context _context;
         private readonly IUserService userService;
 
         private readonly IEducationService educationService;
 
         public UserController(Context context, IUserService userService, IEducationService educationService)
         {
-            _context = context;
             this.userService = userService;
             this.educationService = educationService;
         }

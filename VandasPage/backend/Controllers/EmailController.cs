@@ -17,11 +17,9 @@ namespace VandasPage.Controllers
     public class EmailController : ControllerBase
     {
         private readonly IEmailService _emailService;
-        private readonly Context _context;
         public EmailController(IEmailService emailService, Context context)
         {
             _emailService = emailService;
-            _context = context;
         }
 
         [HttpPost]
