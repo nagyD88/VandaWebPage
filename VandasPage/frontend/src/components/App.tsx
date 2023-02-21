@@ -57,7 +57,7 @@ function App() {
                 <Route index element={<Questionarys />} />
                 <Route path=":id" element={<Questionary />} />
               </Route>
-              <Route path="EducationUser">
+              <Route path="Education">
                 <Route index element={<EducationUser />} />
                 <Route element={<RequireAuthLevel />}>
                   <Route path=":id" element={<Level />} />

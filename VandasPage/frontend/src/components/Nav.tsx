@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {  NavLink } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import api from "../hooks/api";
+import { LevelType } from "../model/LevelType";
 
 const Nav = () => {
+  let url = 'https://localhost:7168/api/Education/level';
   const { auth } = useContext(AuthContext);
+  let [firstLevelID, setFirstLevelID]=useState<number>()
+  
 
+
+  const getLevels = async () => {
+    const response = await api.get<LevelType[]>(url);
+    return response.data;
+  };
+  const { isLoading, isError, error, data } = useQuery(
+    'levels',
+    getLevels
+  );
+  useEffect(() => {
+    if(data !== undefined){
+      setFirstLevelID(data[0].id);
+    }
+  
+    
+  }, [])
+  
   let activeStyle = {
     backgroundColor: "gray"
   };
@@ -49,7 +73,7 @@ const Nav = () => {
               className={`border-spacing-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
             >
               <NavLink className={"navBar"}
-                to="EducationAdmin"
+                to={`EducationAdmin/${firstLevelID}`}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 Oktás Változtatás
@@ -82,7 +106,7 @@ const Nav = () => {
           className={`border-spacing-1.5 cursor-pointer hover:bg-[#eae8e885] active:bg-gray-500 `}
         >
           <NavLink className={"navBar"}
-            to="EducationUser"
+            to={`Education/${firstLevelID}`}
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Oktató felület
