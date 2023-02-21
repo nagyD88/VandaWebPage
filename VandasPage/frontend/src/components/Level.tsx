@@ -25,7 +25,7 @@ const Level = () => {
         <>
           <div
             id="education-user-container"
-            className="flex flex-row justify-start gap-12 w-screen"
+            className="flex flex-row justify-start gap-2 w-screen"
           >
             <div
               id="education-user-sidebar-container grow-[1]"
@@ -36,7 +36,7 @@ const Level = () => {
 
             <div
               id="education-user-material-container"
-              className="bg-[#003f5f] grow-[2] mt-8 flex flex-col justify-center items-center overflow-auto"
+              className="bg-[#003f5f] grow-[2] mt-2 flex flex-col justify-center items-center "
             >
               <h2 className="text-white text-[2rem] default-text-shadow mb-4">{data?.name}</h2>
               {data?.educationalMaterials?.map((material) => (

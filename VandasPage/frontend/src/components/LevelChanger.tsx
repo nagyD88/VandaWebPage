@@ -65,7 +65,7 @@ const LevelChanger = () => {
               
             </div>
 
-            <div id="education-user-material-container" className="bg-[#003f5f] grow-[2] mt-8 flex flex-col justify-center items-center overflow-auto">
+            <div id="education-user-material-container" className="bg-[#003f5f] grow-[2] mt-4 flex flex-col justify-center items-center overflow-auto">
               <h2 className="text-white text-[2rem] capitalize">{data?.name}</h2>
               <DragAndDrop
                 handleOnDragEnd={handleOnDragEnd}
