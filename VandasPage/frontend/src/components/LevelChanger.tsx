@@ -62,9 +62,7 @@ const LevelChanger = () => {
               className="flex flex-col grow"
             >
               <EducationAdmin />
-              <Dashboard
-                children={<AddEducationMaterial levelID={id} hideModal={""} />}
-              />
+              
             </div>
 
             <div id="education-user-material-container" className="bg-[#003f5f] grow-[2] mt-8 flex flex-col justify-center items-center overflow-auto">
@@ -73,6 +71,10 @@ const LevelChanger = () => {
                 handleOnDragEnd={handleOnDragEnd}
                 ListOfItems={data?.educationalMaterials}
                 type={"level"}
+              />
+              <Dashboard
+                children={<AddEducationMaterial levelID={id} hideModal={""} />}
+                buttonContent={"Adj Hozzá új tananyagot"}
               />
             </div>
           </div>
