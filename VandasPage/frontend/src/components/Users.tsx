@@ -28,8 +28,8 @@ const Users = () => {
   return (
     <IsLoading
       children={
-        <>
-          <div className={`design ${colorTheme}`}></div>
+        
+          
           <div className=" bg-[#003f5f] w-80 object-center rounded-xl shadow-2xl mt-16 text-slate-100 default-text-shadow">
             <h2>Felhasználók:</h2>
             {data?.map((user: UserType) => (
@@ -42,7 +42,7 @@ const Users = () => {
               </Link>
             ))}
           </div>
-        </>
+        
       }
       isError={isError}
       isLoading={isLoading}

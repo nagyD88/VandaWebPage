@@ -66,7 +66,7 @@
     padding: 0.25rem;
     border-radius: 0.5rem;
   }
-  input,textarea{
+  input,textarea,select{
     color: #000;
   }
 
