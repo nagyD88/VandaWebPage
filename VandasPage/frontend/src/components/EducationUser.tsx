@@ -27,8 +27,8 @@ const EducationUser = () => {
         </p>
       )}
       {!isLoading && !isError && (
-        <div className="mt-20 mr-10">
-          <ul className="flex flex-col justify-start gap-1 bg-[#003f5f] text-white w-fit pl-32 pr-32 overflow-visible">
+        <div className="mt-2">
+          <ul className="flex flex-col justify-start gap-1 bg-[#003f5f] text-white w-fit pl-2 pr-2 overflow-visible">
             {data?.map((level) => (
               <li>
                   <Link key={level.id} to={`/EducationUser/${level.id}`}>
