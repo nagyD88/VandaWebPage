@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VandasPage.Data;
 using VandasPage.Models;
 using VandasPage.Models.DTOs;
 using VandasPage.Services;
@@ -10,15 +9,12 @@ namespace VandasPage.Controllers
     [Route("api/user")]
     public class UserController : Controller
     {
-
-        private readonly Context _context;
         private readonly IUserService userService;
 
         private readonly IEducationService educationService;
 
-        public UserController(Context context, IUserService userService, IEducationService educationService)
+        public UserController(IUserService userService, IEducationService educationService)
         {
-            _context = context;
             this.userService = userService;
             this.educationService = educationService;
         }

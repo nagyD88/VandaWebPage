@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using Microsoft.AspNetCore.Http;
-using MimeKit;
-using MimeKit.Text;
 using VandasPage.Services.EmailService;
 using VandasPage.Models.DTOs;
 using VandasPage.Models;
@@ -17,11 +12,9 @@ namespace VandasPage.Controllers
     public class EmailController : ControllerBase
     {
         private readonly IEmailService _emailService;
-        private readonly Context _context;
-        public EmailController(IEmailService emailService, Context context)
+        public EmailController(IEmailService emailService)
         {
             _emailService = emailService;
-            _context = context;
         }
 
         [HttpPost]

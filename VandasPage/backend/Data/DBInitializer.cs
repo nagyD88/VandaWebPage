@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Text;
 using VandasPage.Models;
-using VandasPage.Services;
 
 namespace VandasPage.Data
 {

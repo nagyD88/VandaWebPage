@@ -1,8 +1,14 @@
+
+
+import { type } from '@testing-library/user-event/dist/type';
 import React from 'react';
 import { useState } from 'react';
 import Modal from './Modal';
-
-const Dashboard = ({ children }) => {
+type Props = {
+  children: React.ReactElement;
+  buttonContent: string;
+}
+const Dashboard = ({ children, buttonContent}:Props) => {
   const [show, setShow] = useState(false);
 
   const showModal = () => {
@@ -22,7 +28,7 @@ const Dashboard = ({ children }) => {
           {updatedChildren}
         </Modal>
         <button className='float-left mt-0 p-[0.12rem]' type="button" onClick={showModal}>
-          -
+        {buttonContent}
         </button>
       </>
     );
@@ -31,3 +37,5 @@ const Dashboard = ({ children }) => {
 
 
 export default Dashboard
+
+

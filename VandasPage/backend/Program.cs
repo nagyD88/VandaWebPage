@@ -1,6 +1,5 @@
 using VandasPage.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
 using VandasPage.Services.EmailService;
 using Microsoft.OpenApi.Models;

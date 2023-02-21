@@ -55,24 +55,26 @@ const LevelChanger = () => {
         <>
           <div
             id="education-admin-container"
-            className="flex flex-row justify-start gap-16 w-screen"
+            className="flex flex-row justify-start gap-2 w-screen mt-2"
           >
             <div
               id="education-admin-sidebar-container"
               className="flex flex-col grow"
             >
               <EducationAdmin />
-              <Dashboard
-                children={<AddEducationMaterial levelID={id} hideModal={""} />}
-              />
+              
             </div>
 
-            <div id="education-user-material-container" className="bg-[#003f5f] grow-[2] mt-8 flex flex-col justify-center items-center overflow-auto">
+            <div id="education-user-material-container" className="bg-[#003f5f] grow-[2]  flex flex-col justify-center items-center overflow-auto">
               <h2 className="text-white text-[2rem] capitalize">{data?.name}</h2>
               <DragAndDrop
                 handleOnDragEnd={handleOnDragEnd}
                 ListOfItems={data?.educationalMaterials}
                 type={"level"}
+              />
+              <Dashboard
+                children={<AddEducationMaterial levelID={id} hideModal={""} />}
+                buttonContent={"Adj Hozzá új tananyagot"}
               />
             </div>
           </div>

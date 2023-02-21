@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using System.Text.RegularExpressions;
 using VandasPage.Data;
 using VandasPage.Models;

@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { Link } from 'react-router-dom';
@@ -17,7 +18,7 @@ const DragAndDrop = ({ handleOnDragEnd, ListOfItems, type, handleOnClick}: Props
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="educationMaterials">
         {(provided) => (
-          <section
+          <div
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
@@ -44,11 +45,13 @@ const DragAndDrop = ({ handleOnDragEnd, ListOfItems, type, handleOnClick}: Props
                                 message={'Biztos le akarod törölni?'}
                                 hideModal={undefined}
                               /> // kell neki hidemodal?
+                              
                             }
+                            buttonContent={"Törlés"}
                           />
                           <Link
                             key={item.id}
-                            className='text-white'
+                            className='sideBar-Changer'
                             to={`/EducationAdmin/${item.id}`}
                           >
                             <div className="level">
@@ -72,7 +75,7 @@ const DragAndDrop = ({ handleOnDragEnd, ListOfItems, type, handleOnClick}: Props
               );
             })}
             {provided.placeholder}
-          </section>
+          </div>
         )}
       </Droppable>
     </DragDropContext>

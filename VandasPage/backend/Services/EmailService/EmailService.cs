@@ -1,5 +1,4 @@
 ﻿using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using MimeKit.Text;

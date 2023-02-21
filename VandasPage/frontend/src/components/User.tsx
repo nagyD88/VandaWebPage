@@ -86,7 +86,7 @@ const User = () => {
   return (
     <IsLoading
       children={
-        <>
+        <div className=" bg-[#003f5f]  object-center rounded-xl shadow-2xl  m-16 p-6 text-slate-100 default-text-shadow">
           <h2>
             {data?.firstName} {data?.lastName}
           </h2>
@@ -157,10 +157,10 @@ const User = () => {
                   onChange={(e) => setMBTI(e.target.value)}
                 />
               </label>
-              <input type="submit" value="Submit" className="sub" />
+              <input type="submit" value="Submit" className="text-white" />
             </form>
           </div>
-        </>
+        </div>
       }
       isError={isError}
       isLoading={isLoading}

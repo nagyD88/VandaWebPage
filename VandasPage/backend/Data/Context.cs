@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Text.RegularExpressions;
 using VandasPage.Models;
-using VandasPage.Models.DTOs;
-using System.Security.Cryptography;
+
 
 namespace VandasPage.Data
 {
@@ -36,11 +33,6 @@ namespace VandasPage.Data
             modelBuilder.Entity<RefreshToken>().ToTable("refreshTokens");
             modelBuilder.Entity<Email>().ToTable("emails");
             modelBuilder.Entity<Picture>().ToTable("pictures");
-        }
-
-        public async Task<List<Email>> GetAllEmails()
-        {
-            return await Emails.ToListAsync();
         }
     }
 }

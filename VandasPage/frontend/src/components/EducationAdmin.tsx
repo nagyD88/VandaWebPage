@@ -62,7 +62,10 @@ const EducationAdmin = () => {
     <IsLoading
       children={
     <>
-      <Dashboard children={<AddLevel hideModal={undefined}  />} /> 
+      <Dashboard 
+          children={<AddLevel hideModal={undefined}
+            />}
+            buttonContent ={"Adj hozzá új Témát"} /> 
       <DragAndDrop handleOnDragEnd={handleOnDragEnd} 
       ListOfItems={data} 
       type={'education'}
