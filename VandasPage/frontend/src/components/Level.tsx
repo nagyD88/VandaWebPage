@@ -35,10 +35,10 @@ const Level = () => {
             </div>
 
             <div
-              id="education-user-material-container"
+              id="education-user-material-container inline-block"
               className="bg-[#003f5f] grow-[2] mt-2 flex flex-col justify-center items-center "
             >
-              <h2 className="text-white text-[2rem] default-text-shadow mb-4">{data?.name}</h2>
+              <h2 className="text-white text-[2rem] default-text-shadow ">{data?.name}</h2>
               {data?.educationalMaterials?.map((material) => (
                 <EducationMaterial
                   key={material.id}

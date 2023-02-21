@@ -45,8 +45,9 @@
   }
   
   article{
+    font-size: medium;
     display: block;
-    width:100%;
+    width: 100%;
   }
 
   form {
@@ -64,6 +65,9 @@
     font-size: 22px;
     padding: 0.25rem;
     border-radius: 0.5rem;
+  }
+  input,textarea{
+    color: #000;
   }
 
   label,
@@ -149,9 +153,9 @@
   }
 
   .material-container{
-    border-top:0.5 ;
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
+    border-top:0 ;
+    margin-bottom: 2rem;
+    margin-top: 0rem;
   }
   .video{
     display: flex; 
