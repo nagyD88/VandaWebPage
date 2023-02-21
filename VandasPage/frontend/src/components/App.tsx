@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Home from './Home';
 import Layout from './Layout';
 import Users from './Users';
